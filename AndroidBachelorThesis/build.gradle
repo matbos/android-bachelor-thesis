@@ -1,0 +1,37 @@
+apply plugin: 'android'
+version = '1.0'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.5.+'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+android {
+    compileSdkVersion 17
+    buildToolsVersion "17.0.0"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 16
+    }
+}
+
+dependencies {
+    compile 'com.jakewharton:butterknife:3.0.0'
+    compile 'com.squareup.dagger:dagger:1.1.0'
+    compile 'com.squareup.dagger:dagger-compiler:1.1.0'
+
+    compile files('libs/ThinkGear.jar', 'libs/lambdaj-2.4.1-SNAPSHOT.jar')
+    // You must install or update the Support Repository through the SDK manager to use this dependency.
+    // The Support Repository (separate from the corresponding library) can be found in the Extras category.
+    // compile 'com.android.support:appcompat-v7:18.0.0'
+}

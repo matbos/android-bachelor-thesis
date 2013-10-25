@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidBachelorThesis/AndroidBachelorThesis.iml" filepath="$PROJECT_DIR$/AndroidBachelorThesis/AndroidBachelorThesis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-bachelor-thesis.iml" filepath="$PROJECT_DIR$/android-bachelor-thesis.iml" />
+    </modules>
+  </component>
+</project>
+

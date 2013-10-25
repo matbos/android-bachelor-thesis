@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="pl.mbos.bachelor_thesis"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="16" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+
+    <application
+        android:name=".BaseApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/eeg_icon"
+        android:label="@string/app_name"
+        android:theme="@style/MainAppTheme">
+        <activity
+            android:name=".activity.SplashScreenActivity"
+            android:theme="@style/MainAppTheme.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:label="@string/app_name"
+            />
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/app_name"
+            />
+
+        <service android:name=".service.connection.EEGAcquisitionService"
+                 android:process=":acquisition_service"
+                 android:label="@string/acq_service_label"
+                 android:icon="@drawable/acq_service_icon"/>
+        <service android:name=".service.synchronization.EEGSynchronizationService"
+                 android:process=":synchronization_service"
+                 android:label="@string/sync_service_label"
+                 android:icon="@drawable/sync_service_icon"/>
+
+    </application>
+
+</manifest>

@@ -1,6 +1,12 @@
-*.class
+#Android 
+AndroidBachelorThesis/build/
+AndroidBachelorThesis/gen/
+AndroidBachelorThesis/bin/
 
-# Package Files #
-*.jar
-*.war
-*.ear
+#AndroidStudio
+local.properties
+.idea/workspace.xml
+.idea/tasks.xml
+
+#Gradle
+.gradle/

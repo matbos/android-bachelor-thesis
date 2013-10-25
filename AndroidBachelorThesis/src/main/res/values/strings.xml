@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Android Bachelor Thesis</string>
+    <string name="acquisition_service_name">EEG Acquisition Service</string>
+    <string name="synchronization_service_name">EEG Synchronization Service</string>
+
+    <string name="login_field">Login:</string>
+    <string name="password_field">Password:</string>
+    <string name="login_button">Login</string>
+
+    <string name="a_main_btn_connect">Connect to device</string>
+    <string name="a_main_btn_disconnect">Disconnect from device</string>
+    <string name="a_main_btn_logout">Logout</string>
+    <string name="a_main_btn_start_stream">Start stream</string>
+</resources>
