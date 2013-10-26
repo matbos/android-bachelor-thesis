@@ -9,6 +9,7 @@ import android.os.Parcelable;
  * Date: 29.09.13
  * Time: 22:49
  */
+@Deprecated
 public class User implements Parcelable {
     public static String USER_KEY = User.class.getCanonicalName() + ".USER_KEY";
     public static Creator<User> CREATOR = new Creator<User>() {

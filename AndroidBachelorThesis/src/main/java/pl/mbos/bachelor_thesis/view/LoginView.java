@@ -1,6 +1,7 @@
 package pl.mbos.bachelor_thesis.view;
 
-import pl.mbos.bachelor_thesis.entity.User;
+
+import pl.mbos.bachelor_thesis.dao.User;
 
 /**
  * Created with IntelliJ IDEA.

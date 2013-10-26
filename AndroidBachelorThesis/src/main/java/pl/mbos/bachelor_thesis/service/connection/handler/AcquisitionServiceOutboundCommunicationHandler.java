@@ -16,16 +16,16 @@ import pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectio
  * Class handles all communication that origins in {@link pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService}
  * and goes to a bounded listener (most probably {@link pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector}
  */
-public class ApplicationOutboundCommunicationHandler {
+public class AcquisitionServiceOutboundCommunicationHandler {
 
-    private static final String TAG = ApplicationOutboundCommunicationHandler.class.getSimpleName();
+    private static final String TAG = AcquisitionServiceOutboundCommunicationHandler.class.getSimpleName();
     protected Messenger messenger;
 
     /**
      * Constructor that takes Messenger object <u><b>to</b></u> bounded class
      * @param messenger Messenger object <u><b>to</b></u> bounded class
      */
-    public ApplicationOutboundCommunicationHandler(Messenger messenger) {
+    public AcquisitionServiceOutboundCommunicationHandler(Messenger messenger) {
         this.messenger = messenger;
     }
 

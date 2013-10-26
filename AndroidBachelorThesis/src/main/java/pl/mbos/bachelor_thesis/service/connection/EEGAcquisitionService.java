@@ -9,17 +9,19 @@ import android.os.Messenger;
 import android.util.Log;
 
 import com.neurosky.thinkgear.TGDevice;
+import com.neurosky.thinkgear.TGEegPower;
 import com.neurosky.thinkgear.TGRawMulti;
 
 import pl.mbos.bachelor_thesis.eeg.ITGDeviceHandlerListener;
 import pl.mbos.bachelor_thesis.eeg.TGDeviceHandler;
-import pl.mbos.bachelor_thesis.service.connection.handler.ApplicationIncomingCommunicationHandler;
-import pl.mbos.bachelor_thesis.service.connection.handler.ApplicationOutboundCommunicationHandler;
+import pl.mbos.bachelor_thesis.service.connection.handler.AcquisitionServiceInboundCommunicationHandler;
+import pl.mbos.bachelor_thesis.service.connection.handler.AcquisitionServiceOutboundCommunicationHandler;
 
 import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector.VALUE_ATTENTION;
 import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector.VALUE_MEDITATION;
 import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector.VALUE_MULTI;
 import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector.VALUE_POOR_SIGNAL;
+import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector.VALUE_POWER;
 
 /**
  * This service acquires data in the background until stopped from application.
@@ -41,19 +43,19 @@ public class EEGAcquisitionService extends Service {
     protected BluetoothAdapter btAdapter;
     protected TGDevice tgDevice;
     protected TGDeviceHandler handler;
-    protected ApplicationOutboundCommunicationHandler applicationHandler;
+    protected AcquisitionServiceOutboundCommunicationHandler applicationHandler;
 
     @Override
     public IBinder onBind(Intent intent) {
         Messenger returnMessenger = (Messenger) intent.getParcelableExtra("Messenger");
-        applicationHandler = new ApplicationOutboundCommunicationHandler(returnMessenger);
+        applicationHandler = new AcquisitionServiceOutboundCommunicationHandler(returnMessenger);
         return messenger.getBinder();
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        messenger = new Messenger(new ApplicationIncomingCommunicationHandler(this));
+        messenger = new Messenger(new AcquisitionServiceInboundCommunicationHandler(this));
         initTGD();
     }
 
@@ -106,7 +108,7 @@ public class EEGAcquisitionService extends Service {
     }
 
     private void reportDeviceState(){
-        Message msg = ApplicationOutboundCommunicationHandler.buildStateMessage(tgDevice.getState());
+        Message msg = AcquisitionServiceOutboundCommunicationHandler.buildStateMessage(tgDevice.getState());
         applicationHandler.sendReturnMessage(msg);
     }
 
@@ -123,38 +125,45 @@ public class EEGAcquisitionService extends Service {
         @Override
         public void reportDeviceConnected() {
             startDeviceStream();
-            Message msg = ApplicationOutboundCommunicationHandler.buildStateMessage(TGDevice.STATE_CONNECTED);
+            Message msg = AcquisitionServiceOutboundCommunicationHandler.buildStateMessage(TGDevice.STATE_CONNECTED);
             applicationHandler.sendReturnMessage(msg);
         }
 
         @Override
         public void reportState(int state) {
-            Message msg = ApplicationOutboundCommunicationHandler.buildStateMessage(state);
+            Message msg = AcquisitionServiceOutboundCommunicationHandler.buildStateMessage(state);
             applicationHandler.sendReturnMessage(msg);
         }
 
         @Override
         public void reportPoorSignal(int level) {
-            Message msg = ApplicationOutboundCommunicationHandler.buildValueMessage(VALUE_POOR_SIGNAL, level);
+            Message msg = AcquisitionServiceOutboundCommunicationHandler.buildValueMessage(VALUE_POOR_SIGNAL, level);
             applicationHandler.sendReturnMessage(msg);
         }
 
         @Override
         public void reportAttention(int level) {
-            Message msg = ApplicationOutboundCommunicationHandler.buildValueMessage(VALUE_ATTENTION, level);
+            Message msg = AcquisitionServiceOutboundCommunicationHandler.buildValueMessage(VALUE_ATTENTION, level);
             applicationHandler.sendReturnMessage(msg);
         }
 
         @Override
         public void reportMeditation(int level) {
-            Message msg = ApplicationOutboundCommunicationHandler.buildValueMessage(VALUE_MEDITATION, level);
+            Message msg = AcquisitionServiceOutboundCommunicationHandler.buildValueMessage(VALUE_MEDITATION, level);
             applicationHandler.sendReturnMessage(msg);
         }
 
         @Override
         public void reportMulti(TGRawMulti tgRawMulti) {
-            Message msg = ApplicationOutboundCommunicationHandler.buildValueMessage(VALUE_MULTI, 0);
+            Message msg = AcquisitionServiceOutboundCommunicationHandler.buildValueMessage(VALUE_MULTI, 0);
             msg.obj = tgRawMulti;
+            applicationHandler.sendReturnMessage(msg);
+        }
+
+        @Override
+        public void reportPower(TGEegPower tgEegPower) {
+            Message msg = AcquisitionServiceOutboundCommunicationHandler.buildValueMessage(VALUE_POWER, 0);
+            msg.obj = tgEegPower;
             applicationHandler.sendReturnMessage(msg);
         }
 

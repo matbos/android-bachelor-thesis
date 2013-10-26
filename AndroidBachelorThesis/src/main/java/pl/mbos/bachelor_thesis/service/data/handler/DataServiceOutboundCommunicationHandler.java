@@ -1,4 +1,4 @@
-package pl.mbos.bachelor_thesis.service.synchronization.handler;
+package pl.mbos.bachelor_thesis.service.data.handler;
 
 import android.os.Message;
 import android.os.Messenger;
@@ -16,16 +16,16 @@ import pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectio
  * Class handles all communication that origins in {@link pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService}
  * and goes to a bounded listener (most probably {@link pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector}
  */
-public class ApplicationOutboundCommunicationHandler {
+public class DataServiceOutboundCommunicationHandler {
 
-    private static final String TAG = ApplicationOutboundCommunicationHandler.class.getSimpleName();
+    private static final String TAG = DataServiceOutboundCommunicationHandler.class.getSimpleName();
     protected Messenger messenger;
 
     /**
      * Constructor that takes Messenger object <u><b>to</b></u> bounded class
      * @param messenger Messenger object <u><b>to</b></u> bounded class
      */
-    public ApplicationOutboundCommunicationHandler(Messenger messenger) {
+    public DataServiceOutboundCommunicationHandler(Messenger messenger) {
         this.messenger = messenger;
     }
 

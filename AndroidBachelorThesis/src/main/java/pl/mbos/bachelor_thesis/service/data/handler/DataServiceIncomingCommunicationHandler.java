@@ -1,10 +1,10 @@
-package pl.mbos.bachelor_thesis.service.synchronization.handler;
+package pl.mbos.bachelor_thesis.service.data.handler;
 
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService;
+import pl.mbos.bachelor_thesis.service.data.DataService;
 
 import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService.CONNECT_TO_DEVICE;
 import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService.DISCONNECT_FROM_DEVICE;
@@ -16,12 +16,12 @@ import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService.S
 /**
  *
  */
-public class ApplicationIncomingCommunicationHandler extends Handler {
+public class DataServiceIncomingCommunicationHandler extends Handler {
 
-    private static final String TAG = ApplicationIncomingCommunicationHandler.class.getSimpleName();
-    private EEGAcquisitionService parent;
+    private static final String TAG = DataServiceIncomingCommunicationHandler.class.getSimpleName();
+    private DataService parent;
 
-    public ApplicationIncomingCommunicationHandler(EEGAcquisitionService parent){
+    public DataServiceIncomingCommunicationHandler(DataService parent){
         this.parent = parent;
     }
 
@@ -29,17 +29,17 @@ public class ApplicationIncomingCommunicationHandler extends Handler {
     public void handleMessage(Message msg) {
         int action = msg.arg1;
         if (action == STOP_SERVICE) {
-            parent.serviceStopSelf();
+//            parent.serviceStopSelf();
         } else if (action == DISCONNECT_FROM_DEVICE) {
-            parent.disconnectDevice();
+//            parent.disconnectDevice();
         } else if (action == CONNECT_TO_DEVICE) {
-            parent.connectDevice();
+//            parent.connectDevice();
         } else if (action == START_STREAM) {
-            parent.startDeviceStream();
+//            parent.startDeviceStream();
         } else if (action == STOP_STREAM) {
-            parent.stopDeviceStream();
+//            parent.stopDeviceStream();
         } else if (action == REQUEST_STATE) {
-            parent.requestDeviceState();
+//            parent.requestDeviceState();
         } else {
             Log.i(TAG, "Recieved unknown message " + msg.arg1);
             throw new RuntimeException(TAG + " Recieved unknown message "+ msg.arg1);

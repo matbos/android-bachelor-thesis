@@ -12,6 +12,7 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.neurosky.thinkgear.TGEegPower;
 import com.neurosky.thinkgear.TGRawMulti;
 
 import java.util.ArrayList;
@@ -23,22 +24,20 @@ import pl.mbos.bachelor_thesis.BaseApplication;
 import pl.mbos.bachelor_thesis.service.connection.contract.IEEGAcquisitionServiceConnection;
 import pl.mbos.bachelor_thesis.service.connection.contract.IEEGAcquisitionServiceConnectionListener;
 
-import static ch.lambdaj.Lambda.forEach;
-
 /**
  * Class used to communicate with (@link EEGAcquisitionService}
  */
 public class EEGAcquisitionServiceConnectionConnector implements ServiceConnection, IEEGAcquisitionServiceConnection {
 
-    public static final int REPORT_STATE        = 64;
-    public static final int REPORT_VALUE        = 32;
-    public static final int VALUE_ATTENTION     = 16;
-    public static final int VALUE_MEDITATION    = 24;
-    public static final int VALUE_MULTI         = 28;
-    public static final int VALUE_POOR_SIGNAL   = 30;
-
-
+    public static final int REPORT_STATE = 64;
+    public static final int REPORT_VALUE = 32;
+    public static final int VALUE_ATTENTION = 16;
+    public static final int VALUE_MEDITATION = 24;
+    public static final int VALUE_MULTI = 28;
+    public static final int VALUE_POOR_SIGNAL = 30;
+    public static final int VALUE_POWER = 31;
     private static boolean mServiceUp = false;
+
     private static String TAG = EEGAcquisitionServiceConnectionConnector.class.getSimpleName();
     @Inject
     public Context context;
@@ -89,11 +88,13 @@ public class EEGAcquisitionServiceConnectionConnector implements ServiceConnecti
         }
         return outcome;
     }
+
     @Override
     public void stopService() {
         context.stopService(new Intent(context, EEGAcquisitionService.class));
         mServiceUp = false;
     }
+
     @Override
     public void connectToService() {
         if (isServiceRunning()) {
@@ -187,18 +188,22 @@ public class EEGAcquisitionServiceConnectionConnector implements ServiceConnecti
             context.unbindService(this);
         }
     }
+
     @Override
     public void connectToDevice() {
         sendMessage(EEGAcquisitionService.CONNECT_TO_DEVICE);
     }
+
     @Override
     public void disconnectFromDevice() {
         sendMessage(EEGAcquisitionService.DISCONNECT_FROM_DEVICE);
     }
+
     @Override
     public void requestState() {
         sendMessage(EEGAcquisitionService.REQUEST_STATE);
     }
+
     @Override
     public void startStream() {
         sendMessage(EEGAcquisitionService.START_STREAM);
@@ -210,27 +215,58 @@ public class EEGAcquisitionServiceConnectionConnector implements ServiceConnecti
     }
 
     private void reportState(int state) {
-        for(IEEGAcquisitionServiceConnectionListener client : clients){
+        for (IEEGAcquisitionServiceConnectionListener client : clients) {
             client.reportState(state);
         }
     }
 
     private void reportBluetoothRequest() {
-        for(IEEGAcquisitionServiceConnectionListener client : clients){
+        for (IEEGAcquisitionServiceConnectionListener client : clients) {
             client.reportBluetoothRequest();
+        }
+    }
+
+    private void reportPoorSignal(int value) {
+        for (IEEGAcquisitionServiceConnectionListener client : clients) {
+            client.reportPoorSignal(value);
+        }
+    }
+
+    private void reportMulti(TGRawMulti multi) {
+        for (IEEGAcquisitionServiceConnectionListener client : clients) {
+            client.reportMulti(multi);
+        }
+    }
+
+    private void reportMeditation(int value) {
+        for (IEEGAcquisitionServiceConnectionListener client : clients) {
+            client.reportMeditation(value);
+        }
+    }
+
+    private void reportAttention(int value) {
+        for (IEEGAcquisitionServiceConnectionListener client : clients) {
+            client.reportAttention(value);
+        }
+    }
+
+    private void reportPower(TGEegPower eegPower) {
+        for (IEEGAcquisitionServiceConnectionListener client : clients) {
+            //client.report (value);
+            throw new RuntimeException("POWER PASSING IS NOT YET IMPLEMENTED");
         }
     }
 
     class InboundCommunicationHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            if(msg.arg1 == EEGAcquisitionService.REQUEST_BLUETOOTH){
+            if (msg.arg1 == EEGAcquisitionService.REQUEST_BLUETOOTH) {
                 reportBluetoothRequest();
             }
-            if((msg.arg1 & (REPORT_STATE)) == REPORT_STATE){
+            if ((msg.arg1 & (REPORT_STATE)) == REPORT_STATE) {
                 reportState(msg.arg2);
             } else {
-                switch (msg.arg1 - REPORT_VALUE){
+                switch (msg.arg1 - REPORT_VALUE) {
                     case VALUE_ATTENTION:
                         reportAttention(msg.arg2);
                         break;
@@ -243,35 +279,14 @@ public class EEGAcquisitionServiceConnectionConnector implements ServiceConnecti
                     case VALUE_POOR_SIGNAL:
                         reportPoorSignal(msg.arg2);
                         break;
+                    case VALUE_POWER:
+                        reportPower((TGEegPower) msg.obj);
+                        break;
                     default:
 
                         break;
                 }
             }
-        }
-    }
-
-    private void reportPoorSignal(int value) {
-        for(IEEGAcquisitionServiceConnectionListener client : clients){
-            client.reportPoorSignal(value);
-        }
-    }
-
-    private void reportMulti(TGRawMulti multi) {
-        for(IEEGAcquisitionServiceConnectionListener client : clients){
-            client.reportMulti(multi);
-        }
-    }
-
-    private void reportMeditation(int value) {
-        for(IEEGAcquisitionServiceConnectionListener client : clients){
-            client.reportMeditation(value);
-        }
-    }
-
-    private void reportAttention(int value) {
-        for(IEEGAcquisitionServiceConnectionListener client : clients){
-            client.reportAttention(value);
         }
     }
 }

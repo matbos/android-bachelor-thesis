@@ -21,12 +21,12 @@ import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService.*
 /**
  *
  */
-public class ApplicationIncomingCommunicationHandler extends Handler {
+public class AcquisitionServiceInboundCommunicationHandler extends Handler {
 
-    private static final String TAG = ApplicationIncomingCommunicationHandler.class.getSimpleName();
+    private static final String TAG = AcquisitionServiceInboundCommunicationHandler.class.getSimpleName();
     private EEGAcquisitionService parent;
 
-    public ApplicationIncomingCommunicationHandler(EEGAcquisitionService parent){
+    public AcquisitionServiceInboundCommunicationHandler(EEGAcquisitionService parent){
         this.parent = parent;
     }
 

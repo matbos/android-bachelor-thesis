@@ -9,10 +9,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.OnClick;
 import pl.mbos.bachelor_thesis.R;
 import pl.mbos.bachelor_thesis.controller.MainActivityController;
-import pl.mbos.bachelor_thesis.entity.User;
+import pl.mbos.bachelor_thesis.dao.User;
 import pl.mbos.bachelor_thesis.view.MainView;
 
 /**
@@ -49,7 +48,7 @@ public class MainActivity extends Activity implements MainView {
         setContentView(R.layout.activity_main);
         controller = new MainActivityController(this);
         user = (User) getIntent().getExtras().getParcelable(User.USER_KEY);
-        String userName = (user != null) ? user.getName() : "NO USER";
+        String userName = (user != null) ? user.getFirstName() + " "+ user.getLastName() : "NO USER";
 
         Button btn = (Button) findViewById(R.id.btn_connect);
         btn.setOnClickListener(new View.OnClickListener() {

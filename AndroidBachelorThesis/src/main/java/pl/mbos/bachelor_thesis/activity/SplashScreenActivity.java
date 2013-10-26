@@ -1,9 +1,8 @@
 package pl.mbos.bachelor_thesis.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+
 import pl.mbos.bachelor_thesis.R;
 import pl.mbos.bachelor_thesis.controller.SplashScreenController;
 
@@ -24,6 +23,7 @@ public class SplashScreenActivity extends Activity {
         setContentView(R.layout.activity_splash);
         controller = new SplashScreenController(this);
         controller.startNextActivity();
+
     }
 
 }

@@ -6,12 +6,13 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.Views;
 import pl.mbos.bachelor_thesis.R;
 import pl.mbos.bachelor_thesis.controller.LoginController;
-import pl.mbos.bachelor_thesis.entity.User;
+import pl.mbos.bachelor_thesis.dao.User;
 import pl.mbos.bachelor_thesis.view.LoginView;
 
 /**

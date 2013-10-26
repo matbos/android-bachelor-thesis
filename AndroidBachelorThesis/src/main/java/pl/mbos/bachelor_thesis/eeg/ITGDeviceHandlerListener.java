@@ -1,5 +1,6 @@
 package pl.mbos.bachelor_thesis.eeg;
 
+import com.neurosky.thinkgear.TGEegPower;
 import com.neurosky.thinkgear.TGRawMulti;
 
 /**
@@ -18,4 +19,6 @@ public interface ITGDeviceHandlerListener {
     void reportMeditation(int level);
 
     void reportMulti(TGRawMulti tgRawMulti);
+
+    void reportPower(TGEegPower tgEegPower);
 }

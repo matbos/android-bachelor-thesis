@@ -38,8 +38,8 @@
                  android:process=":acquisition_service"
                  android:label="@string/acq_service_label"
                  android:icon="@drawable/acq_service_icon"/>
-        <service android:name=".service.synchronization.EEGSynchronizationService"
-                 android:process=":synchronization_service"
+        <service android:name=".service.data.DataService"
+                 android:process=":data_service"
                  android:label="@string/sync_service_label"
                  android:icon="@drawable/sync_service_icon"/>
 

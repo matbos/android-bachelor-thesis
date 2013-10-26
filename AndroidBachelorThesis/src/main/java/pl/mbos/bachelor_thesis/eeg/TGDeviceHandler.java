@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.neurosky.thinkgear.TGDevice;
+import com.neurosky.thinkgear.TGEegPower;
 import com.neurosky.thinkgear.TGRawMulti;
 
 public class TGDeviceHandler extends Handler {
@@ -54,6 +55,8 @@ public class TGDeviceHandler extends Handler {
                 break;
             case TGDevice.MSG_RAW_MULTI:
                 listener.reportMulti((TGRawMulti) msg.obj);
+            case TGDevice.MSG_EEG_POWER:
+                listener.reportPower((TGEegPower) msg.obj);
             default:
                 break;
         }

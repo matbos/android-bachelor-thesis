@@ -1,10 +1,14 @@
 package pl.mbos.bachelor_thesis;
 
 import android.app.Application;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+
 import dagger.ObjectGraph;
 import pl.mbos.bachelor_thesis.di.IoCModule;
+import pl.mbos.bachelor_thesis.service.data.DataService;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,6 +23,7 @@ import pl.mbos.bachelor_thesis.di.IoCModule;
 public class BaseApplication extends Application {
     private static Application instance;
     private static ObjectGraph objectGraph;
+
     /**
      * Accessor method to applications context
      *
@@ -53,6 +58,8 @@ public class BaseApplication extends Application {
         super.onCreate();
         objectGraph = ObjectGraph.create(new IoCModule());
         instance = this;
+        Context ctx = instance.getApplicationContext();
+        ComponentName serviceName = ctx.startService(new Intent(ctx, DataService.class));
     }
 
 }

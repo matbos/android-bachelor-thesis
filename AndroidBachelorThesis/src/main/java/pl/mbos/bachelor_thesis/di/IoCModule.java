@@ -8,10 +8,12 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import pl.mbos.bachelor_thesis.BaseApplication;
-import pl.mbos.bachelor_thesis.activity.MainActivity;
+import pl.mbos.bachelor_thesis.controller.LoginController;
 import pl.mbos.bachelor_thesis.controller.MainActivityController;
 import pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector;
 import pl.mbos.bachelor_thesis.service.connection.contract.IEEGAcquisitionServiceConnection;
+import pl.mbos.bachelor_thesis.service.data.connector.authentication.AuthorizationServiceConnectionConnector;
+import pl.mbos.bachelor_thesis.service.data.contract.IUserAuthorizationConnection;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,8 +25,11 @@ import pl.mbos.bachelor_thesis.service.connection.contract.IEEGAcquisitionServic
 @Module(
         injects = {
                 IEEGAcquisitionServiceConnection.class,
+                EEGAcquisitionServiceConnectionConnector.class,
+                IUserAuthorizationConnection.class,
                 MainActivityController.class,
-                EEGAcquisitionServiceConnectionConnector.class
+                LoginController.class,
+                AuthorizationServiceConnectionConnector.class
         }
 )
 public class IoCModule {
@@ -38,5 +43,10 @@ public class IoCModule {
     @Provides
     public Context provideContext(){
         return BaseApplication.getContext();
+    }
+
+    @Provides
+    IUserAuthorizationConnection provideIUserAuthorizationConnection(){
+        return new AuthorizationServiceConnectionConnector();
     }
 }
