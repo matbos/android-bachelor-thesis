@@ -25,36 +25,48 @@ public class LoginController implements IUserAuthorizationConnectionListener {
     public LoginController(LoginView view){
         ObjectGraph graph = ObjectGraph.create(IoCModule.class);
         userAuthenticator = graph.get(IUserAuthorizationConnection.class);
+        userAuthenticator.registerListener(this);
         this.view = view;
         user = new User();
     }
 
-    public boolean performLogin(String login, String pass){
+    /**
+     * Sends asynchronous request to authenticate user with given login and password
+     * @param id users login
+     * @param pass users password
+     */
+    public void performLogin(Long id, String pass){
         view.showSpinner();
-        user.setFirstName("Diego");
-        user.setLastName("Picarra");
-        user.setId(666999);
+        user.setId(id);
+        user.setFirstName(pass);
         userAuthenticator.authorizeUser(user);
-        return true;
-    }
-
-    public String getLoginMessage(){
-        //TODO This should be obtained from login service!!!!!!!!!!!!
-        return "It' just a test message!";
     }
 
     private void completeLogin(User user){
         view.startNextActivity(user);
     }
 
+    /**
+     * Called by object that takes care of authentication, the one that implements {@link pl.mbos.bachelor_thesis.service.data.contract.IUserAuthorizationConnection}
+     * to notify that user was successfully authenticated
+     *
+     * @param user user authorized successfully
+     */
     @Override
     public void userAuthorized(User user) {
         view.hideSpinner();
         completeLogin(user);
     }
-
+    /**
+     * Called by object that takes care of authentication, the one that implements {@link pl.mbos.bachelor_thesis.service.data.contract.IUserAuthorizationConnection}
+     * to notify that user was not authorized
+     *
+     * @param user user unauthorized
+     * @param reason reason that user was not authenticated
+     */
     @Override
     public void userUnauthorized(User user, String reason) {
         view.hideSpinner();
+        view.showError("User " + user.getFirstName() + " failed authorization due to " + reason);
     }
 }

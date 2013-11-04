@@ -56,14 +56,22 @@ public class DataService extends Service {
     }
 
     protected void authorizeUser(User user){
-        Timer timer = new Timer();
-        timer.schedule(new AuthTask(), 2000);
+        if(user.getId() == 123 && user.getFirstName().equals("asd")){
+            Timer timer = new Timer();
+            timer.schedule(new AuthTask(user), 2000);
+        } else {
+            mainConnector.userUnauthorized(user,"bad login/password");
+        }
     }
 
     class AuthTask extends TimerTask {
+        private User user;
 
+        public AuthTask(User user){
+            this.user = user;
+        }
         public void run() {
-            authConnector.userAuthorized();
+            mainConnector.userAuthorized(user);
         }
     }
 }

@@ -16,4 +16,7 @@ public interface IUserAuthorizationConnection {
      */
     void authorizeUser(User user);
 
+    void registerListener(IUserAuthorizationConnectionListener listener);
+
+    boolean unregisterListener(IUserAuthorizationConnectionListener listener);
 }

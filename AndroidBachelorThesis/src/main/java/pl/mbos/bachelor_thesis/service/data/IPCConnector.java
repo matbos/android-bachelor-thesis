@@ -1,5 +1,6 @@
 package pl.mbos.bachelor_thesis.service.data;
 
+import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
@@ -71,12 +72,12 @@ public class IPCConnector {
 
     protected void receivedAuthorizationMessage(Message msg){
         try {
-            //Bundle bundle = msg.getData();
-//            User user = (User) bundle.getParcelable(User.FIELD);
-            User user = (User) msg.obj;
+            Bundle bundle = msg.getData();
+            bundle.setClassLoader(User.class.getClassLoader());
+            User user = (User) bundle.getParcelable(User.USER_KEY);
             service.authorizeUser(user);
         } catch (NullPointerException e) {
-            authConnector.userUnauthorized("User passed to authorization was null");
+            authConnector.userUnauthorized(new User(),"User passed to authorization was null");
         }
     }
 
@@ -88,4 +89,11 @@ public class IPCConnector {
 
     }
 
+    protected void userAuthorized(User user){
+        authConnector.userAuthorized(user);
+    }
+
+    protected void userUnauthorized(User user, String reason){
+        authConnector.userUnauthorized(user, reason);
+    }
 }

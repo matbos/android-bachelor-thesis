@@ -2,10 +2,12 @@ package pl.mbos.bachelor_thesis.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -30,6 +32,10 @@ public class LoginActivity extends Activity implements LoginView {
     @InjectView(R.id.btn_login)
     Button btn_login;
     LoginController controller;
+    @InjectView(R.id.pb_progressBar)
+    ProgressBar bar;
+    @InjectView(R.id.tv_reason)
+    TextView tv_reason;
 
     /**
      * Method used to build an intent that can start this activity
@@ -48,7 +54,8 @@ public class LoginActivity extends Activity implements LoginView {
         setContentView(R.layout.activity_login);
         Views.inject(this);
         controller = new LoginController(this);
-
+        Typeface font = Typeface.createFromAsset( getAssets(), "fontawesome-webfont.ttf" );
+        tv_reason.setTypeface(font);
     }
 
     @Override
@@ -58,25 +65,26 @@ public class LoginActivity extends Activity implements LoginView {
 
     @OnClick(R.id.btn_login)
     public void loginButtonClicked() {
-        //TODO implement when UI will be ready
-        boolean outcome = controller.performLogin(et_login.getText().toString(), et_password.getText().toString());
-        String message;
-        if (!outcome) {
-            message = controller.getLoginMessage();
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        Long id = -100L;
+        String pass = "";
+        try {
+            id = Long.parseLong(et_login.getText().toString());
+        } catch (NumberFormatException ex ){
         }
+        pass = et_password.getText().toString();
+        controller.performLogin(id, pass);
     }
 
     @Override
     public void showSpinner() {
-        //TODO implement when UI will be ready
-        //To change body of implemented methods use File | Settings | File Templates.
+        //TODO_UI implement when UI will be ready
+        bar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideSpinner() {
-        //TODO implement when UI will be ready
-        //To change body of implemented methods use File | Settings | File Templates.
+        //TODO_UI implement when UI will be ready
+        bar.setVisibility(View.GONE);
     }
 
     @Override
@@ -84,6 +92,12 @@ public class LoginActivity extends Activity implements LoginView {
         Intent intent = MainActivity.getIntentToStartThisActivity(this, user);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void showError(String reason) {
+        tv_reason.setVisibility(View.VISIBLE);
+        tv_reason.setText(getString(R.string.error_char)+" "+ reason);
     }
 
 

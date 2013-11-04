@@ -11,8 +11,9 @@ import android.os.Parcelable;
 public class User implements Parcelable {
 
     // KEEP FIELDS - put your custom fields here
-    public static final String FIELD = User.class.getCanonicalName();
     public static final String USER_KEY = User.class.getCanonicalName() + ".USER_KEY";
+    public static final String REASON_KEY = User.class.getCanonicalName() + ".REASON_KEY";
+
     public static Creator<User> CREATOR = new Creator<User>() {
         @Override
         public User createFromParcel(Parcel parcel) {

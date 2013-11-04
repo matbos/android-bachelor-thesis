@@ -6,11 +6,15 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pl.mbos.bachelor_thesis.BaseApplication;
 import pl.mbos.bachelor_thesis.dao.User;
 import pl.mbos.bachelor_thesis.service.data.DataService;
 import pl.mbos.bachelor_thesis.service.data.IPCConnector;
 import pl.mbos.bachelor_thesis.service.data.contract.IUserAuthorizationConnection;
+import pl.mbos.bachelor_thesis.service.data.contract.IUserAuthorizationConnectionListener;
 
 /**
  * Created by Mateusz on 26.10.13.
@@ -21,8 +25,10 @@ public class AuthorizationServiceConnectionConnector implements ServiceConnectio
     public android.content.Context context = BaseApplication.getContext();
     private AuthorizationCommunicationHandler communicationHandler;
     private boolean serviceUp = false;
+    private List<IUserAuthorizationConnectionListener> listenerList;
 
     public AuthorizationServiceConnectionConnector() {
+        listenerList = new ArrayList<IUserAuthorizationConnectionListener>(2);
         startService();
         communicationHandler = new AuthorizationCommunicationHandler(this);
         bindToService();
@@ -41,6 +47,16 @@ public class AuthorizationServiceConnectionConnector implements ServiceConnectio
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
 
+    }
+
+    @Override
+    public void registerListener(IUserAuthorizationConnectionListener listener){
+        listenerList.add(listener);
+    }
+
+    @Override
+    public boolean unregisterListener(IUserAuthorizationConnectionListener listener){
+        return listenerList.remove(listener);
     }
 
     /**
@@ -70,11 +86,15 @@ public class AuthorizationServiceConnectionConnector implements ServiceConnectio
         }
     }
 
-    protected void userAuthorized() {
-        //here notify that user has been authorized
+    protected void userAuthorized(User user) {
+        for(IUserAuthorizationConnectionListener listener : listenerList){
+            listener.userAuthorized(user);
+        }
     }
 
-    protected void userUnauthorized(String reason) {
-        //here notify that user has not been authorized
+    protected void userUnauthorized(User user, String reason) {
+        for(IUserAuthorizationConnectionListener listener : listenerList){
+            listener.userUnauthorized(user, reason);
+        }
     }
 }

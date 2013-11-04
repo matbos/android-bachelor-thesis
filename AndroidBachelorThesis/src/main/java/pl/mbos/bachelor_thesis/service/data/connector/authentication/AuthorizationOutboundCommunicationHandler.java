@@ -31,11 +31,8 @@ public class AuthorizationOutboundCommunicationHandler {
             Message message = Message.obtain();
             message.arg1 = IPCConnector.TYPE_AUTHENTICATION;
             message.arg2 = IPCConnector.CMD_AUTHENTICATE;
-            message.obj = user;
             Bundle bundle = new Bundle();
-            ClassLoader classLoader = BaseApplication.getContext().getClassLoader();
-            bundle.setClassLoader(classLoader);
-            bundle.putParcelable(User.FIELD, user);
+            bundle.putParcelable(User.USER_KEY, user);
             message.setData(bundle);
             messenger.send(message);
         } catch (RemoteException e) {

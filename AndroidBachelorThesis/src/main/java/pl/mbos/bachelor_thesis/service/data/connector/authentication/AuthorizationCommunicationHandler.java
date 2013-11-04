@@ -10,10 +10,10 @@ import pl.mbos.bachelor_thesis.dao.User;
  */
 public class AuthorizationCommunicationHandler {
 
+    private AuthorizationServiceConnectionConnector connector;
     private AuthorizationInboundCommunicationHandler inbound;
     private AuthorizationOutboundCommunicationHandler outbound;
     private Messenger inboundMessenger;
-    private AuthorizationServiceConnectionConnector connector;
 
     public AuthorizationCommunicationHandler(AuthorizationServiceConnectionConnector connector) {
         this.connector = connector;
@@ -41,12 +41,12 @@ public class AuthorizationCommunicationHandler {
         outbound.sendUserToAuthentication(user);
     }
 
-    protected void userAuthenticated() {
-        connector.userAuthorized();
+    protected void userAuthenticated(User user) {
+        connector.userAuthorized(user);
     }
 
-    protected void userUnauthorized(String reason) {
-        connector.userUnauthorized(reason);
+    protected void userUnauthorized(User user, String reason) {
+        connector.userUnauthorized(user, reason);
     }
 
 }

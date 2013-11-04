@@ -15,4 +15,6 @@ public interface LoginView {
     void hideSpinner();
 
     void startNextActivity(User user);
+
+    void showError(String reason);
 }
