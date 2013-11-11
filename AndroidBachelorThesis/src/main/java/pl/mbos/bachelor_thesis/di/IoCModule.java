@@ -16,6 +16,7 @@ import pl.mbos.bachelor_thesis.service.data.connector.command.CommandServiceClie
 import pl.mbos.bachelor_thesis.service.data.connector.data.DataServiceClient;
 import pl.mbos.bachelor_thesis.service.data.contract.ICommandServiceConnection;
 import pl.mbos.bachelor_thesis.service.data.contract.IUserAuthorizationConnection;
+import pl.mbos.bachelor_thesis.service.data.services.DataService;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,6 +32,7 @@ import pl.mbos.bachelor_thesis.service.data.contract.IUserAuthorizationConnectio
                 IUserAuthorizationConnection.class,
                 MainActivityController.class,
                 MainServiceClient.class,
+                DataService.class,
                 LoginController.class,
                 BaseServiceClient.class,
                 AuthorizationServiceClient.class,
