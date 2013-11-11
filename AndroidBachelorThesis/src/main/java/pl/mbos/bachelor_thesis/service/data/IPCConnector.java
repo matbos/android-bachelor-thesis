@@ -46,6 +46,11 @@ public class IPCConnector {
     public static final int DATA_REQ_BLINK          = 4;
     public static final int DATA_REQ_POWER          = 8;
     public static final int DATA_REQ_POOR_SIGNAL    = 16;
+    public static final int DATA_ADD_ATTENTION      = 1024;
+    public static final int DATA_ADD_MEDITATION     = 2048;
+    public static final int DATA_ADD_BLINK          = 4096;
+    public static final int DATA_ADD_POWER          = 8192;
+    public static final int DATA_ADD_POOR_SIGNAL    = 16384;
     public static final String DATA_DATA            = "DATA";
 
     public static final int AUTH_FAILED     = 1;

@@ -96,12 +96,12 @@ public class EEGAcquisitionServiceConnectionConnector implements ServiceConnecti
     }
 
     @Override
-    public void connectToService() {
+    public void connectToService(int userID) {
         if (isServiceRunning()) {
             startService();
             Log.i("ACQ-SERV", "Started service");
         } else {
-            bindToService();
+            bindToService(userID);
             Log.i("ACQ-SERV", "Connected to service");
         }
     }
@@ -168,11 +168,11 @@ public class EEGAcquisitionServiceConnectionConnector implements ServiceConnecti
     /**
      * Connects to service
      */
-    private void bindToService() {
+    private void bindToService(int userID) {
         if (serviceMessenger == null) {
             Intent intent = new Intent(context, EEGAcquisitionService.class);
             intent.putExtra("Messenger", serviceReturnMessenger);
-
+            intent.putExtra("UserID",userID);
             context.bindService(intent, this, Context.BIND_AUTO_CREATE);
         }
     }

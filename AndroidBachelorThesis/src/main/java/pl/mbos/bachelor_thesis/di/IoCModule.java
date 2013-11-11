@@ -8,6 +8,7 @@ import dagger.Provides;
 import pl.mbos.bachelor_thesis.controller.LoginController;
 import pl.mbos.bachelor_thesis.controller.MainActivityController;
 import pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector;
+import pl.mbos.bachelor_thesis.service.connection.MainServiceClient;
 import pl.mbos.bachelor_thesis.service.connection.contract.IEEGAcquisitionServiceConnection;
 import pl.mbos.bachelor_thesis.service.data.connector.BaseServiceClient;
 import pl.mbos.bachelor_thesis.service.data.connector.authentication.AuthorizationServiceClient;
@@ -29,6 +30,7 @@ import pl.mbos.bachelor_thesis.service.data.contract.IUserAuthorizationConnectio
                 EEGAcquisitionServiceConnectionConnector.class,
                 IUserAuthorizationConnection.class,
                 MainActivityController.class,
+                MainServiceClient.class,
                 LoginController.class,
                 BaseServiceClient.class,
                 AuthorizationServiceClient.class,

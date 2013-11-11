@@ -50,6 +50,9 @@ public class TGDeviceHandler extends Handler {
             case TGDevice.MSG_MEDITATION:
                 listener.reportMeditation(msg.arg1);
                 break;
+            case TGDevice.MSG_BLINK:
+                listener.reportBlink(msg.arg1);
+                break;
             case TGDevice.MSG_RAW_DATA:
                 int rawValue = msg.arg1;
                 break;

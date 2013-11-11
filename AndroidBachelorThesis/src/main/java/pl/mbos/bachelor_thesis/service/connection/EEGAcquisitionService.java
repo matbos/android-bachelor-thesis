@@ -12,6 +12,13 @@ import com.neurosky.thinkgear.TGDevice;
 import com.neurosky.thinkgear.TGEegPower;
 import com.neurosky.thinkgear.TGRawMulti;
 
+import java.util.Date;
+
+import pl.mbos.bachelor_thesis.dao.Attention;
+import pl.mbos.bachelor_thesis.dao.Blink;
+import pl.mbos.bachelor_thesis.dao.Meditation;
+import pl.mbos.bachelor_thesis.dao.PoorSignal;
+import pl.mbos.bachelor_thesis.dao.PowerEEG;
 import pl.mbos.bachelor_thesis.eeg.ITGDeviceHandlerListener;
 import pl.mbos.bachelor_thesis.eeg.TGDeviceHandler;
 import pl.mbos.bachelor_thesis.service.connection.handler.AcquisitionServiceInboundCommunicationHandler;
@@ -36,6 +43,7 @@ public class EEGAcquisitionService extends Service {
     public static int START_STREAM = 11;
     public static int STOP_STREAM = 12;
     public static int STOP_SERVICE = 128;
+    private long userId;
     /**
      * Messenger to be returned on all onBind requests
      */
@@ -44,10 +52,12 @@ public class EEGAcquisitionService extends Service {
     protected TGDevice tgDevice;
     protected TGDeviceHandler handler;
     protected AcquisitionServiceOutboundCommunicationHandler applicationHandler;
+    private MainServiceClient mainServiceClient;
 
     @Override
     public IBinder onBind(Intent intent) {
         Messenger returnMessenger = (Messenger) intent.getParcelableExtra("Messenger");
+        userId = intent.getIntExtra("UserID", Integer.MIN_VALUE);
         applicationHandler = new AcquisitionServiceOutboundCommunicationHandler(returnMessenger);
         return messenger.getBinder();
     }
@@ -57,6 +67,12 @@ public class EEGAcquisitionService extends Service {
         super.onCreate();
         messenger = new Messenger(new AcquisitionServiceInboundCommunicationHandler(this));
         initTGD();
+        connectToMainService();
+    }
+
+    private void connectToMainService() {
+        mainServiceClient = new MainServiceClient();
+        mainServiceClient.connectToService();
     }
 
     private void initTGD() {
@@ -139,32 +155,41 @@ public class EEGAcquisitionService extends Service {
         public void reportPoorSignal(int level) {
             Message msg = AcquisitionServiceOutboundCommunicationHandler.buildValueMessage(VALUE_POOR_SIGNAL, level);
             applicationHandler.sendReturnMessage(msg);
+            mainServiceClient.sendPoorSignal(new PoorSignal(userId,level,new Date()));
         }
 
         @Override
         public void reportAttention(int level) {
             Message msg = AcquisitionServiceOutboundCommunicationHandler.buildValueMessage(VALUE_ATTENTION, level);
             applicationHandler.sendReturnMessage(msg);
+            mainServiceClient.sendAttention(new Attention(userId, level, new Date()));
         }
 
         @Override
         public void reportMeditation(int level) {
             Message msg = AcquisitionServiceOutboundCommunicationHandler.buildValueMessage(VALUE_MEDITATION, level);
             applicationHandler.sendReturnMessage(msg);
+            mainServiceClient.sendMeditation(new Meditation(userId, level, new Date()));
+        }
+
+        @Override
+        public void reportBlink(int level) {
+            mainServiceClient.sendBlink(new Blink(userId, level, new Date()));
         }
 
         @Override
         public void reportMulti(TGRawMulti tgRawMulti) {
-            Message msg = AcquisitionServiceOutboundCommunicationHandler.buildValueMessage(VALUE_MULTI, 0);
-            msg.obj = tgRawMulti;
-            applicationHandler.sendReturnMessage(msg);
+          //  Message msg = AcquisitionServiceOutboundCommunicationHandler.buildValueMessage(VALUE_MULTI, 0);
+          //  msg.obj = tgRawMulti;
+          //  applicationHandler.sendReturnMessage(msg);
         }
 
         @Override
         public void reportPower(TGEegPower tgEegPower) {
-            Message msg = AcquisitionServiceOutboundCommunicationHandler.buildValueMessage(VALUE_POWER, 0);
-            msg.obj = tgEegPower;
-            applicationHandler.sendReturnMessage(msg);
+           // Message msg = AcquisitionServiceOutboundCommunicationHandler.buildValueMessage(VALUE_POWER, 0);
+          //  msg.obj = tgEegPower;
+          //  applicationHandler.sendReturnMessage(msg);
+            mainServiceClient.sendPower(new PowerEEG(userId, tgEegPower.lowAlpha, tgEegPower.highAlpha,tgEegPower.lowBeta,tgEegPower.highBeta,tgEegPower.lowGamma, tgEegPower.midGamma, tgEegPower.theta, tgEegPower.delta,new Date()));
         }
 
     }

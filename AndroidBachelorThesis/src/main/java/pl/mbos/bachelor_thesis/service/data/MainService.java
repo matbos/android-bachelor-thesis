@@ -8,11 +8,8 @@ import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
 
-import java.util.ArrayList;
-
 import javax.inject.Singleton;
 
-import pl.mbos.bachelor_thesis.BaseApplication;
 import pl.mbos.bachelor_thesis.dao.Attention;
 import pl.mbos.bachelor_thesis.dao.Blink;
 import pl.mbos.bachelor_thesis.dao.Meditation;
@@ -40,7 +37,6 @@ public class MainService extends Service implements IAuthorizationServiceParent,
     private ICommandService commandService;
     private IAuthorizationService authorizationService;
     private IDataService dataService;
-    private static int dupa = 0;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -54,12 +50,12 @@ public class MainService extends Service implements IAuthorizationServiceParent,
         initServices();
     }
 
-    private void initCommunication(){
+    private void initCommunication() {
         mainConnector = new IPCConnector(this);
         messenger = new Messenger(mainConnector.inbound);
     }
 
-    private void initServices(){
+    private void initServices() {
         dataService = new DataService(this);
         authorizationService = new AuthorizationService(this);
         //TODO Wyprostować ten cast!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -99,13 +95,13 @@ public class MainService extends Service implements IAuthorizationServiceParent,
                 commandService.synchronizeNow();
                 break;
             default:
-                Log.d(TAG,"Bad argument for cmdService " + message.arg2);
+                Log.d(TAG, "Bad argument for cmdService " + message.arg2);
                 break;
         }
     }
 
     protected void dataMessage(Message message) {
-        switch(message.arg2){
+        switch (message.arg2) {
             case IPCConnector.DATA_REQ_ATTENTION:
                 mainConnector.sendAttentionData(dataService.getAllAttentionData());
                 break;
@@ -121,15 +117,30 @@ public class MainService extends Service implements IAuthorizationServiceParent,
             case IPCConnector.DATA_REQ_POOR_SIGNAL:
                 mainConnector.sendPoorSignalData(dataService.getAllPoorSignalData());
                 break;
+            case IPCConnector.DATA_ADD_ATTENTION:
+                dataService.addAttentionData(extractAttention(message));
+                break;
+            case IPCConnector.DATA_ADD_MEDITATION:
+                dataService.addMeditationData(extractMeditation(message));
+                break;
+            case IPCConnector.DATA_ADD_BLINK:
+                dataService.addBlinkData(extractBlink(message));
+                break;
+            case IPCConnector.DATA_ADD_POWER:
+                dataService.addPowerData(extractPower(message));
+                break;
+            case IPCConnector.DATA_ADD_POOR_SIGNAL:
+                dataService.addPoorSignalData(extractPoorSignal(message));
+                break;
             default:
-                Log.d(TAG,"Bad argument for dataService " + message.arg2);
+                Log.d(TAG, "Bad argument for dataService " + message.arg2);
                 break;
         }
     }
 
     @Override
     public void authorizationOutcome(User user, boolean success, String reason) {
-        if(success){
+        if (success) {
             mainConnector.userAuthorized(user);
         } else {
             mainConnector.userUnauthorized(user, reason);
@@ -141,8 +152,71 @@ public class MainService extends Service implements IAuthorizationServiceParent,
         int result = super.onStartCommand(intent, flags, startId);
         Messenger returnMessenger = intent.getParcelableExtra(IPCConnector.MESSENGER);
         int type = intent.getIntExtra(IPCConnector.TYPE, 0);
-        mainConnector.addListener(type,returnMessenger);
+        mainConnector.addListener(type, returnMessenger);
         return result;
     }
+
+    private Attention extractAttention(Message msg) {
+        Bundle bundle = msg.getData();
+        if(bundle != null){
+        bundle.setClassLoader(Attention.class.getClassLoader());
+        Attention data = bundle.getParcelable(IPCConnector.DATA_DATA);
+        return data;
+        } else {
+            Log.i(TAG,"Attention has not been passed with bundle! ");
+            return null;
+        }
+    }
+
+    private PoorSignal extractPoorSignal(Message message) {
+        Bundle bundle = message.getData();
+        if(bundle != null){
+            bundle.setClassLoader(PoorSignal.class.getClassLoader());
+            PoorSignal data = bundle.getParcelable(IPCConnector.DATA_DATA);
+            return data;
+        } else {
+            Log.i(TAG,"PoorSignal has not been passed with bundle! ");
+            return null;
+        }
+    }
+
+    private PowerEEG extractPower(Message message) {
+        Bundle bundle = message.getData();
+        if(bundle != null){
+            bundle.setClassLoader(PowerEEG.class.getClassLoader());
+            PowerEEG data = bundle.getParcelable(IPCConnector.DATA_DATA);
+            return data;
+        } else {
+            Log.i(TAG,"PowerEEG has not been passed with bundle! ");
+            return null;
+        }
+    }
+
+    private Blink extractBlink(Message message) {
+        Bundle bundle = message.getData();
+        if(bundle != null){
+            bundle.setClassLoader(Blink.class.getClassLoader());
+            Blink data = bundle.getParcelable(IPCConnector.DATA_DATA);
+            return data;
+        } else {
+            Log.i(TAG,"Blink has not been passed with bundle! ");
+            return null;
+        }
+    }
+
+    private Meditation extractMeditation(Message message) {
+        Bundle bundle = message.getData();
+        if(bundle != null){
+            bundle.setClassLoader(Meditation.class.getClassLoader());
+            Meditation data = bundle.getParcelable(IPCConnector.DATA_DATA);
+            return data;
+        } else {
+            Log.i(TAG,"Meditation has not been passed with bundle! ");
+            return null;
+        }
+    }
+
 }
+
+
 

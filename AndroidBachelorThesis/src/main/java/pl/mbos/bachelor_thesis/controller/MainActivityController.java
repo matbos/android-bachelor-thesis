@@ -40,7 +40,7 @@ public class MainActivityController implements IEEGAcquisitionServiceConnectionL
         //acquisitionService = graph.get(IEEGAcquisitionServiceConnection.class);
         //commandService = graph.get(ICommandServiceConnection.class);
        // commandService.connectToService();
-        acquisitionService.connectToService();
+        acquisitionService.connectToService(1345);
         this.view = view;
     }
 

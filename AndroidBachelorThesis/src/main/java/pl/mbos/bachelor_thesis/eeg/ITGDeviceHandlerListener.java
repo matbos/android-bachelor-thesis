@@ -18,6 +18,8 @@ public interface ITGDeviceHandlerListener {
 
     void reportMeditation(int level);
 
+    void reportBlink(int level);
+
     void reportMulti(TGRawMulti tgRawMulti);
 
     void reportPower(TGEegPower tgEegPower);
