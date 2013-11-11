@@ -8,7 +8,7 @@ import android.content.res.Resources;
 
 import dagger.ObjectGraph;
 import pl.mbos.bachelor_thesis.di.IoCModule;
-import pl.mbos.bachelor_thesis.service.data.DataService;
+import pl.mbos.bachelor_thesis.service.data.MainService;
 
 /**
  * Created with IntelliJ IDEA.
@@ -59,7 +59,7 @@ public class BaseApplication extends Application {
         objectGraph = ObjectGraph.create(new IoCModule());
         instance = this;
         Context ctx = instance.getApplicationContext();
-        ComponentName serviceName = ctx.startService(new Intent(ctx, DataService.class));
+        ComponentName serviceName = ctx.startService(new Intent(ctx, MainService.class));
     }
 
 }

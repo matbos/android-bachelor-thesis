@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import pl.mbos.bachelor_thesis.service.data.DataService;
+import pl.mbos.bachelor_thesis.service.data.MainService;
 
 import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService.CONNECT_TO_DEVICE;
 import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService.DISCONNECT_FROM_DEVICE;
@@ -19,9 +19,9 @@ import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService.S
 public class DataServiceIncomingCommunicationHandler extends Handler {
 
     private static final String TAG = DataServiceIncomingCommunicationHandler.class.getSimpleName();
-    private DataService parent;
+    private MainService parent;
 
-    public DataServiceIncomingCommunicationHandler(DataService parent){
+    public DataServiceIncomingCommunicationHandler(MainService parent){
         this.parent = parent;
     }
 

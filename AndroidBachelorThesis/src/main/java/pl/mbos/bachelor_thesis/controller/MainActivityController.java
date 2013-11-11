@@ -1,5 +1,6 @@
 package pl.mbos.bachelor_thesis.controller;
 
+import android.app.Application;
 import android.widget.Toast;
 
 import com.neurosky.thinkgear.TGDevice;
@@ -12,6 +13,7 @@ import pl.mbos.bachelor_thesis.BaseApplication;
 import pl.mbos.bachelor_thesis.di.IoCModule;
 import pl.mbos.bachelor_thesis.service.connection.contract.IEEGAcquisitionServiceConnection;
 import pl.mbos.bachelor_thesis.service.connection.contract.IEEGAcquisitionServiceConnectionListener;
+import pl.mbos.bachelor_thesis.service.data.contract.ICommandServiceConnection;
 import pl.mbos.bachelor_thesis.view.MainView;
 
 /**
@@ -28,11 +30,16 @@ public class MainActivityController implements IEEGAcquisitionServiceConnectionL
 
     @Inject
     public IEEGAcquisitionServiceConnection acquisitionService;
+    @Inject
+    public ICommandServiceConnection commandService;
+
     private MainView view;
 
     public MainActivityController(MainView view) {
-        ObjectGraph graph = ObjectGraph.create(IoCModule.class);
-        acquisitionService = graph.get(IEEGAcquisitionServiceConnection.class);
+        BaseApplication.getBaseGraph().inject(this);
+        //acquisitionService = graph.get(IEEGAcquisitionServiceConnection.class);
+        //commandService = graph.get(ICommandServiceConnection.class);
+       // commandService.connectToService();
         acquisitionService.connectToService();
         this.view = view;
     }

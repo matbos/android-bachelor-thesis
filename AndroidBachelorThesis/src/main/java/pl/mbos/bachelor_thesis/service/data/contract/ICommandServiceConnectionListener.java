@@ -14,5 +14,5 @@ public interface ICommandServiceConnectionListener {
      * Informs whether synchronization can be performed only when in range of WiFi network
      * @param wifi true if only when WiFi in range false otherwise
      */
-    void onyWiFi(boolean wifi);
+    void onlyWiFi(boolean wifi);
 }

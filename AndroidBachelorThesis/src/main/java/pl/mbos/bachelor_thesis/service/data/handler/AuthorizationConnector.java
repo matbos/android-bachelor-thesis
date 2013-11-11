@@ -47,7 +47,7 @@ public class AuthorizationConnector extends OutboundCommunicationHandler {
     private Message buildSuccessMessage(User user){
         Message msg = Message.obtain();
         msg.arg1 = IPCConnector.TYPE_AUTHENTICATION;
-        msg.arg2 = IPCConnector.AUTH_SUCCEED;
+        msg.arg2 = IPCConnector.AUTH_SUCCEEDED;
         Bundle bundle = new Bundle();
         bundle.putParcelable(User.USER_KEY, user);
         msg.setData(bundle);

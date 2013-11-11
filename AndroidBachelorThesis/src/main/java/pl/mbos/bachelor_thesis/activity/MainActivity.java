@@ -4,14 +4,25 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
+import butterknife.InjectView;
+import butterknife.OnClick;
+import butterknife.Views;
 import pl.mbos.bachelor_thesis.R;
 import pl.mbos.bachelor_thesis.controller.MainActivityController;
+import pl.mbos.bachelor_thesis.dao.Attention;
+import pl.mbos.bachelor_thesis.dao.Blink;
+import pl.mbos.bachelor_thesis.dao.Meditation;
+import pl.mbos.bachelor_thesis.dao.PoorSignal;
+import pl.mbos.bachelor_thesis.dao.PowerEEG;
 import pl.mbos.bachelor_thesis.dao.User;
+import pl.mbos.bachelor_thesis.service.data.connector.data.DataServiceClient;
+import pl.mbos.bachelor_thesis.service.data.contract.IDataServiceConnectionListener;
 import pl.mbos.bachelor_thesis.view.MainView;
 
 /**
@@ -20,15 +31,22 @@ import pl.mbos.bachelor_thesis.view.MainView;
  * Date: 30.09.13
  * Time: 00:50
  */
-public class MainActivity extends Activity implements MainView {
+public class MainActivity extends Activity implements MainView , IDataServiceConnectionListener{
 
     private static final int REQUEST_ENABLE_BT = 3111990;
     private User user;
     private MainActivityController controller;
+    @InjectView(R.id.tv_state)
     public TextView tvState;
+    @InjectView(R.id.tv_attention)
     public TextView tvAttention;
+    @InjectView(R.id.tv_meditation)
     public TextView tvMeditation;
+    @InjectView(R.id.tv_poor_signal)
     public TextView tvPoorSignal;
+
+    private DataServiceClient client;
+
     /**
      * Method used to build an intent that can start this activity
      *
@@ -44,45 +62,17 @@ public class MainActivity extends Activity implements MainView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Views.inject(this);
         controller = new MainActivityController(this);
         user = (User) getIntent().getExtras().getParcelable(User.USER_KEY);
-        String userName = (user != null) ? user.getFirstName() + " "+ user.getLastName() : "NO USER";
-
-        Button btn = (Button) findViewById(R.id.btn_connect);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                connectButtonClicked();
-            }
-        });
-        btn = (Button) findViewById(R.id.btn_start_stream);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startStreamButtonClicked();
-            }
-        });
-        btn = (Button) findViewById(R.id.btn_disconnect);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                disconnectButtonClicked();
-            }
-        });
-        btn = (Button) findViewById(R.id.btn_logout);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                logoutButtonClicked();
-            }
-        });
-        tvState = (TextView) findViewById(R.id.tv_state);
-        tvAttention = (TextView) findViewById(R.id.tv_attention);
-        tvMeditation = (TextView) findViewById(R.id.tv_meditation);
-        tvPoorSignal = (TextView) findViewById(R.id.tv_poor_signal);
+        String userName = (user != null) ? user.getFirstName() + " " + user.getLastName() : "NO USER";
         tvState.setText("NONE");
+
+        client = new DataServiceClient();
+        client.registerListener(this);
+
     }
 
     @Override
@@ -97,24 +87,34 @@ public class MainActivity extends Activity implements MainView {
         controller.resume();
     }
 
-   // @OnClick(R.id.btn_connect)
+    @OnClick(R.id.btn_connect)
     public void connectButtonClicked() {
         controller.buttonConnectClicked();
     }
 
-    //@OnClick(R.id.btn_start_stream)
+    @OnClick(R.id.btn_start_stream)
     public void startStreamButtonClicked() {
         controller.startStreamClicked();
     }
 
-    //@OnClick(R.id.btn_disconnect)
+    @OnClick(R.id.btn_disconnect)
     public void disconnectButtonClicked() {
         controller.buttonDisconnectClicked();
     }
 
-    //@OnClick(R.id.btn_logout)
+    @OnClick(R.id.btn_logout)
     public void logoutButtonClicked() {
         controller.buttonLogoutClicked();
+    }
+
+    @OnClick(R.id.btn_get_attention)
+    public void getAttentionClicked(){
+        client.requestAllAttentionData();
+    }
+
+    @OnClick(R.id.btn_put_attention)
+    public void putAttentionClicked(){
+        client.connectToService();
     }
 
     @Override
@@ -124,17 +124,17 @@ public class MainActivity extends Activity implements MainView {
 
     @Override
     public void setMeditation(int value) {
-        tvMeditation.setText("Meditation "+value);
+        tvMeditation.setText("Meditation " + value);
     }
 
     @Override
     public void setAttention(int value) {
-    tvAttention.setText("Attention "+value);
+        tvAttention.setText("Attention " + value);
     }
 
     @Override
     public void setPoorSignal(int value) {
-    tvPoorSignal.setText("Poor signal "+value);
+        tvPoorSignal.setText("Poor signal " + value);
     }
 
     @Override
@@ -145,17 +145,44 @@ public class MainActivity extends Activity implements MainView {
 
     @Override
     public void showBluetoothRequirementMessage() {
-        Toast.makeText(getApplicationContext(), "Połączenie bluetooth jest niezbędne do działania aplikacji",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Połączenie bluetooth jest niezbędne do działania aplikacji", Toast.LENGTH_LONG).show();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_ENABLE_BT){
-            if (resultCode == RESULT_OK){
+        if (requestCode == REQUEST_ENABLE_BT) {
+            if (resultCode == RESULT_OK) {
                 controller.notifyBluetoothGranted();
             } else {
                 controller.notifyBluetoothDenied();
             }
         }
+    }
+
+    @Override
+    public void receivedAttentionData(List<Attention> data) {
+        for(Attention a : data){
+            Log.i("AtDa",a.getUserId() + " " + a.getValue() + " " + a.getCollectionDate() );
+        }
+    }
+
+    @Override
+    public void receivedMeditationData(List<Meditation> data) {
+
+    }
+
+    @Override
+    public void receivedBlinkData(List<Blink> data) {
+
+    }
+
+    @Override
+    public void receivedPowerData(List<PowerEEG> data) {
+
+    }
+
+    @Override
+    public void receivedPoorSignalData(List<PoorSignal> data) {
+
     }
 }

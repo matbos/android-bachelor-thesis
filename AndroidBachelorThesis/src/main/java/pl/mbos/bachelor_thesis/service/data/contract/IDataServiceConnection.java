@@ -13,11 +13,11 @@ import pl.mbos.bachelor_thesis.dao.PowerEEG;
  */
 public interface IDataServiceConnection {
 
-    List<Attention> getAllAttentionData();
-    List<Meditation> getAllMeditationData();
-    List<Blink> getAllBlinkData();
-    List<PowerEEG> getAllPowerData();
-    List<PoorSignal> getAllPoorSignalData();
+    void requestAllAttentionData();
+    void requestAllMeditationData();
+    void requestAllBlinkData();
+    void requestAllPowerData();
+    void requestAllPoorSignalData();
 
 
 }

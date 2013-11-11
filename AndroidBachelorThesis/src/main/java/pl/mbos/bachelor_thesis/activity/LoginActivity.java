@@ -9,9 +9,12 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import javax.inject.Inject;
+
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.Views;
+import pl.mbos.bachelor_thesis.BaseApplication;
 import pl.mbos.bachelor_thesis.R;
 import pl.mbos.bachelor_thesis.controller.LoginController;
 import pl.mbos.bachelor_thesis.dao.User;

@@ -8,8 +8,9 @@ import pl.mbos.bachelor_thesis.controller.MainActivityController;
 import pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector;
 import pl.mbos.bachelor_thesis.service.connection.contract.IEEGAcquisitionServiceConnection;
 
-@Module(injects = MainActivityController.class,
-        library = true)
+@Module(
+        library = true
+)
 public class EEGModule {
 
     @Provides
@@ -17,7 +18,5 @@ public class EEGModule {
     IEEGAcquisitionServiceConnection provideEEGAcquisitionServiceConnection() {
         return new EEGAcquisitionServiceConnectionConnector();
     }
-
-
 
 }

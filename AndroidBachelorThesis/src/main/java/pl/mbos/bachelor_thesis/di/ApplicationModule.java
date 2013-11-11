@@ -14,5 +14,9 @@ import pl.mbos.bachelor_thesis.BaseApplication;
 @Module(library = true)
 public class ApplicationModule {
 
+    @Provides
+    public Context provideContext(){
+        return BaseApplication.getContext();
+    }
 
 }

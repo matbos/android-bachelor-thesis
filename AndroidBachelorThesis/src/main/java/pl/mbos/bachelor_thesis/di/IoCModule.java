@@ -1,18 +1,19 @@
 package pl.mbos.bachelor_thesis.di;
 
 
-import android.content.Context;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import pl.mbos.bachelor_thesis.BaseApplication;
 import pl.mbos.bachelor_thesis.controller.LoginController;
 import pl.mbos.bachelor_thesis.controller.MainActivityController;
 import pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector;
 import pl.mbos.bachelor_thesis.service.connection.contract.IEEGAcquisitionServiceConnection;
-import pl.mbos.bachelor_thesis.service.data.connector.authentication.AuthorizationServiceConnectionConnector;
+import pl.mbos.bachelor_thesis.service.data.connector.BaseServiceClient;
+import pl.mbos.bachelor_thesis.service.data.connector.authentication.AuthorizationServiceClient;
+import pl.mbos.bachelor_thesis.service.data.connector.command.CommandServiceClient;
+import pl.mbos.bachelor_thesis.service.data.connector.data.DataServiceClient;
+import pl.mbos.bachelor_thesis.service.data.contract.ICommandServiceConnection;
 import pl.mbos.bachelor_thesis.service.data.contract.IUserAuthorizationConnection;
 
 /**
@@ -29,8 +30,13 @@ import pl.mbos.bachelor_thesis.service.data.contract.IUserAuthorizationConnectio
                 IUserAuthorizationConnection.class,
                 MainActivityController.class,
                 LoginController.class,
-                AuthorizationServiceConnectionConnector.class
-        }
+                BaseServiceClient.class,
+                AuthorizationServiceClient.class,
+                CommandServiceClient.class,
+                DataServiceClient.class,
+                ICommandServiceConnection.class
+        },
+        includes = ApplicationModule.class
 )
 public class IoCModule {
 
@@ -41,12 +47,12 @@ public class IoCModule {
     }
 
     @Provides
-    public Context provideContext(){
-        return BaseApplication.getContext();
+    IUserAuthorizationConnection provideIUserAuthorizationConnection(){
+        return new AuthorizationServiceClient();
     }
 
     @Provides
-    IUserAuthorizationConnection provideIUserAuthorizationConnection(){
-        return new AuthorizationServiceConnectionConnector();
+    ICommandServiceConnection provideICommandServiceConnection(){
+        return new CommandServiceClient();
     }
 }
