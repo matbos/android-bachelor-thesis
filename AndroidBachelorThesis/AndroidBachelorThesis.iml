@@ -72,7 +72,9 @@
     <orderEntry type="library" exported="" name="junit-3.8.2" level="project" />
     <orderEntry type="library" exported="" name="annotations-4.1.1.4" level="project" />
     <orderEntry type="library" exported="" name="butterknife-3.0.0" level="project" />
+    <orderEntry type="library" exported="" name="retrofit-1.2.2" level="project" />
     <orderEntry type="library" exported="" name="ThinkGear" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
     <orderEntry type="library" exported="" name="dagger-compiler-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="greendao-1.3.0" level="project" />

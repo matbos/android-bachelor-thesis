@@ -65,8 +65,8 @@ public class LoginController implements IUserAuthorizationConnectionListener {
      * @param reason reason that user was not authenticated
      */
     @Override
-    public void userUnauthorized(User user, String reason) {
+    public void userUnauthorized(String reason) {
         view.hideSpinner();
-        view.showError("User " + user.getFirstName() + " failed authorization due to " + reason);
+        view.showError(reason);
     }
 }

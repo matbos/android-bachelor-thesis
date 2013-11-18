@@ -5,6 +5,9 @@ package pl.mbos.bachelor_thesis.dao;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Date;
 import java.util.List;
 
@@ -144,6 +147,44 @@ public class PowerEEG implements Parcelable {
     // KEEP FIELDS END
 
     // KEEP METHODS - put your custom methods here
+    public static PowerEEG parseJSON(JSONObject object) {
+        PowerEEG power = null;
+            try {
+                power = new PowerEEG(
+                        object.getLong("user"),
+                        object.getInt("lowAlpha"),
+                        object.getInt("highAlpha"),
+                        object.getInt("lowBeta"),
+                        object.getInt("highBeta"),
+                        object.getInt("lowGamma"),
+                        object.getInt("midGamma"),
+                        object.getInt("theta"),
+                        object.getInt("delta"),
+                        new Date(object.getLong("date"))
+                        );
+            } catch (JSONException e) {
+                throw new RuntimeException("Passed JSON was invalid! " + e.getMessage());
+            }
+        return power;
+    }
+
+    public String toJSON() {
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.append("{ ");
+        jsonBuilder.append("\"user\" : " + userId + ",");
+        jsonBuilder.append("\"lowAlpha\" : " + lowAlpha + ",");
+        jsonBuilder.append("\"highAlpha\" : " + highAlpha + ",");
+        jsonBuilder.append("\"lowBeta\" : " + lowBeta + ",");
+        jsonBuilder.append("\"highBeta\" : " + highBeta + ",");
+        jsonBuilder.append("\"lowGamma\" : " + lowGamma + ",");
+        jsonBuilder.append("\"midGamma\" : " + midGamma + ",");
+        jsonBuilder.append("\"theta\" : " + theta + ",");
+        jsonBuilder.append("\"delta\" : " + delta + ",");
+        jsonBuilder.append("\"date\" : " + collectionDate.getTime());
+        jsonBuilder.append(" }");
+        return jsonBuilder.toString();
+    }
+
     @Override
     public int describeContents() {
         return 0;

@@ -5,17 +5,22 @@ package pl.mbos.bachelor_thesis.dao;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Date;
 import java.util.List;
 
 /**
  * Entity mapped to table ATTENTION.
  */
-public class Attention implements Parcelable{
+public class Attention implements Parcelable {
 
     private long userId;
     private int value;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private java.util.Date collectionDate;
 
     // KEEP FIELDS - put your custom fields here
@@ -57,17 +62,45 @@ public class Attention implements Parcelable{
         this.value = value;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public java.util.Date getCollectionDate() {
         return collectionDate;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setCollectionDate(java.util.Date collectionDate) {
         this.collectionDate = collectionDate;
     }
 
     // KEEP METHODS - put your custom methods here
+    public static Attention parseJSON(JSONObject object) {
+        Attention attention = null;
+        try {
+            attention = new Attention(
+                    object.getLong("user"),
+                    object.getInt("value"),
+                    new Date(object.getLong("date"))
+            );
+        } catch (JSONException e) {
+            throw new RuntimeException("Passed JSON was invalid! " + e.getMessage());
+        }
+        return attention;
+    }
+
+    public String toJSON() {
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.append("{ ");
+        jsonBuilder.append("\"user\" : " + userId + ",");
+        jsonBuilder.append("\"value\" : " + value + ",");
+        jsonBuilder.append("\"date\" : " + collectionDate.getTime());
+        jsonBuilder.append(" }");
+        return jsonBuilder.toString();
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -80,25 +113,25 @@ public class Attention implements Parcelable{
         parcel.writeLong(collectionDate.getTime());
     }
 
-    public Attention(Attention a){
+    public Attention(Attention a) {
         this.userId = a.getUserId();
         this.value = a.getValue();
         this.collectionDate = a.getCollectionDate();
     }
 
-    public static Attention[] convertToArray(List<Attention> data ){
+    public static Attention[] convertToArray(List<Attention> data) {
         Attention[] array = new Attention[data.size()];
-        int i=0;
-        for(Attention a : data){
+        int i = 0;
+        for (Attention a : data) {
             array[i++] = new Attention(a);
         }
         return array;
     }
 
-    public static Attention[] convertParcelableToAttention(Parcelable[] data){
+    public static Attention[] convertParcelableToAttention(Parcelable[] data) {
         Attention[] array = new Attention[data.length];
-        int i=0;
-        for(Parcelable parcel : data){
+        int i = 0;
+        for (Parcelable parcel : data) {
             array[i++] = (Attention) parcel;
         }
         return array;

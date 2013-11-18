@@ -5,6 +5,9 @@ package pl.mbos.bachelor_thesis.dao;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +18,9 @@ public class Blink implements Parcelable {
 
     private long userId;
     private int value;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private java.util.Date collectionDate;
 
     // KEEP FIELDS - put your custom fields here
@@ -57,17 +62,46 @@ public class Blink implements Parcelable {
         this.value = value;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public java.util.Date getCollectionDate() {
         return collectionDate;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setCollectionDate(java.util.Date collectionDate) {
         this.collectionDate = collectionDate;
     }
 
     // KEEP METHODS - put your custom methods here
+    public static Blink parseJSON(JSONObject object) {
+        Blink blink = null;
+        try {
+            blink = new Blink(
+                    object.getLong("user"),
+                    object.getInt("value"),
+                    new Date(object.getLong("date"))
+            );
+        } catch (JSONException e) {
+            throw new RuntimeException("Passed JSON was invalid! " + e.getMessage());
+        }
+        return blink;
+    }
+
+
+    public String toJSON() {
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.append("{ ");
+        jsonBuilder.append("\"user\" : " + userId + ",");
+        jsonBuilder.append("\"value\" : " + value + ",");
+        jsonBuilder.append("\"date\" : " + collectionDate.getTime());
+        jsonBuilder.append(" }");
+        return jsonBuilder.toString();
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -80,25 +114,25 @@ public class Blink implements Parcelable {
         parcel.writeLong(collectionDate.getTime());
     }
 
-    public Blink(Blink a){
+    public Blink(Blink a) {
         this.userId = a.getUserId();
         this.value = a.getValue();
         this.collectionDate = a.getCollectionDate();
     }
 
-    public static Blink[] convertToArray(List<Blink> data ){
+    public static Blink[] convertToArray(List<Blink> data) {
         Blink[] array = new Blink[data.size()];
-        int i=0;
-        for(Blink a : data){
+        int i = 0;
+        for (Blink a : data) {
             array[i++] = new Blink(a);
         }
         return array;
     }
 
-    public static Blink[] convertParcelableToBlink(Parcelable[] data){
+    public static Blink[] convertParcelableToBlink(Parcelable[] data) {
         Blink[] array = new Blink[data.length];
-        int i=0;
-        for(Parcelable parcel : data){
+        int i = 0;
+        for (Parcelable parcel : data) {
             array[i++] = (Blink) parcel;
         }
         return array;

@@ -73,7 +73,7 @@ public class AuthorizationServiceClient extends BaseServiceClient implements Ser
 
     protected void userUnauthorized(User user, String reason) {
         for(IUserAuthorizationConnectionListener listener : listenerList){
-            listener.userUnauthorized(user, reason);
+            listener.userUnauthorized(reason);
         }
     }
 

@@ -5,6 +5,9 @@ package pl.mbos.bachelor_thesis.dao;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Date;
 import java.util.List;
 
@@ -68,6 +71,31 @@ public class Meditation implements Parcelable {
     // KEEP FIELDS END
 
     // KEEP METHODS - put your custom methods here
+    public static Meditation parseJSON(JSONObject object) {
+        Meditation meditation = null;
+            try {
+                meditation = new Meditation(
+                        object.getLong("user"),
+                        object.getInt("value"),
+                        new Date(object.getLong("date"))
+                );
+            } catch (JSONException e) {
+                throw new RuntimeException("Passed JSON was invalid! " + e.getMessage());
+            }
+        return meditation;
+    }
+
+
+    public String toJSON() {
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.append("{ ");
+        jsonBuilder.append("\"user\" : " + userId + ",");
+        jsonBuilder.append("\"value\" : " + value + ",");
+        jsonBuilder.append("\"date\" : " + collectionDate.getTime());
+        jsonBuilder.append(" }");
+        return jsonBuilder.toString();
+    }
+
     @Override
     public int describeContents() {
         return 0;

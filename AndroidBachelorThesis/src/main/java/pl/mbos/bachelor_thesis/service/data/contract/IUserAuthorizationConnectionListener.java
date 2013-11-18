@@ -17,5 +17,5 @@ public interface IUserAuthorizationConnectionListener {
      * @param user user that failed authorization
      * @param reason reason of authentication failure
      */
-    void userUnauthorized(User user, String reason);
+    void userUnauthorized( String reason);
 }

@@ -5,6 +5,9 @@ package pl.mbos.bachelor_thesis.dao;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Entity mapped to table USER.
  */
@@ -86,6 +89,26 @@ public class User implements Parcelable {
     }
 
     // KEEP METHODS - put your custom methods here
+    public static User parseJSON(JSONObject object) {
+        User user = null;
+        try {
+            user = new User(object.getLong("id"), object.getString("firstName"), object.getString("lastName"));
+        } catch (JSONException e) {
+            throw new RuntimeException("Passed JSON was invalid! " + e.getMessage());
+        }
+        return user;
+    }
+
+    public String toJSON() {
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.append("{ ");
+        jsonBuilder.append("\"id\" : " + id + ",");
+        jsonBuilder.append("\"firstName\" : \"" + firstName + "\",");
+        jsonBuilder.append("\"lastName\" : \"" + lastName + "\"");
+        jsonBuilder.append(" }");
+        return jsonBuilder.toString();
+    }
+
     @Override
     public int describeContents() {
         return 0;

@@ -44,7 +44,6 @@ public class DataService implements IDataService {
         initDB();
     }
 
-
     @Override
     public ArrayList<Attention> getAllAttentionData() {
         DaoSession daoSession = daoMaster.newSession();
@@ -128,7 +127,7 @@ public class DataService implements IDataService {
         dao.insert(data);
     }
 
-    public void savePower(PowerEEG data){
+    private void savePower(PowerEEG data){
         DaoSession daoSession = daoMaster.newSession();
         PowerEEGDao dao = daoSession.getPowerEEGDao();
         dao.insert(data);

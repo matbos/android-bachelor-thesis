@@ -5,6 +5,9 @@ package pl.mbos.bachelor_thesis.dao;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +18,9 @@ public class PoorSignal implements Parcelable {
 
     private long userId;
     private int value;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private java.util.Date collectionDate;
 
     public PoorSignal() {
@@ -43,17 +48,35 @@ public class PoorSignal implements Parcelable {
         this.value = value;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public java.util.Date getCollectionDate() {
         return collectionDate;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setCollectionDate(java.util.Date collectionDate) {
         this.collectionDate = collectionDate;
     }
 
     // KEEP FIELDS - put your custom fields here
+    public static PoorSignal parseJSON(JSONObject object) {
+        PoorSignal poorSignal = null;
+        try {
+            poorSignal = new PoorSignal(
+                    object.getLong("user"),
+                    object.getInt("value"),
+                    new Date(object.getLong("date"))
+            );
+        } catch (JSONException e) {
+            throw new RuntimeException("Passed JSON was invalid! " + e.getMessage());
+        }
+        return poorSignal;
+    }
+
     public static Parcelable.Creator<PoorSignal> CREATOR = new Parcelable.Creator<PoorSignal>() {
         @Override
         public PoorSignal createFromParcel(Parcel parcel) {
@@ -68,6 +91,16 @@ public class PoorSignal implements Parcelable {
     // KEEP FIELDS END
 
     // KEEP METHODS - put your custom methods here
+    public String toJSON() {
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.append("{ ");
+        jsonBuilder.append("\"user\" : " + userId + ",");
+        jsonBuilder.append("\"value\" : " + value + ",");
+        jsonBuilder.append("\"date\" : " + collectionDate.getTime());
+        jsonBuilder.append(" }");
+        return jsonBuilder.toString();
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -80,25 +113,25 @@ public class PoorSignal implements Parcelable {
         parcel.writeLong(collectionDate.getTime());
     }
 
-    public PoorSignal(PoorSignal a){
+    public PoorSignal(PoorSignal a) {
         this.userId = a.getUserId();
         this.value = a.getValue();
         this.collectionDate = a.getCollectionDate();
     }
 
-    public static PoorSignal[] convertToArray(List<PoorSignal> data ){
+    public static PoorSignal[] convertToArray(List<PoorSignal> data) {
         PoorSignal[] array = new PoorSignal[data.size()];
-        int i=0;
-        for(PoorSignal a : data){
+        int i = 0;
+        for (PoorSignal a : data) {
             array[i++] = new PoorSignal(a);
         }
         return array;
     }
 
-    public static PoorSignal[] convertParcelableToPoorSignal(Parcelable[] data){
+    public static PoorSignal[] convertParcelableToPoorSignal(Parcelable[] data) {
         PoorSignal[] array = new PoorSignal[data.length];
-        int i=0;
-        for(Parcelable parcel : data){
+        int i = 0;
+        for (Parcelable parcel : data) {
             array[i++] = (PoorSignal) parcel;
         }
         return array;
