@@ -21,6 +21,8 @@ import pl.mbos.bachelor_thesis.dao.Meditation;
 import pl.mbos.bachelor_thesis.dao.PoorSignal;
 import pl.mbos.bachelor_thesis.dao.PowerEEG;
 import pl.mbos.bachelor_thesis.dao.User;
+import pl.mbos.bachelor_thesis.service.data.connector.command.CommandServiceClient;
+import pl.mbos.bachelor_thesis.service.data.connector.command.ICommandAuthorizationConnectionListener;
 import pl.mbos.bachelor_thesis.service.data.connector.data.DataServiceClient;
 import pl.mbos.bachelor_thesis.service.data.contract.IDataServiceConnectionListener;
 import pl.mbos.bachelor_thesis.view.MainView;
@@ -31,7 +33,7 @@ import pl.mbos.bachelor_thesis.view.MainView;
  * Date: 30.09.13
  * Time: 00:50
  */
-public class MainActivity extends Activity implements MainView , IDataServiceConnectionListener{
+public class MainActivity extends Activity implements MainView , IDataServiceConnectionListener, ICommandAuthorizationConnectionListener{
 
     private static final int REQUEST_ENABLE_BT = 3111990;
     private User user;
@@ -45,8 +47,9 @@ public class MainActivity extends Activity implements MainView , IDataServiceCon
     @InjectView(R.id.tv_poor_signal)
     public TextView tvPoorSignal;
 
-    private DataServiceClient client;
 
+    private DataServiceClient client;
+    private CommandServiceClient cClient;
     /**
      * Method used to build an intent that can start this activity
      *
@@ -65,13 +68,15 @@ public class MainActivity extends Activity implements MainView , IDataServiceCon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Views.inject(this);
-        controller = new MainActivityController(this);
         user = (User) getIntent().getExtras().getParcelable(User.USER_KEY);
+        controller = new MainActivityController(this);
         String userName = (user != null) ? user.getFirstName() + " " + user.getLastName() : "NO USER";
         tvState.setText("NONE");
 
         client = new DataServiceClient();
         client.registerListener(this);
+        cClient = new CommandServiceClient();
+        cClient.registerListener(this);
 
     }
 
@@ -117,6 +122,13 @@ public class MainActivity extends Activity implements MainView , IDataServiceCon
         client.connectToService();
     }
 
+    @OnClick(R.id.btn_put_synchronize)
+    public void synchronizeClicked(){
+        cClient.setSynchronization(true);
+        cClient.synchronize();
+    }
+
+
     @Override
     public void setState(String state) {
         tvState.setText(state);
@@ -146,6 +158,11 @@ public class MainActivity extends Activity implements MainView , IDataServiceCon
     @Override
     public void showBluetoothRequirementMessage() {
         Toast.makeText(getApplicationContext(), "Połączenie bluetooth jest niezbędne do działania aplikacji", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public long getUserID() {
+        return user.getId();
     }
 
     @Override
@@ -186,3 +203,4 @@ public class MainActivity extends Activity implements MainView , IDataServiceCon
 
     }
 }
+

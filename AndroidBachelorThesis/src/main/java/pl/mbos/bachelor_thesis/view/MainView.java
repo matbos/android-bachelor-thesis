@@ -14,4 +14,5 @@ public interface MainView {
     void setPoorSignal(int value);
     void requestBluetooth();
     void showBluetoothRequirementMessage();
+    long getUserID();
 }

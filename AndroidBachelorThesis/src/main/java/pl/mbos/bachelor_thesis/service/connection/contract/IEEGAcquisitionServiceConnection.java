@@ -7,7 +7,7 @@ package pl.mbos.bachelor_thesis.service.connection.contract;
 
 public interface IEEGAcquisitionServiceConnection {
 
-    void connectToService(int userID);
+    void connectToService(long userID);
 
     void disconnectFromService();
 

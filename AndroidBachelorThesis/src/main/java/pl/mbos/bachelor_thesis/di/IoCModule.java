@@ -16,6 +16,9 @@ import pl.mbos.bachelor_thesis.service.data.connector.command.CommandServiceClie
 import pl.mbos.bachelor_thesis.service.data.connector.data.DataServiceClient;
 import pl.mbos.bachelor_thesis.service.data.contract.ICommandServiceConnection;
 import pl.mbos.bachelor_thesis.service.data.contract.IUserAuthorizationConnection;
+import pl.mbos.bachelor_thesis.service.data.remote.BaseService;
+import pl.mbos.bachelor_thesis.service.data.services.AuthorizationService;
+import pl.mbos.bachelor_thesis.service.data.services.CommandService;
 import pl.mbos.bachelor_thesis.service.data.services.DataService;
 
 /**
@@ -38,7 +41,10 @@ import pl.mbos.bachelor_thesis.service.data.services.DataService;
                 AuthorizationServiceClient.class,
                 CommandServiceClient.class,
                 DataServiceClient.class,
-                ICommandServiceConnection.class
+                ICommandServiceConnection.class,
+                BaseService.class,
+                AuthorizationService.class,
+                CommandService.class
         },
         includes = ApplicationModule.class
 )
@@ -58,5 +64,10 @@ public class IoCModule {
     @Provides
     ICommandServiceConnection provideICommandServiceConnection(){
         return new CommandServiceClient();
+    }
+
+    @Provides
+    BaseService provideBaseService(){
+        return new BaseService();
     }
 }

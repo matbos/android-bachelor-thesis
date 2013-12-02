@@ -57,7 +57,7 @@ public class EEGAcquisitionService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         Messenger returnMessenger = (Messenger) intent.getParcelableExtra("Messenger");
-        userId = intent.getIntExtra("UserID", Integer.MIN_VALUE);
+        userId = intent.getLongExtra("UserID", Long.MIN_VALUE);
         applicationHandler = new AcquisitionServiceOutboundCommunicationHandler(returnMessenger);
         return messenger.getBinder();
     }

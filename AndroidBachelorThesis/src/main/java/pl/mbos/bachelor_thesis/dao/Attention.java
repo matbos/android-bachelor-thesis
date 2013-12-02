@@ -98,6 +98,7 @@ public class Attention implements Parcelable {
         jsonBuilder.append("\"value\" : " + value + ",");
         jsonBuilder.append("\"date\" : " + collectionDate.getTime());
         jsonBuilder.append(" }");
+        String test = jsonBuilder.toString();
         return jsonBuilder.toString();
     }
 
@@ -136,5 +137,32 @@ public class Attention implements Parcelable {
         }
         return array;
     }
+
+    /**
+     * Overriden so that it returns json representation of the object
+     * @return json representation
+     */
+    @Override
+    public String toString() {
+        return toJSON();
+    }
+
+    public static String toJSONArray(List<Attention> list) {
+        StringBuilder jsonBuilder = new StringBuilder();
+        // [{'user': 1, "value" : 761, "date" :1384718377776 }],
+        jsonBuilder.append("[ ");
+        for(Attention a : list){
+            jsonBuilder.append("{ ");
+            jsonBuilder.append("\"user\" : " + a.userId + ",");
+            jsonBuilder.append("\"value\" : " + a.value + ",");
+            jsonBuilder.append("\"date\" : " + a.collectionDate.getTime());
+            jsonBuilder.append(" },");
+        }
+        jsonBuilder.deleteCharAt(jsonBuilder.length()-1);
+        jsonBuilder.append(" ]");
+        String test = jsonBuilder.toString();
+        return jsonBuilder.toString();
+    }
+
     // KEEP METHODS END
 }

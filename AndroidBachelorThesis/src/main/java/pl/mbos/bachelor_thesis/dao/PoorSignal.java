@@ -136,6 +136,32 @@ public class PoorSignal implements Parcelable {
         }
         return array;
     }
+
+    /**
+     * Overriden so that it returns json representation of the object
+     * @return json representation
+     */
+    @Override
+    public String toString() {
+        return toJSON();
+    }
+
+    public static String toJSONArray(List<PoorSignal> list) {
+        StringBuilder jsonBuilder = new StringBuilder();
+        // [{'user': 1, "value" : 761, "date" :1384718377776 }],
+        jsonBuilder.append("[ ");
+        for(PoorSignal ps : list){
+            jsonBuilder.append("{ ");
+            jsonBuilder.append("\"user\" : " + ps.userId + ",");
+            jsonBuilder.append("\"value\" : " + ps.value + ",");
+            jsonBuilder.append("\"date\" : " + ps.collectionDate.getTime());
+            jsonBuilder.append(" },");
+        }
+        jsonBuilder.deleteCharAt(jsonBuilder.length()-1);
+        jsonBuilder.append(" ]");
+        String test = jsonBuilder.toString();
+        return jsonBuilder.toString();
+    }
     // KEEP METHODS END
 
 }

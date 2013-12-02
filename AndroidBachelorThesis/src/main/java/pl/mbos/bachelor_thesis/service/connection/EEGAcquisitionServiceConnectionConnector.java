@@ -96,7 +96,7 @@ public class EEGAcquisitionServiceConnectionConnector implements ServiceConnecti
     }
 
     @Override
-    public void connectToService(int userID) {
+    public void connectToService(long userID) {
         if (isServiceRunning()) {
             startService();
             Log.i("ACQ-SERV", "Started service");
@@ -118,7 +118,8 @@ public class EEGAcquisitionServiceConnectionConnector implements ServiceConnecti
     private boolean startService() {
         boolean didStart = false;
         if (!mServiceUp) {
-            ComponentName serviceName = context.startService(new Intent(context, EEGAcquisitionService.class));
+            Intent intent = new Intent(context, EEGAcquisitionService.class);
+            ComponentName serviceName = context.startService(intent);
             mServiceUp = true;
             didStart = (serviceName != null) ? true : false;
         }
@@ -168,11 +169,11 @@ public class EEGAcquisitionServiceConnectionConnector implements ServiceConnecti
     /**
      * Connects to service
      */
-    private void bindToService(int userID) {
+    private void bindToService(long userID) {
         if (serviceMessenger == null) {
             Intent intent = new Intent(context, EEGAcquisitionService.class);
             intent.putExtra("Messenger", serviceReturnMessenger);
-            intent.putExtra("UserID",userID);
+            intent.putExtra("UserID", userID);
             context.bindService(intent, this, Context.BIND_AUTO_CREATE);
         }
     }

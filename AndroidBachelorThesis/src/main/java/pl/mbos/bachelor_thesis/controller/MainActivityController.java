@@ -37,10 +37,7 @@ public class MainActivityController implements IEEGAcquisitionServiceConnectionL
 
     public MainActivityController(MainView view) {
         BaseApplication.getBaseGraph().inject(this);
-        //acquisitionService = graph.get(IEEGAcquisitionServiceConnection.class);
-        //commandService = graph.get(ICommandServiceConnection.class);
-       // commandService.connectToService();
-        acquisitionService.connectToService(1345);
+        acquisitionService.connectToService(view.getUserID());
         this.view = view;
     }
 

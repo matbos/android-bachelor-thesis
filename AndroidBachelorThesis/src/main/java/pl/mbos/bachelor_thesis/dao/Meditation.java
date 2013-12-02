@@ -18,7 +18,9 @@ public class Meditation implements Parcelable {
 
     private long userId;
     private int value;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private java.util.Date collectionDate;
 
     public Meditation() {
@@ -46,12 +48,16 @@ public class Meditation implements Parcelable {
         this.value = value;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public java.util.Date getCollectionDate() {
         return collectionDate;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setCollectionDate(java.util.Date collectionDate) {
         this.collectionDate = collectionDate;
     }
@@ -73,15 +79,15 @@ public class Meditation implements Parcelable {
     // KEEP METHODS - put your custom methods here
     public static Meditation parseJSON(JSONObject object) {
         Meditation meditation = null;
-            try {
-                meditation = new Meditation(
-                        object.getLong("user"),
-                        object.getInt("value"),
-                        new Date(object.getLong("date"))
-                );
-            } catch (JSONException e) {
-                throw new RuntimeException("Passed JSON was invalid! " + e.getMessage());
-            }
+        try {
+            meditation = new Meditation(
+                    object.getLong("user"),
+                    object.getInt("value"),
+                    new Date(object.getLong("date"))
+            );
+        } catch (JSONException e) {
+            throw new RuntimeException("Passed JSON was invalid! " + e.getMessage());
+        }
         return meditation;
     }
 
@@ -108,28 +114,55 @@ public class Meditation implements Parcelable {
         parcel.writeLong(collectionDate.getTime());
     }
 
-    public Meditation(Meditation a){
+    public Meditation(Meditation a) {
         this.userId = a.getUserId();
         this.value = a.getValue();
         this.collectionDate = a.getCollectionDate();
     }
 
-    public static Meditation[] convertToArray(List<Meditation> data ){
+    public static Meditation[] convertToArray(List<Meditation> data) {
         Meditation[] array = new Meditation[data.size()];
-        int i=0;
-        for(Meditation a : data){
+        int i = 0;
+        for (Meditation a : data) {
             array[i++] = new Meditation(a);
         }
         return array;
     }
 
-    public static Meditation[] convertParcelableToMeditation(Parcelable[] data){
+    public static Meditation[] convertParcelableToMeditation(Parcelable[] data) {
         Meditation[] array = new Meditation[data.length];
-        int i=0;
-        for(Parcelable parcel : data){
+        int i = 0;
+        for (Parcelable parcel : data) {
             array[i++] = (Meditation) parcel;
         }
         return array;
+    }
+
+    /**
+     * Overriden so that it returns json representation of the object
+     *
+     * @return json representation
+     */
+    @Override
+    public String toString() {
+        return toJSON();
+    }
+
+    public static String toJSONArray(List<Meditation> list) {
+        StringBuilder jsonBuilder = new StringBuilder();
+        // [{'user': 1, "value" : 761, "date" :1384718377776 }],
+        jsonBuilder.append("[ ");
+        for (Meditation m : list) {
+            jsonBuilder.append("{ ");
+            jsonBuilder.append("\"user\" : " + m.userId + ",");
+            jsonBuilder.append("\"value\" : " + m.value + ",");
+            jsonBuilder.append("\"date\" : " + m.collectionDate.getTime());
+            jsonBuilder.append(" },");
+        }
+        jsonBuilder.deleteCharAt(jsonBuilder.length()-1);
+        jsonBuilder.append(" ]");
+        String test = jsonBuilder.toString();
+        return jsonBuilder.toString();
     }
     // KEEP METHODS END
 

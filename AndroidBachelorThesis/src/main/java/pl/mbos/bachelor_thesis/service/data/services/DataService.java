@@ -1,8 +1,6 @@
 package pl.mbos.bachelor_thesis.service.data.services;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -109,6 +107,17 @@ public class DataService implements IDataService {
         savePoorSignal(data);
     }
 
+    protected void retrieveData(DataSyncPackage pack){
+        DataPackage dataPackage = new DataPackage();
+        SyncTimes req = pack.getRequested();
+        dataPackage.attentions = getAttentionDataSince(req.attention);
+        dataPackage.meditations = getMeditationDataSince(req.meditation);
+        dataPackage.blinks = getBlinkDataSince(req.blink);
+        dataPackage.powers = getPowerEEGDataSince(req.power);
+        dataPackage.signals = getPoorSignalDataSince(req.poorSignal);
+        pack.setData(dataPackage);
+    }
+
     private void saveAttention(Attention data){
         DaoSession daoSession = daoMaster.newSession();
         AttentionDao attentionDao = daoSession.getAttentionDao();
@@ -143,4 +152,45 @@ public class DataService implements IDataService {
         dbHelper = new DaoMaster.DevOpenHelper(context, "data-db",null);
         daoMaster = new DaoMaster(dbHelper.getWritableDatabase());
     }
+
+    private List<Attention> getAttentionDataSince(Date date){
+        DaoSession daoSession = daoMaster.newSession();
+        AttentionDao attentionDao = daoSession.getAttentionDao();
+        QueryBuilder<Attention> qb = attentionDao.queryBuilder().where(AttentionDao.Properties.CollectionDate.gt(date)).orderAsc(AttentionDao.Properties.CollectionDate);
+        List<Attention> data = qb.list();
+        return data;
+    }
+
+    private List<Meditation> getMeditationDataSince(Date date){
+        DaoSession daoSession = daoMaster.newSession();
+        MeditationDao dao = daoSession.getMeditationDao();
+        QueryBuilder<Meditation> qb = dao.queryBuilder().where(MeditationDao.Properties.CollectionDate.gt(date)).orderAsc(MeditationDao.Properties.CollectionDate);
+        List<Meditation> data = qb.list();
+        return data;
+    }
+
+    private List<Blink> getBlinkDataSince(Date date){
+        DaoSession daoSession = daoMaster.newSession();
+        BlinkDao dao = daoSession.getBlinkDao();
+        QueryBuilder<Blink> qb = dao.queryBuilder().where(BlinkDao.Properties.CollectionDate.gt(date)).orderAsc(BlinkDao.Properties.CollectionDate);
+        List<Blink> data = qb.list();
+        return data;
+    }
+
+    private List<PoorSignal> getPoorSignalDataSince(Date date){
+        DaoSession daoSession = daoMaster.newSession();
+        PoorSignalDao dao = daoSession.getPoorSignalDao();
+        QueryBuilder<PoorSignal> qb = dao.queryBuilder().where(PoorSignalDao.Properties.CollectionDate.gt(date)).orderAsc(PoorSignalDao.Properties.CollectionDate);
+        List<PoorSignal> data = qb.list();
+        return data;
+    }
+
+    private List<PowerEEG> getPowerEEGDataSince(Date date){
+        DaoSession daoSession = daoMaster.newSession();
+        PowerEEGDao dao = daoSession.getPowerEEGDao();
+        QueryBuilder<PowerEEG> qb = dao.queryBuilder().where(PowerEEGDao.Properties.CollectionDate.gt(date)).orderAsc(PowerEEGDao.Properties.CollectionDate);
+        List<PowerEEG> data = qb.list();
+        return data;
+    }
+
 }

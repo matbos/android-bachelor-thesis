@@ -234,6 +234,39 @@ public class PowerEEG implements Parcelable {
         }
         return array;
     }
+
+    /**
+     * Overriden so that it returns json representation of the object
+     * @return json representation
+     */
+    @Override
+    public String toString() {
+        return toJSON();
+    }
+
+    public static String toJSONArray(List<PowerEEG> list) {
+        StringBuilder jsonBuilder = new StringBuilder();
+        // [{'user': 1, "value" : 761, "date" :1384718377776 }],
+        jsonBuilder.append("[ ");
+        for(PowerEEG p : list){
+            jsonBuilder.append("{ ");
+            jsonBuilder.append("\"user\" : " + p.userId + ",");
+            jsonBuilder.append("\"lowAlpha\" : " + p.lowAlpha + ",");
+            jsonBuilder.append("\"highAlpha\" : " + p.highAlpha + ",");
+            jsonBuilder.append("\"lowBeta\" : " + p.lowBeta + ",");
+            jsonBuilder.append("\"highBeta\" : " + p.highBeta + ",");
+            jsonBuilder.append("\"lowGamma\" : " + p.lowGamma + ",");
+            jsonBuilder.append("\"midGamma\" : " + p.midGamma + ",");
+            jsonBuilder.append("\"theta\" : " + p.theta + ",");
+            jsonBuilder.append("\"delta\" : " + p.delta + ",");
+            jsonBuilder.append("\"date\" : " + p.collectionDate.getTime());
+            jsonBuilder.append(" },");
+        }
+        jsonBuilder.deleteCharAt(jsonBuilder.length()-1);
+        jsonBuilder.append(" ]");
+        String test = jsonBuilder.toString();
+        return jsonBuilder.toString();
+    }
     // KEEP METHODS END
 
 }
