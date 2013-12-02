@@ -1,6 +1,7 @@
 package pl.mbos.bachelor_thesis.service.data.services;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,9 +33,11 @@ public class DataService implements IDataService {
     Context context;
     private static final String TAG = DataService.class.getSimpleName();
     private IDataServiceParent parent;
-
     private static DaoMaster.DevOpenHelper dbHelper;
     private static DaoMaster daoMaster;
+
+    static long counter = 0;
+    static long mCounter = 0;
 
     public DataService(IDataServiceParent parent) {
         BaseApplication.getBaseGraph().inject(this);
@@ -107,7 +110,7 @@ public class DataService implements IDataService {
         savePoorSignal(data);
     }
 
-    protected void retrieveData(DataSyncPackage pack){
+    protected void retrieveData(DataSyncPackage pack) {
         DataPackage dataPackage = new DataPackage();
         SyncTimes req = pack.getRequested();
         dataPackage.attentions = getAttentionDataSince(req.attention);
@@ -118,42 +121,57 @@ public class DataService implements IDataService {
         pack.setData(dataPackage);
     }
 
-    private void saveAttention(Attention data){
-        DaoSession daoSession = daoMaster.newSession();
-        AttentionDao attentionDao = daoSession.getAttentionDao();
-        attentionDao.insert(data);
+    private void saveAttention(Attention data) {
+        if (data != null) {
+            counter++;
+            Log.d("CTR", "ad " + counter);
+            DaoSession daoSession = daoMaster.newSession();
+            AttentionDao attentionDao = daoSession.getAttentionDao();
+            attentionDao.insert(data);
+        }
     }
 
-    private void saveMeditation(Meditation data){
-        DaoSession daoSession = daoMaster.newSession();
-        MeditationDao dao = daoSession.getMeditationDao();
-        dao.insert(data);
+    private void saveMeditation(Meditation data) {
+        if (data != null) {
+            mCounter ++;
+            Log.d("CTR","md "+mCounter);
+            DaoSession daoSession = daoMaster.newSession();
+            MeditationDao dao = daoSession.getMeditationDao();
+            dao.insert(data);
+        }
     }
 
-    private void saveBlink(Blink data){
-        DaoSession daoSession = daoMaster.newSession();
-        BlinkDao dao = daoSession.getBlinkDao();
-        dao.insert(data);
+    private void saveBlink(Blink data) {
+        if (data != null) {
+            DaoSession daoSession = daoMaster.newSession();
+            BlinkDao dao = daoSession.getBlinkDao();
+            dao.insert(data);
+        }
     }
 
-    private void savePower(PowerEEG data){
-        DaoSession daoSession = daoMaster.newSession();
-        PowerEEGDao dao = daoSession.getPowerEEGDao();
-        dao.insert(data);
+    private void savePower(PowerEEG data) {
+        if (data != null) {
+            DaoSession daoSession = daoMaster.newSession();
+            PowerEEGDao dao = daoSession.getPowerEEGDao();
+            dao.insert(data);
+        }
     }
 
-    private void savePoorSignal(PoorSignal data){
-        DaoSession daoSession = daoMaster.newSession();
-        PoorSignalDao dao = daoSession.getPoorSignalDao();
-        dao.insert(data);
+    private void savePoorSignal(PoorSignal data) {
+        if (data != null) {
+            DaoSession daoSession = daoMaster.newSession();
+            PoorSignalDao dao = daoSession.getPoorSignalDao();
+            dao.insert(data);
+        }
     }
 
-    private void initDB(){
-        dbHelper = new DaoMaster.DevOpenHelper(context, "data-db",null);
+    private void initDB() {
+        dbHelper = new DaoMaster.DevOpenHelper(context, "data-db", null);
         daoMaster = new DaoMaster(dbHelper.getWritableDatabase());
     }
 
-    private List<Attention> getAttentionDataSince(Date date){
+    private List<Attention> getAttentionDataSince(Date date) {
+
         DaoSession daoSession = daoMaster.newSession();
         AttentionDao attentionDao = daoSession.getAttentionDao();
         QueryBuilder<Attention> qb = attentionDao.queryBuilder().where(AttentionDao.Properties.CollectionDate.gt(date)).orderAsc(AttentionDao.Properties.CollectionDate);
@@ -161,7 +179,7 @@ public class DataService implements IDataService {
         return data;
     }
 
-    private List<Meditation> getMeditationDataSince(Date date){
+    private List<Meditation> getMeditationDataSince(Date date) {
         DaoSession daoSession = daoMaster.newSession();
         MeditationDao dao = daoSession.getMeditationDao();
         QueryBuilder<Meditation> qb = dao.queryBuilder().where(MeditationDao.Properties.CollectionDate.gt(date)).orderAsc(MeditationDao.Properties.CollectionDate);
@@ -169,7 +187,7 @@ public class DataService implements IDataService {
         return data;
     }
 
-    private List<Blink> getBlinkDataSince(Date date){
+    private List<Blink> getBlinkDataSince(Date date) {
         DaoSession daoSession = daoMaster.newSession();
         BlinkDao dao = daoSession.getBlinkDao();
         QueryBuilder<Blink> qb = dao.queryBuilder().where(BlinkDao.Properties.CollectionDate.gt(date)).orderAsc(BlinkDao.Properties.CollectionDate);
@@ -177,7 +195,7 @@ public class DataService implements IDataService {
         return data;
     }
 
-    private List<PoorSignal> getPoorSignalDataSince(Date date){
+    private List<PoorSignal> getPoorSignalDataSince(Date date) {
         DaoSession daoSession = daoMaster.newSession();
         PoorSignalDao dao = daoSession.getPoorSignalDao();
         QueryBuilder<PoorSignal> qb = dao.queryBuilder().where(PoorSignalDao.Properties.CollectionDate.gt(date)).orderAsc(PoorSignalDao.Properties.CollectionDate);
@@ -185,7 +203,7 @@ public class DataService implements IDataService {
         return data;
     }
 
-    private List<PowerEEG> getPowerEEGDataSince(Date date){
+    private List<PowerEEG> getPowerEEGDataSince(Date date) {
         DaoSession daoSession = daoMaster.newSession();
         PowerEEGDao dao = daoSession.getPowerEEGDao();
         QueryBuilder<PowerEEG> qb = dao.queryBuilder().where(PowerEEGDao.Properties.CollectionDate.gt(date)).orderAsc(PowerEEGDao.Properties.CollectionDate);

@@ -46,17 +46,20 @@ public class CommandService implements ICommandService {
         dataAddress = resources.getString(R.string.webservice_base) + resources.getString(R.string.webservice_data);
         lastDataAddress = resources.getString(R.string.webservice_base) + resources.getString(R.string.webservice_data) + resources.getString(R.string.webservice_last);
         this.dataService = dataService;
-        this.timer = new Timer();
     }
 
     @Override
     public void setSynchronizationPermission(boolean state) {
         if (state == true) {
             // 4800000 == 30 minut
-            timer.schedule(new SyncTimerTask(), 5000);
+            if(timer == null){
+                timer = new Timer();
+                timer.schedule(new SyncTimerTask(), 5000);
+            }
         } else {
             if (timer != null) {
                 timer.cancel();
+                timer = null;
             }
         }
         allowedSynchronization = state;
