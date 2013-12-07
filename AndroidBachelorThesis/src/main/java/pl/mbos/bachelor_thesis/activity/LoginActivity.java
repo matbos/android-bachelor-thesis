@@ -9,15 +9,14 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import javax.inject.Inject;
-
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.Views;
-import pl.mbos.bachelor_thesis.BaseApplication;
 import pl.mbos.bachelor_thesis.R;
 import pl.mbos.bachelor_thesis.controller.LoginController;
+import pl.mbos.bachelor_thesis.custom.AwesomeText;
 import pl.mbos.bachelor_thesis.dao.User;
+import pl.mbos.bachelor_thesis.font.Awesome;
 import pl.mbos.bachelor_thesis.view.LoginView;
 
 /**
@@ -32,13 +31,11 @@ public class LoginActivity extends Activity implements LoginView {
     TextView et_login;
     @InjectView(R.id.et_pass)
     TextView et_password;
-    @InjectView(R.id.btn_login)
-    Button btn_login;
-    LoginController controller;
     @InjectView(R.id.pb_progressBar)
     ProgressBar bar;
-    @InjectView(R.id.tv_reason)
-    TextView tv_reason;
+    @InjectView(R.id.at_reason)
+    AwesomeText at_reason;
+    LoginController controller;
 
     /**
      * Method used to build an intent that can start this activity
@@ -48,6 +45,7 @@ public class LoginActivity extends Activity implements LoginView {
      */
     public static Intent getIntentToStartThisActivity(Activity parent) {
         Intent intent = new Intent(parent, LoginActivity.class);
+        intent.putExtra("clearData", false);
         return intent;
     }
 
@@ -57,8 +55,8 @@ public class LoginActivity extends Activity implements LoginView {
         setContentView(R.layout.activity_login);
         Views.inject(this);
         controller = new LoginController(this);
-        Typeface font = Typeface.createFromAsset( getAssets(), "fontawesome-webfont.ttf" );
-        tv_reason.setTypeface(font);
+        Typeface font = Typeface.createFromAsset(getAssets(), "fontawesome-webfont.ttf");
+        at_reason.setTypeface(font);
     }
 
     @Override
@@ -72,7 +70,7 @@ public class LoginActivity extends Activity implements LoginView {
         String pass = "";
         try {
             id = Long.parseLong(et_login.getText().toString());
-        } catch (NumberFormatException ex ){
+        } catch (NumberFormatException ex) {
         }
         pass = et_password.getText().toString();
         controller.performLogin(id, pass);
@@ -99,9 +97,7 @@ public class LoginActivity extends Activity implements LoginView {
 
     @Override
     public void showError(String reason) {
-        tv_reason.setVisibility(View.VISIBLE);
-        tv_reason.setText(getString(R.string.error_char)+" "+ reason);
+        at_reason.setVisibility(View.VISIBLE);
+        at_reason.setText(Awesome.CROSS + " " + reason);
     }
-
-
 }

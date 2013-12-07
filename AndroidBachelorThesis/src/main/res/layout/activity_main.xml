@@ -25,25 +25,25 @@
 
     <Button
         android:id="@+id/btn_connect"
-        android:text="@string/a_main_btn_connect"
+        android:text="@string/connected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/btn_start_stream"
-        android:text="@string/a_main_btn_start_stream"
+        android:text="@string/start_stream"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/btn_disconnect"
-        android:text="@string/a_main_btn_disconnect"
+        android:text="@string/disconnected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/btn_logout"
-        android:text="@string/a_main_btn_logout"
+        android:text="@string/btn_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button

@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="app_splash_screen_background">#00F7F7F7</color>
+    <color name="app_splash_screen_background">#FFF7F7F7</color>
+    <color name="waterEnds">#FF2B4E72</color>
+    <color name="waterBegins">#FF2790B0</color>
+    <color name="grassAlwaysRegrows">#FF94BA65</color>
+    <color name="losingHope">#FF363432</color>
+    <color name="darkDays">#FF4E4D4A</color>
 </resources>

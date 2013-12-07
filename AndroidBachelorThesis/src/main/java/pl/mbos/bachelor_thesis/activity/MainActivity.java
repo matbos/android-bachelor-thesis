@@ -8,11 +8,15 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.Views;
+import pl.mbos.bachelor_thesis.BaseApplication;
 import pl.mbos.bachelor_thesis.R;
 import pl.mbos.bachelor_thesis.controller.MainActivityController;
 import pl.mbos.bachelor_thesis.dao.Attention;
@@ -21,6 +25,7 @@ import pl.mbos.bachelor_thesis.dao.Meditation;
 import pl.mbos.bachelor_thesis.dao.PoorSignal;
 import pl.mbos.bachelor_thesis.dao.PowerEEG;
 import pl.mbos.bachelor_thesis.dao.User;
+import pl.mbos.bachelor_thesis.menu.Menu;
 import pl.mbos.bachelor_thesis.service.data.connector.command.CommandServiceClient;
 import pl.mbos.bachelor_thesis.service.data.connector.command.ICommandAuthorizationConnectionListener;
 import pl.mbos.bachelor_thesis.service.data.connector.data.DataServiceClient;
@@ -33,7 +38,7 @@ import pl.mbos.bachelor_thesis.view.MainView;
  * Date: 30.09.13
  * Time: 00:50
  */
-public class MainActivity extends Activity implements MainView , IDataServiceConnectionListener, ICommandAuthorizationConnectionListener{
+public class MainActivity extends Activity implements MainView, IDataServiceConnectionListener, ICommandAuthorizationConnectionListener {
 
     private static final int REQUEST_ENABLE_BT = 3111990;
     private User user;
@@ -46,10 +51,12 @@ public class MainActivity extends Activity implements MainView , IDataServiceCon
     public TextView tvMeditation;
     @InjectView(R.id.tv_poor_signal)
     public TextView tvPoorSignal;
-
+    @Inject
+    Menu slidingMenu;
 
     private DataServiceClient client;
     private CommandServiceClient cClient;
+
     /**
      * Method used to build an intent that can start this activity
      *
@@ -68,6 +75,10 @@ public class MainActivity extends Activity implements MainView , IDataServiceCon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Views.inject(this);
+        BaseApplication.getBaseGraph().inject(this);
+
+        slidingMenu.attachMenu(this);
+
         user = (User) getIntent().getExtras().getParcelable(User.USER_KEY);
         controller = new MainActivityController(this);
         String userName = (user != null) ? user.getFirstName() + " " + user.getLastName() : "NO USER";
@@ -113,17 +124,17 @@ public class MainActivity extends Activity implements MainView , IDataServiceCon
     }
 
     @OnClick(R.id.btn_get_attention)
-    public void getAttentionClicked(){
+    public void getAttentionClicked() {
         client.requestAllAttentionData();
     }
 
     @OnClick(R.id.btn_put_attention)
-    public void putAttentionClicked(){
+    public void putAttentionClicked() {
         client.connectToService();
     }
 
     @OnClick(R.id.btn_put_synchronize)
-    public void synchronizeClicked(){
+    public void synchronizeClicked() {
         cClient.setSynchronization(true);
         cClient.synchronize();
     }
@@ -178,8 +189,8 @@ public class MainActivity extends Activity implements MainView , IDataServiceCon
 
     @Override
     public void receivedAttentionData(List<Attention> data) {
-        for(Attention a : data){
-            Log.i("AtDa",a.getUserId() + " " + a.getValue() + " " + a.getCollectionDate() );
+        for (Attention a : data) {
+            Log.i("AtDa", a.getUserId() + " " + a.getValue() + " " + a.getCollectionDate());
         }
     }
 

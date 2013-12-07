@@ -23,7 +23,6 @@ public class SplashScreenActivity extends Activity {
         setContentView(R.layout.activity_splash);
         controller = new SplashScreenController(this);
         controller.startNextActivity();
-
     }
 
 }

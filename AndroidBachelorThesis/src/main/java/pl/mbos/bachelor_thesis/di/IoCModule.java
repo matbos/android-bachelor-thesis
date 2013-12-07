@@ -5,8 +5,14 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import pl.mbos.bachelor_thesis.activity.MainActivity;
+import pl.mbos.bachelor_thesis.activity.SettingsActivity;
 import pl.mbos.bachelor_thesis.controller.LoginController;
 import pl.mbos.bachelor_thesis.controller.MainActivityController;
+import pl.mbos.bachelor_thesis.custom.AwesomeText;
+import pl.mbos.bachelor_thesis.font.Awesome;
+import pl.mbos.bachelor_thesis.menu.Adapter;
+import pl.mbos.bachelor_thesis.menu.Menu;
 import pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector;
 import pl.mbos.bachelor_thesis.service.connection.MainServiceClient;
 import pl.mbos.bachelor_thesis.service.connection.contract.IEEGAcquisitionServiceConnection;
@@ -44,7 +50,12 @@ import pl.mbos.bachelor_thesis.service.data.services.DataService;
                 ICommandServiceConnection.class,
                 BaseService.class,
                 AuthorizationService.class,
-                CommandService.class
+                CommandService.class,
+                Menu.class,
+                Adapter.class,
+                MainActivity.class,
+                AwesomeText.class,
+                SettingsActivity.class
         },
         includes = ApplicationModule.class
 )
@@ -69,5 +80,11 @@ public class IoCModule {
     @Provides
     BaseService provideBaseService(){
         return new BaseService();
+    }
+
+    @Provides
+    @Singleton
+    Menu providesMenu(){
+        return new Menu();
     }
 }
