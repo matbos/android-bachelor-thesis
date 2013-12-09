@@ -9,10 +9,12 @@ package pl.mbos.bachelor_thesis.view;
 public interface MainView {
 
     void setState(String state);
-    void setMeditation(int value);
-    void setAttention(int  value);
     void setPoorSignal(int value);
+    void headsetProblem(boolean is);
+    void showHeadsetMessage(String msg, int time);
     void requestBluetooth();
     void showBluetoothRequirementMessage();
     long getUserID();
+    void setSynchronizing(boolean synchronizing);
+    void goBackToLoginPage();
 }

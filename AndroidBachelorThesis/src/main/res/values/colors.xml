@@ -4,6 +4,9 @@
     <color name="waterEnds">#FF2B4E72</color>
     <color name="waterBegins">#FF2790B0</color>
     <color name="grassAlwaysRegrows">#FF94BA65</color>
+    <color name="alice">#FFEA647B</color>
     <color name="losingHope">#FF363432</color>
+    <color name="losingHopeTransparent">#AA363432</color>
+    <color name="hopeLost">#DD21201F</color>
     <color name="darkDays">#FF4E4D4A</color>
 </resources>

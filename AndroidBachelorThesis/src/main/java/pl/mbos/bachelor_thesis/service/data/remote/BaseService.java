@@ -28,17 +28,6 @@ import java.util.Map;
 
 public class BaseService {
 
-//    private static BaseService instance;
-
-
-    /*  public static BaseService getInstance() {
-          if (instance == null) {
-              instance = new BaseService();
-          }
-          return instance;
-      }
-
-  */
     public Response postJSONRequest(String request, String endpointAddress) {
         Response finalResponse = new Response();
         try {

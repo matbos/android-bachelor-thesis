@@ -29,7 +29,7 @@ public class AuthorizationService implements IAuthorizationService {
     private Resources res;
     private IAuthorizationServiceParent parent;
 
-    private final String endpointAddress;
+    private String endpointAddress;
 
     public AuthorizationService(IAuthorizationServiceParent parent) {
         BaseApplication.getBaseGraph().inject(this);
@@ -42,6 +42,11 @@ public class AuthorizationService implements IAuthorizationService {
     public void authorizeUser(User user) {
         new LoginTask(user).execute();
         String down = "";
+    }
+
+    @Override
+    public void changeAddress(String newAddress) {
+        endpointAddress = newAddress + res.getString(R.string.webservice_login);
     }
 
     class LoginTask extends AsyncTask<Void, Void, Response> {

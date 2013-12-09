@@ -5,10 +5,15 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import pl.mbos.bachelor_thesis.activity.LoginActivity;
 import pl.mbos.bachelor_thesis.activity.MainActivity;
+import pl.mbos.bachelor_thesis.activity.ProfileActivity;
 import pl.mbos.bachelor_thesis.activity.SettingsActivity;
+import pl.mbos.bachelor_thesis.activity.SlidingMenuActivity;
 import pl.mbos.bachelor_thesis.controller.LoginController;
 import pl.mbos.bachelor_thesis.controller.MainActivityController;
+import pl.mbos.bachelor_thesis.controller.SettingsController;
+import pl.mbos.bachelor_thesis.controller.WebAddressTextWatcher;
 import pl.mbos.bachelor_thesis.custom.AwesomeText;
 import pl.mbos.bachelor_thesis.font.Awesome;
 import pl.mbos.bachelor_thesis.menu.Adapter;
@@ -55,9 +60,17 @@ import pl.mbos.bachelor_thesis.service.data.services.DataService;
                 Adapter.class,
                 MainActivity.class,
                 AwesomeText.class,
-                SettingsActivity.class
+                SlidingMenuActivity.class,
+                SettingsActivity.class,
+                LoginActivity.class,
+                SettingsController.class,
+                ProfileActivity.class,
+                WebAddressTextWatcher.class
         },
-        includes = ApplicationModule.class
+        includes = {
+                ApplicationModule.class,
+                MenuModule.class
+        }
 )
 public class IoCModule {
 

@@ -15,7 +15,7 @@ import pl.mbos.bachelor_thesis.view.LoginView;
  * Date: 29.09.13
  * Time: 20:44
  */
-public class LoginController implements IUserAuthorizationConnectionListener {
+public class LoginController implements IUserAuthorizationConnectionListener, WebAddressListener {
 
     private LoginView view;
     private User user;
@@ -62,12 +62,16 @@ public class LoginController implements IUserAuthorizationConnectionListener {
      * Called by object that takes care of authentication, the one that implements {@link pl.mbos.bachelor_thesis.service.data.contract.IUserAuthorizationConnection}
      * to notify that user was not authorized
      *
-     * @param user user unauthorized
      * @param reason reason that user was not authenticated
      */
     @Override
     public void userUnauthorized(String reason) {
         view.hideSpinner();
         view.showError(reason);
+    }
+
+    @Override
+    public void webServiceAddressChanged(String newAddress) {
+
     }
 }

@@ -12,6 +12,7 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.neurosky.thinkgear.TGDevice;
 import com.neurosky.thinkgear.TGEegPower;
 import com.neurosky.thinkgear.TGRawMulti;
 
@@ -217,7 +218,7 @@ public class EEGAcquisitionServiceConnectionConnector implements ServiceConnecti
 
     private void reportState(int state) {
         for (IEEGAcquisitionServiceConnectionListener client : clients) {
-            client.reportState(state);
+            client.reportState(decodeDeviceState(state));
         }
     }
 
@@ -234,30 +235,38 @@ public class EEGAcquisitionServiceConnectionConnector implements ServiceConnecti
     }
 
     private void reportMulti(TGRawMulti multi) {
-        for (IEEGAcquisitionServiceConnectionListener client : clients) {
-            client.reportMulti(multi);
-        }
+        // Unfortunately my device does not emit raw data :|
     }
 
     private void reportMeditation(int value) {
-        for (IEEGAcquisitionServiceConnectionListener client : clients) {
-            client.reportMeditation(value);
-        }
+        //TODO remove this method
     }
 
     private void reportAttention(int value) {
-        for (IEEGAcquisitionServiceConnectionListener client : clients) {
-            client.reportAttention(value);
-        }
+        //TODO remove this method
     }
 
     private void reportPower(TGEegPower eegPower) {
         for (IEEGAcquisitionServiceConnectionListener client : clients) {
-            //client.report (value);
             throw new RuntimeException("POWER PASSING IS NOT YET IMPLEMENTED");
         }
     }
-
+    private String decodeDeviceState(int state){
+        switch (state) {
+            case TGDevice.STATE_CONNECTED:
+                 return "connected";
+            case TGDevice.STATE_CONNECTING:
+                return "connecting";
+            case TGDevice.STATE_IDLE:
+                return "idle";
+            case TGDevice.STATE_DISCONNECTED:
+                return "disconnected";
+            case TGDevice.STATE_NOT_FOUND:
+                return "not found";
+            default:
+                return "unknown";
+        }
+    }
     class InboundCommunicationHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {

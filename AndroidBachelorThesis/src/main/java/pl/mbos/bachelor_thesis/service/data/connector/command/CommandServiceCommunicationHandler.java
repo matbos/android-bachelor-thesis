@@ -13,7 +13,7 @@ public class CommandServiceCommunicationHandler {
     public CommandServiceOutboundHandler outbound;
     private Messenger inboundMessenger;
 
-    public CommandServiceCommunicationHandler(CommandServiceClient connector){
+    public CommandServiceCommunicationHandler(CommandServiceClient connector) {
         this.connector = connector;
         inbound = new CommandServiceInboundHandler(this);
         inboundMessenger = new Messenger(inbound);
@@ -23,19 +23,19 @@ public class CommandServiceCommunicationHandler {
         outbound = new CommandServiceOutboundHandler(new Messenger(service));
     }
 
-    public Messenger getInboundMessenger(){
+    public Messenger getInboundMessenger() {
         return inboundMessenger;
     }
 
     public Messenger getOutboundMessenger() {
-        if(outbound != null){
+        if (outbound != null) {
             return outbound.getMessenger();
         } else {
             return null;
         }
     }
 
-    public boolean isConnectedToService(){
+    public boolean isConnectedToService() {
         return getOutboundMessenger() != null;
     }
 
@@ -48,7 +48,9 @@ public class CommandServiceCommunicationHandler {
     }
 
     public void requestSyncState() {
-        outbound.requestSyncState();
+        if (outbound != null) {
+            outbound.requestSyncState();
+        }
     }
 
     public void requestSyncProgress() {
@@ -57,5 +59,9 @@ public class CommandServiceCommunicationHandler {
 
     public void sayGoodbye() {
         outbound.sayGoodbye(inboundMessenger);
+    }
+
+    public void setNewEndpointAddress(String address) {
+        outbound.sendNewEndpointAddress(address);
     }
 }

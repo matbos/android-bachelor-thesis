@@ -1,7 +1,64 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfilActivity"
-    tools:ignore="MergeRootFrame" />
+    tools:ignore="MergeRootFrame"
+    android:padding="16dp">
+
+    <ImageView
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:id="@+id/iv_userPhoto"
+        android:layout_gravity="left|top"
+        android:src="@drawable/default_user"/>
+
+    <TextView
+        android:layout_margin="16dp"
+        android:layout_toRightOf="@+id/iv_userPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="John"
+        android:id="@+id/tv_surname"
+        android:layout_gravity="center_horizontal|top"
+        style="@style/TitleLikeStyle"/>
+    <TextView
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/iv_userPhoto"
+        android:layout_below="@+id/tv_surname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Doe"
+        android:id="@+id/tv_name"
+        android:layout_gravity="center_horizontal|top"
+        style="@style/TitleLikeStyle"/>
+
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/iv_userPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone number"
+        android:id="@+id/tv_userPhoneNumberDescription"
+        android:layout_gravity="center_horizontal|top" />
+
+    <TextView
+        android:layout_margin="16dp"
+        android:layout_below="@+id/tv_userPhoneNumberDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+48 696 688 866"
+        android:id="@+id/tv_userPhoneNumber"
+        android:layout_gravity="center_horizontal|top" />
+
+    <TextView
+        android:layout_margin="16dp"
+        android:layout_below="@+id/tv_userPhoneNumberDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+48 696 688 866"
+        android:id="@+id/tv_userPhoneNumber"
+        android:layout_gravity="center_horizontal|top" />
+
+</RelativeLayout>

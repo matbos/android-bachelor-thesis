@@ -29,6 +29,7 @@ public class Adapter extends BaseAdapter {
     private static final boolean DO_NOT_ATTACH = false;
     List<Item> list = new ArrayList<Item>(6);
     static LayoutInflater inflater;
+    static int activePosition;
     @Inject
     Context ctx;
 
@@ -66,6 +67,9 @@ public class Adapter extends BaseAdapter {
         Item item = list.get(position);
         holder.icon.setText(item.getIcon());
         holder.text.setText(item.getText());
+        if(activePosition == position){
+            holder.text.setTextColor(ctx.getResources().getColor(R.color.hopeLost));
+        }
         return convertView;
     }
 
@@ -84,6 +88,10 @@ public class Adapter extends BaseAdapter {
             text = (TextView) v.findViewById(R.id.text);
             v.setTag(this);
         }
+    }
+
+    public void setActivePosition(int position){
+        activePosition = position;
     }
 
 }

@@ -9,11 +9,11 @@
         <item name="android:paddingRight">10dp</item>
         <item name="android:paddingTop">5dp</item>
         <item name="android:paddingBottom">5dp</item>
-        <item name="android:color">@color/waterEnds</item>
+        <item name="android:color">@color/losingHope</item>
     </style>
 
     <style name="menuActiveItemStyle" parent="menuItemStyle">
-        <item name="android:color">@color/waterEnds</item>
+        <item name="android:color">@color/hopeLost</item>
         <item name="android:paddingLeft">15dp</item>
     </style>
 </resources>

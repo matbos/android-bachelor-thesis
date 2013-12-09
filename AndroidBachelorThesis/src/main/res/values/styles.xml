@@ -12,4 +12,8 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="TitleLikeStyle" parent="android:Widget.TextView">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

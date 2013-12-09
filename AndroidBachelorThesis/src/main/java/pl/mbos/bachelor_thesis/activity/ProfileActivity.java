@@ -9,10 +9,10 @@ import pl.mbos.bachelor_thesis.BaseApplication;
 import pl.mbos.bachelor_thesis.R;
 import pl.mbos.bachelor_thesis.menu.Menu;
 
-public class ProfileActivity extends Activity {
+public class ProfileActivity extends SlidingMenuActivity {
 
     @Inject
-    private Menu slidingMenu;
+    Menu slidingMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

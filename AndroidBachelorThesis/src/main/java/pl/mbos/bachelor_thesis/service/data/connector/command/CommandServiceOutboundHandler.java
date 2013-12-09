@@ -1,5 +1,6 @@
 package pl.mbos.bachelor_thesis.service.data.connector.command;
 
+import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
@@ -37,6 +38,17 @@ public class CommandServiceOutboundHandler {
 
     public void setSyncState(boolean synchronize){
         sendMessage(createSetSyncMessage(synchronize));
+    }
+
+    public void sendNewEndpointAddress(String address){
+        Message msg = Message.obtain();
+        msg.arg1 = IPCConnector.TYPE_UNIVERSAL;
+        msg.arg2 = IPCConnector.UNIV_ADDRESS_CHANGED;
+        Bundle bundle = new Bundle();
+        bundle.putString(IPCConnector.UNIV_ENDPOINT_ADDRESS, address);
+        msg.setData(bundle);
+
+        sendMessage(msg);
     }
 
     private Message createSyncMessage(){

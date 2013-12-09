@@ -38,7 +38,7 @@ import pl.mbos.bachelor_thesis.view.MainView;
  * Date: 30.09.13
  * Time: 00:50
  */
-public class MainActivity extends Activity implements MainView, IDataServiceConnectionListener, ICommandAuthorizationConnectionListener {
+public class MainActivity extends SlidingMenuActivity implements MainView, IDataServiceConnectionListener, ICommandAuthorizationConnectionListener {
 
     private static final int REQUEST_ENABLE_BT = 3111990;
     private User user;
@@ -51,8 +51,6 @@ public class MainActivity extends Activity implements MainView, IDataServiceConn
     public TextView tvMeditation;
     @InjectView(R.id.tv_poor_signal)
     public TextView tvPoorSignal;
-    @Inject
-    Menu slidingMenu;
 
     private DataServiceClient client;
     private CommandServiceClient cClient;
@@ -75,9 +73,6 @@ public class MainActivity extends Activity implements MainView, IDataServiceConn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Views.inject(this);
-        BaseApplication.getBaseGraph().inject(this);
-
-        slidingMenu.attachMenu(this);
 
         user = (User) getIntent().getExtras().getParcelable(User.USER_KEY);
         controller = new MainActivityController(this);
@@ -146,18 +141,18 @@ public class MainActivity extends Activity implements MainView, IDataServiceConn
     }
 
     @Override
-    public void setMeditation(int value) {
-        tvMeditation.setText("Meditation " + value);
-    }
-
-    @Override
-    public void setAttention(int value) {
-        tvAttention.setText("Attention " + value);
-    }
-
-    @Override
     public void setPoorSignal(int value) {
         tvPoorSignal.setText("Poor signal " + value);
+    }
+
+    @Override
+    public void headsetProblem(boolean is) {
+
+    }
+
+    @Override
+    public void showHeadsetMessage(String msg, int time) {
+
     }
 
     @Override
@@ -174,6 +169,15 @@ public class MainActivity extends Activity implements MainView, IDataServiceConn
     @Override
     public long getUserID() {
         return user.getId();
+    }
+
+    @Override
+    public void setSynchronizing(boolean synchronizing) {
+    }
+
+    @Override
+    public void goBackToLoginPage() {
+
     }
 
     @Override

@@ -87,47 +87,14 @@ public class MainActivityController implements IEEGAcquisitionServiceConnectionL
     }
 
     @Override
-    public void reportState(int state) {
-        switch (state) {
-            case TGDevice.STATE_CONNECTED:
-                view.setState("Connected");
-                break;
-            case TGDevice.STATE_CONNECTING:
-                view.setState("Connecting");
-                break;
-            case TGDevice.STATE_IDLE:
-                view.setState("Idle");
-                break;
-            case TGDevice.STATE_DISCONNECTED:
-                view.setState("Disconnected");
-                break;
-            case TGDevice.STATE_NOT_FOUND:
-                view.setState("Not found");
-                break;
-            default:
-                view.setState("UNKNOWN");
-                break;
-        }
+    public void reportState(String state) {
+
     }
 
-    @Override
-    public void reportMeditation(int value) {
-        view.setMeditation(value);
-    }
-
-    @Override
-    public void reportAttention(int value) {
-        view.setAttention(value);
-    }
 
     @Override
     public void reportPoorSignal(int value) {
         view.setPoorSignal(value);
-    }
-
-    @Override
-    public void reportMulti(TGRawMulti multi) {
-
     }
 
     @Override

@@ -4,16 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.Views;
 import pl.mbos.bachelor_thesis.R;
 import pl.mbos.bachelor_thesis.controller.LoginController;
+import pl.mbos.bachelor_thesis.controller.WebAddressTextWatcher;
 import pl.mbos.bachelor_thesis.custom.AwesomeText;
 import pl.mbos.bachelor_thesis.dao.User;
 import pl.mbos.bachelor_thesis.font.Awesome;
@@ -25,16 +26,19 @@ import pl.mbos.bachelor_thesis.view.LoginView;
  * Date: 15.09.13
  * Time: 01:14
  */
-public class LoginActivity extends Activity implements LoginView {
+public class LoginActivity extends SlidingMenuActivity implements LoginView {
 
     @InjectView(R.id.et_login)
-    TextView et_login;
+    EditText et_login;
     @InjectView(R.id.et_pass)
-    TextView et_password;
+    EditText et_password;
     @InjectView(R.id.pb_progressBar)
     ProgressBar bar;
     @InjectView(R.id.at_reason)
     AwesomeText at_reason;
+    @InjectView(R.id.et_webAddress)
+    EditText et_webserviceAddress;
+
     LoginController controller;
 
     /**
@@ -52,11 +56,22 @@ public class LoginActivity extends Activity implements LoginView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        disableSlidingMenu();
         setContentView(R.layout.activity_login);
         Views.inject(this);
         controller = new LoginController(this);
+        et_webserviceAddress.addTextChangedListener(new WebAddressTextWatcher(et_webserviceAddress,controller));
         Typeface font = Typeface.createFromAsset(getAssets(), "fontawesome-webfont.ttf");
         at_reason.setTypeface(font);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        boolean outcome = super.onCreateOptionsMenu(menu);
+        if(outcome){
+            hideLogoutButton();
+        }
+        return outcome;
     }
 
     @Override
@@ -90,7 +105,7 @@ public class LoginActivity extends Activity implements LoginView {
 
     @Override
     public void startNextActivity(User user) {
-        Intent intent = MainActivity.getIntentToStartThisActivity(this, user);
+        Intent intent = SettingsActivity.getIntentToStartThisActivity(this, user);
         startActivity(intent);
         finish();
     }

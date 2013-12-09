@@ -23,6 +23,7 @@ public class AcquisitionServiceOutboundCommunicationHandler {
 
     /**
      * Constructor that takes Messenger object <u><b>to</b></u> bounded class
+     *
      * @param messenger Messenger object <u><b>to</b></u> bounded class
      */
     public AcquisitionServiceOutboundCommunicationHandler(Messenger messenger) {
@@ -33,7 +34,8 @@ public class AcquisitionServiceOutboundCommunicationHandler {
         try {
             messenger.send(msg);
         } catch (RemoteException e) {
-            Log.e(TAG, e.getMessage());
+            Log.e(TAG, e.getMessage() + " |||| " + e.getCause() + " ||||| ");
+            e.printStackTrace();
         }
     }
 

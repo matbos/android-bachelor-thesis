@@ -22,7 +22,21 @@ public interface ICommandService {
     boolean reportRunning();
 
     /**
+     * Tell service to synchronize only when on given transmission medium
+     *
+     * @param wifiOnly if set to true, synchronization will occur only over WiFi, otherwise on both Wifi and cellular network
+     */
+    void synchronizationMedium(boolean wifiOnly);
+
+    /**
      * Tells service to start synchronization now (if it is allowed)
      */
     void synchronizeNow();
+
+    /**
+     * Tells object to rewrite addresses used to communicate with webservice
+     *
+     * @param newAddress base address (e.g. http://182.923.28.22:8800/My_Webservice)
+     */
+    void recreateAddresses(String newAddress);
 }

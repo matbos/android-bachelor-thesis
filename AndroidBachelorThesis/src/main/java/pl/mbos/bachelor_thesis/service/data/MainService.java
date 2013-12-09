@@ -37,6 +37,7 @@ public class MainService extends Service implements IAuthorizationServiceParent,
     private ICommandService commandService;
     private IAuthorizationService authorizationService;
     private IDataService dataService;
+    private String endpointAddress;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -57,7 +58,7 @@ public class MainService extends Service implements IAuthorizationServiceParent,
 
     private void initServices() {
         dataService = new DataService(this);
-        authorizationService = new AuthorizationService(this);
+        authorizationService = new AuthorizationService(this, endpointAddress);
         //TODO Wyprostować ten cast!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         commandService = new CommandService((DataService) dataService);
     }
@@ -94,6 +95,13 @@ public class MainService extends Service implements IAuthorizationServiceParent,
             case IPCConnector.CMD_SYNCHRONIZE:
                 commandService.synchronizeNow();
                 break;
+            case IPCConnector.CMD_SYNCHRONIZATION_MEDIUM:
+                commandService.setSynchronizationPermission(message.getData().getBoolean("syncMedium"));
+                break;
+            case IPCConnector.UNIV_ADDRESS_CHANGED:
+                endpointAddress = message.getData().getString(IPCConnector.UNIV_ENDPOINT_ADDRESS);
+                authorizationService.changeAddress(endpointAddress);
+                commandService.recreateAddresses(endpointAddress);
             default:
                 Log.d(TAG, "Bad argument for cmdService " + message.arg2);
                 break;
@@ -143,6 +151,9 @@ public class MainService extends Service implements IAuthorizationServiceParent,
         if (success) {
             mainConnector.userAuthorized(user);
         } else {
+            if(reason.equalsIgnoreCase("null")){
+                reason = "Authorization server could not be reached.";
+            }
             mainConnector.userUnauthorized(user, reason);
         }
     }

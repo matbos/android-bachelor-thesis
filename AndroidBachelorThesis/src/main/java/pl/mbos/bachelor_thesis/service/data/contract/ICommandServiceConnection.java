@@ -1,5 +1,7 @@
 package pl.mbos.bachelor_thesis.service.data.contract;
 
+import pl.mbos.bachelor_thesis.service.data.connector.command.ICommandAuthorizationConnectionListener;
+
 /**
  * Created by Mateusz on 25.10.13.
  */
@@ -33,4 +35,21 @@ public interface ICommandServiceConnection {
      */
     void connectToService();
 
+    /**
+     * Tell service to synchronize only when on given transmission medium
+     *
+     * @param wifiOnly if set to true, synchronization will occur only over WiFi, otherwise on both Wifi and cellular network
+     */
+    void setSynchronizationMedium(boolean wifiOnly);
+
+    /**
+     * Tell service to switch to new address
+     *
+     * @param newAddress address of new endpoint
+     */
+    void setNewEndpoint(String newAddress);
+
+    void registerListener(ICommandAuthorizationConnectionListener listener);
+
+    boolean unregisterListener(ICommandAuthorizationConnectionListener listener);
 }

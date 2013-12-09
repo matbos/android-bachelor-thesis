@@ -1,20 +1,13 @@
 package pl.mbos.bachelor_thesis.service.data.connector.command;
 
 import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import pl.mbos.bachelor_thesis.BaseApplication;
 import pl.mbos.bachelor_thesis.service.data.IPCConnector;
-import pl.mbos.bachelor_thesis.service.data.MainService;
 import pl.mbos.bachelor_thesis.service.data.connector.BaseServiceClient;
 import pl.mbos.bachelor_thesis.service.data.contract.ICommandServiceConnection;
 
@@ -70,14 +63,26 @@ public class CommandServiceClient extends BaseServiceClient implements ICommandS
         }
     }
 
+    @Override
+    public void setSynchronizationMedium(boolean wifiOnly) {
+        communicationHandler.setSynchronization(wifiOnly);
+    }
+
+    @Override
+    public void setNewEndpoint(String newAddress) {
+        communicationHandler.setNewEndpointAddress(newAddress);
+    }
+
     public void disconnectFromService() {
         communicationHandler.sayGoodbye();
     }
 
+    @Override
     public void registerListener(ICommandAuthorizationConnectionListener listener) {
         listenerList.add(listener);
     }
 
+    @Override
     public boolean unregisterListener(ICommandAuthorizationConnectionListener listener) {
         return listenerList.remove(listener);
     }

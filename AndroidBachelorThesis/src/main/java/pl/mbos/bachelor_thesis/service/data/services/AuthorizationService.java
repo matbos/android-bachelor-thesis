@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.inject.Inject;
@@ -29,18 +28,24 @@ public class AuthorizationService implements IAuthorizationService {
     private Resources res;
     private IAuthorizationServiceParent parent;
 
-    private final String endpointAddress;
+    private String endpointAddress;
 
-    public AuthorizationService(IAuthorizationServiceParent parent) {
+    public AuthorizationService(IAuthorizationServiceParent parent, String endpointAddress) {
         BaseApplication.getBaseGraph().inject(this);
         this.parent = parent;
         res = ctx.getResources();
-        endpointAddress = res.getString(R.string.webservice_base) + res.getString(R.string.webservice_login);
+        this.endpointAddress = endpointAddress + res.getString(R.string.webservice_login);
     }
+
 
     @Override
     public void authorizeUser(User user) {
         new LoginTask(user).execute();
+    }
+
+    @Override
+    public void changeAddress(String newAddress) {
+        this.endpointAddress = newAddress;
     }
 
     class LoginTask extends AsyncTask<Void, Void, Response> {
@@ -59,7 +64,7 @@ public class AuthorizationService implements IAuthorizationService {
             return baseService.postJSONRequest(jsonRequest, endpointAddress);
         }
 
-        private HttpURLConnection initiateConnection() throws MalformedURLException, IOException {
+        private HttpURLConnection initiateConnection() throws IOException {
             URL urlToRequest = new URL("");
             HttpURLConnection urlConnection = (HttpURLConnection) urlToRequest.openConnection();
             urlConnection.setRequestMethod("POST");

@@ -39,12 +39,12 @@ public class CommandService implements ICommandService {
     private Timer timer;
     private String dataAddress;
     private String lastDataAddress;
+    private boolean wifiOnly;
 
 
     public CommandService(DataService dataService) {
         BaseApplication.getBaseGraph().inject(this);
-        dataAddress = resources.getString(R.string.webservice_base) + resources.getString(R.string.webservice_data);
-        lastDataAddress = resources.getString(R.string.webservice_base) + resources.getString(R.string.webservice_data) + resources.getString(R.string.webservice_last);
+        recreateAddresses(resources.getString(R.string.webservice_base));
         this.dataService = dataService;
     }
 
@@ -52,7 +52,7 @@ public class CommandService implements ICommandService {
     public void setSynchronizationPermission(boolean state) {
         if (state == true) {
             // 4800000 == 30 minut
-            if(timer == null){
+            if (timer == null) {
                 timer = new Timer();
                 timer.schedule(new SyncTimerTask(), 5000);
             }
@@ -76,8 +76,21 @@ public class CommandService implements ICommandService {
     }
 
     @Override
+    public void synchronizationMedium(boolean wifiOnly) {
+        this.wifiOnly = wifiOnly;
+    }
+
+    @Override
     public void synchronizeNow() {
-        beginSynchronization();
+        if (allowedSynchronization) {
+            beginSynchronization();
+        }
+    }
+
+    @Override
+    public void recreateAddresses(String baseAddress) {
+        dataAddress = baseAddress + resources.getString(R.string.webservice_data);
+        lastDataAddress = baseAddress + resources.getString(R.string.webservice_data) + resources.getString(R.string.webservice_last);
     }
 
     private void beginSynchronization() {
@@ -97,7 +110,6 @@ public class CommandService implements ICommandService {
     private boolean checkResponse(Response response) {
         return response.getCode() == java.net.HttpURLConnection.HTTP_OK;
     }
-
     private class SyncTimerTask extends TimerTask {
         @Override
         public void run() {
@@ -187,5 +199,6 @@ public class CommandService implements ICommandService {
             super.onPostExecute(o);
         }
     }
+
 
 }

@@ -41,6 +41,5 @@ public class AwesomeText extends TextView {
         if (!isInEditMode()) {
             setTypeface(Awesome.getFont());
         }
-        setTextColor(res.getColor(R.color.waterEnds));
     }
 }

@@ -44,6 +44,7 @@ public class Awesome {
     public static String MUSIC = Character.toString((char)0xf001);
     public static String HEART = Character.toString((char)0xf004);
     public static String STAR = Character.toString((char)0xf006);
+    public static String SIGN_OUT = Character.toString((char)0xf08b);
 
     @Inject
     static Context ctx;

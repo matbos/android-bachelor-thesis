@@ -27,6 +27,7 @@ public class IPCConnector {
     public static final String TYPE = "TYPE";
     public static final String REASON = "REASON";
 
+    public static final int TYPE_UNIVERSAL = 1;
     public static final int TYPE_AUTHENTICATION = 1;
     public static final int TYPE_DATA           = 2;
     public static final int TYPE_COMMAND        = 4;
@@ -35,11 +36,15 @@ public class IPCConnector {
 
     public static final int AUTH_AUTHENTICATE = 1;
 
-    public static final int CMD_REPORT_STATE    = 1;
-    public static final int CMD_REPORT_RUNNING  = 2;
-    public static final int CMD_SYNCHRONIZE     = 4;
-    public static final int CMD_ALLOW_SYNC      = 8;
-    public static final int CMD_DENY_SYNC       = 16;
+    public static final int UNIV_ADDRESS_CHANGED = 32768;
+    public static final String UNIV_ENDPOINT_ADDRESS = "endpointAddress";
+
+    public static final int CMD_REPORT_STATE            = 1;
+    public static final int CMD_REPORT_RUNNING          = 2;
+    public static final int CMD_SYNCHRONIZE             = 4;
+    public static final int CMD_ALLOW_SYNC              = 8;
+    public static final int CMD_DENY_SYNC               = 16;
+    public static final int CMD_SYNCHRONIZATION_MEDIUM  = 32;
 
     public static final int DATA_REQ_ATTENTION      = 1;
     public static final int DATA_REQ_MEDITATION     = 2;

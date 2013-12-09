@@ -8,4 +8,6 @@ import pl.mbos.bachelor_thesis.dao.User;
 public interface IAuthorizationService {
 
     void authorizeUser(User user);
+
+    void changeAddress(String newAddress);
 }
