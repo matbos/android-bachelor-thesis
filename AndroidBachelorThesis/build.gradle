@@ -32,7 +32,7 @@ dependencies {
     compile('de.greenrobot:greendao:1.3.0')
     compile('com.squareup.retrofit:retrofit:1.3.0')
 
-    compile files('libs/ThinkGear.jar', 'libs/lambdaj-2.4.1-SNAPSHOT.jar', 'libs/slidingmenu-1.3-SNAPSHOT.jar')
+    compile files('libs/ThinkGear.jar', 'libs/lambdaj-2.4.1-SNAPSHOT.jar', 'libs/slidingmenu-1.3-SNAPSHOT.jar', 'zeitdatachart-beta-0.5.2.jar')
     // You must install or update the Support Repository through the SDK manager to use this dependency.
     // The Support Repository (separate from the corresponding library) can be found in the Extras category.
     // compile 'com.android.support:appcompat-v7:18.0.0'

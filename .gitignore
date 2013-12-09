@@ -6,6 +6,7 @@ AndroidBachelorThesis/bin/
 #AndroidStudio
 local.properties
 .idea/
+*.iml
 
 #Gradle
 .gradle/
