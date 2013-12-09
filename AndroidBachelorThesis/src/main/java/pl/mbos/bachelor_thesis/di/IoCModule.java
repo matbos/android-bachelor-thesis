@@ -6,13 +6,11 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import pl.mbos.bachelor_thesis.activity.LoginActivity;
-import pl.mbos.bachelor_thesis.activity.MainActivity;
 import pl.mbos.bachelor_thesis.activity.ProfileActivity;
 import pl.mbos.bachelor_thesis.activity.SettingsActivity;
 import pl.mbos.bachelor_thesis.activity.SlidingMenuActivity;
 import pl.mbos.bachelor_thesis.controller.LogoutHandler;
 import pl.mbos.bachelor_thesis.controller.LoginController;
-import pl.mbos.bachelor_thesis.controller.MainActivityController;
 import pl.mbos.bachelor_thesis.controller.ProfileController;
 import pl.mbos.bachelor_thesis.controller.SettingsController;
 import pl.mbos.bachelor_thesis.controller.SlidingMenuBaseController;
@@ -45,7 +43,6 @@ import pl.mbos.bachelor_thesis.service.data.services.DataService;
                 IEEGAcquisitionServiceConnection.class,
                 EEGAcquisitionServiceConnectionConnector.class,
                 IUserAuthorizationConnection.class,
-                MainActivityController.class,
                 MainServiceClient.class,
                 DataService.class,
                 LoginController.class,
@@ -58,7 +55,6 @@ import pl.mbos.bachelor_thesis.service.data.services.DataService;
                 AuthorizationService.class,
                 CommandService.class,
                 Adapter.class,
-                MainActivity.class,
                 AwesomeText.class,
                 SlidingMenuActivity.class,
                 SettingsActivity.class,
