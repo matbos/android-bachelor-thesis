@@ -70,7 +70,9 @@ public class CommandServiceClient extends BaseServiceClient implements ICommandS
 
     @Override
     public void setNewEndpoint(String newAddress) {
-        communicationHandler.setNewEndpointAddress(newAddress);
+        if (newAddress != null) {
+            communicationHandler.setNewEndpointAddress(newAddress);
+        }
     }
 
     public void disconnectFromService() {

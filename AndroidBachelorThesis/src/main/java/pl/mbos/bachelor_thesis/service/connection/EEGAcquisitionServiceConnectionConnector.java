@@ -140,7 +140,6 @@ public class EEGAcquisitionServiceConnectionConnector implements ServiceConnecti
     public void onServiceConnected(ComponentName className, IBinder service) {
         serviceMessenger = new Messenger(service);
         clients.get(0).onConnect();
-        // forEach(clients).onConnect();
     }
 
     /**
@@ -152,7 +151,6 @@ public class EEGAcquisitionServiceConnectionConnector implements ServiceConnecti
     public void onServiceDisconnected(ComponentName className) {
         serviceMessenger = null;
         mServiceUp = false;
-        // forEach(clients).onServiceDisconnected("Random reason, should be filled later");
     }
 
     public void sendMessage(int what) {
@@ -204,6 +202,12 @@ public class EEGAcquisitionServiceConnectionConnector implements ServiceConnecti
     @Override
     public void requestState() {
         sendMessage(EEGAcquisitionService.REQUEST_STATE);
+    }
+
+    @Override
+    public void logout() {
+        stopStream();
+        sendMessage(EEGAcquisitionService.LOGOUT);
     }
 
     @Override

@@ -10,6 +10,8 @@ import android.util.Log;
 
 import javax.inject.Singleton;
 
+import pl.mbos.bachelor_thesis.BaseApplication;
+import pl.mbos.bachelor_thesis.R;
 import pl.mbos.bachelor_thesis.dao.Attention;
 import pl.mbos.bachelor_thesis.dao.Blink;
 import pl.mbos.bachelor_thesis.dao.Meditation;
@@ -47,6 +49,7 @@ public class MainService extends Service implements IAuthorizationServiceParent,
     @Override
     public void onCreate() {
         super.onCreate();
+        endpointAddress = BaseApplication.getContext().getResources().getString(R.string.webservice_base);
         initCommunication();
         initServices();
     }

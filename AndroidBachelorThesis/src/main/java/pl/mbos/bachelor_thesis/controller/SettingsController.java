@@ -16,7 +16,7 @@ import pl.mbos.bachelor_thesis.view.MainView;
 /**
  * Created by Mateusz on 08.12.13.
  */
-public class SettingsController implements IEEGAcquisitionServiceConnectionListener, ICommandServiceConnectionListener, ICommandAuthorizationConnectionListener, WebAddressListener {
+public class SettingsController extends SlidingMenuBaseController implements IEEGAcquisitionServiceConnectionListener, ICommandServiceConnectionListener, ICommandAuthorizationConnectionListener, WebAddressListener {
 
     private MainView view;
     @Inject

@@ -18,6 +18,7 @@ import javax.inject.Inject;
 
 import pl.mbos.bachelor_thesis.BaseApplication;
 import pl.mbos.bachelor_thesis.R;
+import pl.mbos.bachelor_thesis.controller.SlidingMenuBaseController;
 import pl.mbos.bachelor_thesis.menu.Adapter;
 import pl.mbos.bachelor_thesis.menu.Item;
 
@@ -33,6 +34,7 @@ public class SlidingMenuActivity extends Activity {
     private boolean backPressed = false;
     protected MenuItem headsetItem;
     protected MenuItem logoutItem;
+    protected SlidingMenuBaseController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,15 @@ public class SlidingMenuActivity extends Activity {
         configureMenu();
         actionBar = getActionBar();
     }
+
+    /**
+     * This method HAS TO BE invoked to ensure proper functioning of action bar buttons.
+     * @param controller
+     */
+    protected void configureBaseController(SlidingMenuBaseController controller){
+        this.controller = controller;
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -54,8 +65,11 @@ public class SlidingMenuActivity extends Activity {
     }
 
     @Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        return super.onMenuItemSelected(featureId, item);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.logout){
+            controller.logout();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

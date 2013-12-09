@@ -61,14 +61,12 @@ public class SettingsActivity extends SlidingMenuActivity implements MainView {
         et_webAddress.addTextChangedListener(new WebAddressTextWatcher(et_webAddress, controller));
         initStrings();
         controller.initializeFields();
+        configureBaseController(controller);
     }
 
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.logout){
-            controller.logout();
-        }
         return super.onContextItemSelected(item);
     }
 

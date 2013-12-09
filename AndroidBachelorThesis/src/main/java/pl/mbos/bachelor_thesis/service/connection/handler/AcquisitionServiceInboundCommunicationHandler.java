@@ -45,6 +45,8 @@ public class AcquisitionServiceInboundCommunicationHandler extends Handler {
             parent.stopDeviceStream();
         } else if (action == REQUEST_STATE) {
             parent.requestDeviceState();
+        } else if (action == LOGOUT) {
+            parent.logout();
         } else {
             Log.i(TAG, "Recieved unknown message " + msg.arg1);
             throw new RuntimeException(TAG + " Recieved unknown message "+ msg.arg1);

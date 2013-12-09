@@ -24,11 +24,11 @@ public class CommandServiceOutboundHandler {
         return messenger;
     }
 
-    public void synchronize(){
+    public void synchronize() {
         sendMessage(createSyncMessage());
     }
 
-    public void requestSyncState(){
+    public void requestSyncState() {
         sendMessage(createGetStateMessage());
     }
 
@@ -36,50 +36,52 @@ public class CommandServiceOutboundHandler {
         sendMessage(createIsSyncInProgressMessage());
     }
 
-    public void setSyncState(boolean synchronize){
+    public void setSyncState(boolean synchronize) {
         sendMessage(createSetSyncMessage(synchronize));
     }
 
-    public void sendNewEndpointAddress(String address){
-        Message msg = Message.obtain();
-        msg.arg1 = IPCConnector.TYPE_UNIVERSAL;
-        msg.arg2 = IPCConnector.UNIV_ADDRESS_CHANGED;
-        Bundle bundle = new Bundle();
-        bundle.putString(IPCConnector.UNIV_ENDPOINT_ADDRESS, address);
-        msg.setData(bundle);
+    public void sendNewEndpointAddress(String address) {
+        if (address != null) {
+            Message msg = Message.obtain();
+            msg.arg1 = IPCConnector.TYPE_UNIVERSAL;
+            msg.arg2 = IPCConnector.UNIV_ADDRESS_CHANGED;
+            Bundle bundle = new Bundle();
+            bundle.putString(IPCConnector.UNIV_ENDPOINT_ADDRESS, address);
+            msg.setData(bundle);
 
-        sendMessage(msg);
+            sendMessage(msg);
+        }
     }
 
-    private Message createSyncMessage(){
+    private Message createSyncMessage() {
         Message msg = Message.obtain();
         msg.arg1 = IPCConnector.TYPE_COMMAND;
         msg.arg2 = IPCConnector.CMD_SYNCHRONIZE;
         return msg;
     }
 
-    private Message createGetStateMessage(){
+    private Message createGetStateMessage() {
         Message msg = Message.obtain();
         msg.arg1 = IPCConnector.TYPE_COMMAND;
         msg.arg2 = IPCConnector.CMD_REPORT_STATE;
         return msg;
     }
 
-    private Message createIsSyncInProgressMessage(){
+    private Message createIsSyncInProgressMessage() {
         Message msg = Message.obtain();
         msg.arg1 = IPCConnector.TYPE_COMMAND;
         msg.arg2 = IPCConnector.CMD_REPORT_RUNNING;
         return msg;
     }
 
-    private Message createSetSyncMessage(boolean synchronize){
+    private Message createSetSyncMessage(boolean synchronize) {
         Message msg = Message.obtain();
         msg.arg1 = IPCConnector.TYPE_COMMAND;
         msg.arg2 = (synchronize) ? IPCConnector.CMD_ALLOW_SYNC : IPCConnector.CMD_DENY_SYNC;
         return msg;
     }
 
-    private void sendMessage(Message message){
+    private void sendMessage(Message message) {
         try {
             messenger.send(message);
         } catch (RemoteException e) {

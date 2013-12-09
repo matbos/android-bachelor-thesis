@@ -26,4 +26,6 @@ public interface IEEGAcquisitionServiceConnection {
     void stopStream();
 
     void requestState();
+
+    void logout();
 }

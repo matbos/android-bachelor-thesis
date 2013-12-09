@@ -10,12 +10,14 @@ import pl.mbos.bachelor_thesis.activity.MainActivity;
 import pl.mbos.bachelor_thesis.activity.ProfileActivity;
 import pl.mbos.bachelor_thesis.activity.SettingsActivity;
 import pl.mbos.bachelor_thesis.activity.SlidingMenuActivity;
+import pl.mbos.bachelor_thesis.controller.LogoutHandler;
 import pl.mbos.bachelor_thesis.controller.LoginController;
 import pl.mbos.bachelor_thesis.controller.MainActivityController;
+import pl.mbos.bachelor_thesis.controller.ProfileController;
 import pl.mbos.bachelor_thesis.controller.SettingsController;
+import pl.mbos.bachelor_thesis.controller.SlidingMenuBaseController;
 import pl.mbos.bachelor_thesis.controller.WebAddressTextWatcher;
 import pl.mbos.bachelor_thesis.custom.AwesomeText;
-import pl.mbos.bachelor_thesis.font.Awesome;
 import pl.mbos.bachelor_thesis.menu.Adapter;
 import pl.mbos.bachelor_thesis.menu.Menu;
 import pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector;
@@ -65,7 +67,11 @@ import pl.mbos.bachelor_thesis.service.data.services.DataService;
                 LoginActivity.class,
                 SettingsController.class,
                 ProfileActivity.class,
-                WebAddressTextWatcher.class
+                WebAddressTextWatcher.class,
+                LogoutHandler.class,
+                SlidingMenuBaseController.class,
+                SettingsController.class,
+                ProfileController.class
         },
         includes = {
                 ApplicationModule.class,
@@ -93,11 +99,5 @@ public class IoCModule {
     @Provides
     BaseService provideBaseService(){
         return new BaseService();
-    }
-
-    @Provides
-    @Singleton
-    Menu providesMenu(){
-        return new Menu();
     }
 }

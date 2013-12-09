@@ -43,6 +43,7 @@ public class EEGAcquisitionService extends Service {
     public static int START_STREAM = 11;
     public static int STOP_STREAM = 12;
     public static int STOP_SERVICE = 128;
+    public static int LOGOUT = 256;
     private long userId;
     /**
      * Messenger to be returned on all onBind requests
@@ -121,6 +122,10 @@ public class EEGAcquisitionService extends Service {
     public void serviceStopSelf() {
         Log.i(TAG, "Shutdown");
         stopSelf();
+    }
+
+    public void logout(){
+        userId = -100;
     }
 
     private void reportDeviceState(){

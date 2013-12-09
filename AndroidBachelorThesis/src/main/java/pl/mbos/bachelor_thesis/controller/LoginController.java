@@ -3,8 +3,10 @@ package pl.mbos.bachelor_thesis.controller;
 import javax.inject.Inject;
 
 import dagger.ObjectGraph;
+import pl.mbos.bachelor_thesis.BaseApplication;
 import pl.mbos.bachelor_thesis.dao.User;
 import pl.mbos.bachelor_thesis.di.IoCModule;
+import pl.mbos.bachelor_thesis.service.data.contract.ICommandServiceConnection;
 import pl.mbos.bachelor_thesis.service.data.contract.IUserAuthorizationConnection;
 import pl.mbos.bachelor_thesis.service.data.contract.IUserAuthorizationConnectionListener;
 import pl.mbos.bachelor_thesis.view.LoginView;
@@ -21,10 +23,11 @@ public class LoginController implements IUserAuthorizationConnectionListener, We
     private User user;
     @Inject
     protected IUserAuthorizationConnection userAuthenticator;
+    @Inject
+    protected ICommandServiceConnection commandService;
 
     public LoginController(LoginView view){
-        ObjectGraph graph = ObjectGraph.create(IoCModule.class);
-        userAuthenticator = graph.get(IUserAuthorizationConnection.class);
+        BaseApplication.getBaseGraph().inject(this);
         userAuthenticator.registerListener(this);
         this.view = view;
         user = new User();
@@ -72,6 +75,6 @@ public class LoginController implements IUserAuthorizationConnectionListener, We
 
     @Override
     public void webServiceAddressChanged(String newAddress) {
-
+        commandService.setNewEndpoint(newAddress);
     }
 }

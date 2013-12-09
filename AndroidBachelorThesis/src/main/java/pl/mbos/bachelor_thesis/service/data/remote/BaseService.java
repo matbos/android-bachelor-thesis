@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.util.HashMap;
@@ -39,10 +40,7 @@ public class BaseService {
             post.setEntity(entity);
             HttpResponse response = client.execute(post);
 
-            finalResponse.setCode(response.getStatusLine().getStatusCode());
-            HttpEntity responseEntity = response.getEntity();
-            InputStream is = responseEntity.getContent();
-            finalResponse.setBody(readTillEnd(is));
+            parseResponse(finalResponse, response);
 
         } catch (MalformedURLException e) {
             Log.e("DATA", e.getMessage());
@@ -69,10 +67,7 @@ public class BaseService {
             HttpGet get = new HttpGet(builder.toString());
             HttpResponse response = client.execute(get);
 
-            finalResponse.setCode(response.getStatusLine().getStatusCode());
-            HttpEntity responseEntity = response.getEntity();
-            InputStream is = responseEntity.getContent();
-            finalResponse.setBody(readTillEnd(is));
+            parseResponse(finalResponse, response);
 
         } catch (MalformedURLException e) {
             Log.e("DATA", e.getMessage());
@@ -99,10 +94,7 @@ public class BaseService {
             put.setEntity(entity);
             HttpResponse response = client.execute(put);
 
-            finalResponse.setCode(response.getStatusLine().getStatusCode());
-            HttpEntity responseEntity = response.getEntity();
-            InputStream is = responseEntity.getContent();
-            finalResponse.setBody(readTillEnd(is));
+            parseResponse(finalResponse, response);
 
         } catch (MalformedURLException e) {
             Log.e("DATA", e.getMessage());
@@ -126,6 +118,22 @@ public class BaseService {
             builder.append(line);
         }
         return builder.toString();
+    }
+
+    private void parseResponse(Response finalResponse, HttpResponse response) throws IOException {
+        finalResponse.setCode(response.getStatusLine().getStatusCode());
+        handleErrors(finalResponse, response.getEntity());
+    }
+
+    private void handleErrors(Response finalResponse, HttpEntity response) throws IOException {
+        String body;
+        if (finalResponse.getCode() == HttpURLConnection.HTTP_NOT_FOUND) {
+            body = "Server could not be found";
+        } else {
+            InputStream is = response.getContent();
+            body = is.toString();
+        }
+        finalResponse.setBody(body);
     }
 
 

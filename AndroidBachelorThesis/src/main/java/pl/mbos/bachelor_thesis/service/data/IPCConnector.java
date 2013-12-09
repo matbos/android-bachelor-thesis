@@ -23,21 +23,21 @@ import pl.mbos.bachelor_thesis.service.data.handler.DataConnector;
  */
 public class IPCConnector {
 
-    public static final String MESSENGER = "MESSENGER";
-    public static final String TYPE = "TYPE";
-    public static final String REASON = "REASON";
+    public static final String MESSENGER    = "MESSENGER";
+    public static final String TYPE         = "TYPE";
+    public static final String REASON       = "REASON";
 
-    public static final int TYPE_UNIVERSAL = 1;
     public static final int TYPE_AUTHENTICATION = 1;
     public static final int TYPE_DATA           = 2;
     public static final int TYPE_COMMAND        = 4;
+    public static final int TYPE_UNIVERSAL      = 4;
 
     public static final int MESSAGE_GOODBYE = Integer.MAX_VALUE;
 
-    public static final int AUTH_AUTHENTICATE = 1;
+    public static final int AUTH_AUTHENTICATE   = 1;
 
-    public static final int UNIV_ADDRESS_CHANGED = 32768;
-    public static final String UNIV_ENDPOINT_ADDRESS = "endpointAddress";
+    public static final int UNIV_ADDRESS_CHANGED        = 32768;
+    public static final String UNIV_ENDPOINT_ADDRESS    = "endpointAddress";
 
     public static final int CMD_REPORT_STATE            = 1;
     public static final int CMD_REPORT_RUNNING          = 2;
