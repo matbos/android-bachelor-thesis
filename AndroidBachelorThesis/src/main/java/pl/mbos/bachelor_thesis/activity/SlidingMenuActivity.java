@@ -46,9 +46,10 @@ public class SlidingMenuActivity extends Activity {
 
     /**
      * This method HAS TO BE invoked to ensure proper functioning of action bar buttons.
+     *
      * @param controller
      */
-    protected void configureBaseController(SlidingMenuBaseController controller){
+    protected void configureBaseController(SlidingMenuBaseController controller) {
         this.controller = controller;
     }
 
@@ -66,7 +67,7 @@ public class SlidingMenuActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.logout){
+        if (item.getItemId() == R.id.logout) {
             controller.logout();
         }
         return super.onOptionsItemSelected(item);
@@ -88,7 +89,7 @@ public class SlidingMenuActivity extends Activity {
             if (isTaskRoot()) {
                 if (!backPressed) {
                     backPressed = true;
-                    Toast.makeText(this,"Tap back once again to exit",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Tap back once again to exit", Toast.LENGTH_SHORT).show();
                 } else {
                     backPressed = false;
                     super.onBackPressed();
@@ -99,15 +100,15 @@ public class SlidingMenuActivity extends Activity {
         }
     }
 
-    protected void disableSlidingMenu(){
+    protected void disableSlidingMenu() {
         slidingMenu.setSlidingEnabled(false);
     }
 
-    protected void hideLogoutButton(){
+    protected void hideLogoutButton() {
         logoutItem.setVisible(false);
     }
 
-    protected void hideHeadsetIcon(){
+    protected void hideHeadsetIcon() {
         headsetItem.setVisible(false);
     }
 
@@ -127,9 +128,11 @@ public class SlidingMenuActivity extends Activity {
         container.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Item item = (Item) slidingMenuAdapter.getItem(position);
-                slidingMenuAdapter.setActivePosition(position);
-                SlidingMenuActivity.this.startActivity(new Intent(SlidingMenuActivity.this, item.getActivityClass()));
+                if (slidingMenuAdapter.isActive(position)) {
+                    Item item = (Item) slidingMenuAdapter.getItem(position);
+                    slidingMenuAdapter.setActivePosition(position);
+                    SlidingMenuActivity.this.startActivity(new Intent(SlidingMenuActivity.this, item.getActivityClass()));
+                }
             }
         });
     }

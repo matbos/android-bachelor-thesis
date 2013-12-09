@@ -1,11 +1,11 @@
 package pl.mbos.bachelor_thesis.menu;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,7 +29,8 @@ public class Adapter extends BaseAdapter {
     private static final boolean DO_NOT_ATTACH = false;
     List<Item> list = new ArrayList<Item>(6);
     static LayoutInflater inflater;
-    static int activePosition;
+    static int activePosition = 1;
+
     @Inject
     Context ctx;
 
@@ -47,6 +48,10 @@ public class Adapter extends BaseAdapter {
     @Override
     public Object getItem(int position) {
         return list.get(position);
+    }
+
+    public boolean isActive(int position){
+        return position != activePosition;
     }
 
     @Override
@@ -76,7 +81,6 @@ public class Adapter extends BaseAdapter {
     public void configureAdapter() {
         list.add(new Item(Awesome.USER, "user", ProfileActivity.class));
         list.add(new Item(Awesome.SETTINGS, "settings", SettingsActivity.class));
-        list.add(new Item(Awesome.BAN, "logout", LoginActivity.class));
     }
 
     static class ViewHolder {
@@ -84,8 +88,8 @@ public class Adapter extends BaseAdapter {
         TextView text;
 
         public ViewHolder(View v) {
-            icon = (AwesomeText) v.findViewById(R.id.icon);
-            text = (TextView) v.findViewById(R.id.text);
+            icon = (AwesomeText) v.findViewById(R.id.at_icon);
+            text = (TextView) v.findViewById(R.id.tv_text);
             v.setTag(this);
         }
     }

@@ -19,7 +19,6 @@ import pl.mbos.bachelor_thesis.controller.SlidingMenuBaseController;
 import pl.mbos.bachelor_thesis.controller.WebAddressTextWatcher;
 import pl.mbos.bachelor_thesis.custom.AwesomeText;
 import pl.mbos.bachelor_thesis.menu.Adapter;
-import pl.mbos.bachelor_thesis.menu.Menu;
 import pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector;
 import pl.mbos.bachelor_thesis.service.connection.MainServiceClient;
 import pl.mbos.bachelor_thesis.service.connection.contract.IEEGAcquisitionServiceConnection;
@@ -58,7 +57,6 @@ import pl.mbos.bachelor_thesis.service.data.services.DataService;
                 BaseService.class,
                 AuthorizationService.class,
                 CommandService.class,
-                Menu.class,
                 Adapter.class,
                 MainActivity.class,
                 AwesomeText.class,
