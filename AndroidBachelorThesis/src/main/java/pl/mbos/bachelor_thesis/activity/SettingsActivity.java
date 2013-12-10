@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import pl.mbos.bachelor_thesis.R;
 import pl.mbos.bachelor_thesis.controller.SettingsController;
 import pl.mbos.bachelor_thesis.controller.WebAddressTextWatcher;
 import pl.mbos.bachelor_thesis.dao.User;
+import pl.mbos.bachelor_thesis.dao.helper.UserHelper;
 import pl.mbos.bachelor_thesis.view.MainView;
 
 public class SettingsActivity extends SlidingMenuActivity implements MainView {
@@ -27,22 +29,16 @@ public class SettingsActivity extends SlidingMenuActivity implements MainView {
 
     @InjectView(R.id.tv_connectionState)
     TextView tv_state;
-
     @InjectView(R.id.tv_streamState)
     TextView tv_streamState;
-
     @InjectView(R.id.et_webAddress)
     EditText et_webAddress;
-
     @InjectView(R.id.tv_synchronize)
     TextView tv_synchronize;
-
     @InjectView(R.id.tv_synchronizationAllowed)
     TextView tv_synchronizationAllowed;
-
     @InjectView(R.id.btn_connect)
     TextView btn_connect;
-
     @Inject
     Resources res;
 
@@ -50,24 +46,19 @@ public class SettingsActivity extends SlidingMenuActivity implements MainView {
     private String stateBeginning;
     private String headsetConnected;
     private String headsetDisconnected;
-
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Views.inject(this);
+        user = UserHelper.retrieveUserFromSO();
         controller = new SettingsController(this);
         et_webAddress.addTextChangedListener(new WebAddressTextWatcher(et_webAddress, controller));
         initStrings();
         controller.initializeFields();
         configureBaseController(controller);
-    }
-
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        return super.onContextItemSelected(item);
     }
 
     @Override
@@ -153,7 +144,7 @@ public class SettingsActivity extends SlidingMenuActivity implements MainView {
 
     @Override
     public long getUserID() {
-        return 1;//user.getId();
+        return user.getId();
     }
 
     @Override
@@ -182,12 +173,10 @@ public class SettingsActivity extends SlidingMenuActivity implements MainView {
      * Method used to build an intent that can start this activity
      *
      * @param parent calling activity
-     * @param user   object of class {@link pl.mbos.bachelor_thesis.dao.User} that will be passed to {@link MainActivity} activity with {@code User.USER_KEY} key
      * @return An {@link Intent}
      */
     public static Intent getIntentToStartThisActivity(Activity parent, User user) {
         Intent intent = new Intent(parent, SettingsActivity.class);
-        intent.putExtra(User.USER_KEY, user);
         return intent;
     }
 }

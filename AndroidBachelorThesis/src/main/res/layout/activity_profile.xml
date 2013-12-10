@@ -19,18 +19,18 @@
         android:layout_toRightOf="@+id/iv_userPhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="John"
-        android:id="@+id/tv_surname"
+        android:text="Doe"
+        android:id="@+id/tv_userSurname"
         android:layout_gravity="center_horizontal|top"
         style="@style/TitleLikeStyle"/>
     <TextView
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@+id/iv_userPhoto"
-        android:layout_below="@+id/tv_surname"
+        android:layout_below="@+id/tv_userSurname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Doe"
-        android:id="@+id/tv_name"
+        android:text="John"
+        android:id="@+id/tv_userName"
         android:layout_gravity="center_horizontal|top"
         style="@style/TitleLikeStyle"/>
 

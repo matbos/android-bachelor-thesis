@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 
 import dagger.ObjectGraph;
@@ -53,6 +54,9 @@ public class BaseApplication extends Application {
         }
     }
 
+    public static SharedPreferences getUserPreferences(){
+       return instance.getSharedPreferences("USER_PREFS", MODE_PRIVATE);
+    } 
     @Override
     public void onCreate() {
         super.onCreate();

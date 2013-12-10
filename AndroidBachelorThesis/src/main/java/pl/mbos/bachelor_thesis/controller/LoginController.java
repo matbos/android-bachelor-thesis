@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import dagger.ObjectGraph;
 import pl.mbos.bachelor_thesis.BaseApplication;
 import pl.mbos.bachelor_thesis.dao.User;
+import pl.mbos.bachelor_thesis.dao.helper.UserHelper;
 import pl.mbos.bachelor_thesis.di.IoCModule;
 import pl.mbos.bachelor_thesis.service.data.contract.ICommandServiceConnection;
 import pl.mbos.bachelor_thesis.service.data.contract.IUserAuthorizationConnection;
@@ -42,7 +43,7 @@ public class LoginController implements IUserAuthorizationConnectionListener, We
         view.showSpinner();
         user.setId(id);
         user.setFirstName(pass);
-        completeLogin(user);
+        userAuthorized(user);
 //        userAuthenticator.authorizeUser(user);
     }
 
@@ -59,6 +60,7 @@ public class LoginController implements IUserAuthorizationConnectionListener, We
     @Override
     public void userAuthorized(User user) {
         view.hideSpinner();
+        UserHelper.persistUserToSO(user);
         completeLogin(user);
     }
     /**
