@@ -15,6 +15,7 @@ import javax.inject.Inject;
 
 import pl.mbos.bachelor_thesis.BaseApplication;
 import pl.mbos.bachelor_thesis.R;
+import pl.mbos.bachelor_thesis.activity.ChartsActivity;
 import pl.mbos.bachelor_thesis.activity.LoginActivity;
 import pl.mbos.bachelor_thesis.activity.ProfileActivity;
 import pl.mbos.bachelor_thesis.activity.SettingsActivity;
@@ -81,6 +82,7 @@ public class Adapter extends BaseAdapter {
     public void configureAdapter() {
         list.add(new Item(Awesome.USER, "user", ProfileActivity.class));
         list.add(new Item(Awesome.SETTINGS, "settings", SettingsActivity.class));
+        list.add(new Item(Awesome.HOME, "charts", ChartsActivity.class));
     }
 
     static class ViewHolder {

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zeitdata="http://schemas.android.com/apk/rescom.acme"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_margin="16dp"
+    android:gravity="center">
+
+    <zeitdata.charts.view.LineChart
+        android:id="@+id/lineChart"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        zeitdata:chartLabel="Sample Line Chart"
+        zeitdata:chartLabelSize="12"
+        zeitdata:legendEnabled="true"
+        zeitdata:chartAreaBackground="#FFFFFF"
+        zeitdata:gridLabelColor="#000000"
+        zeitdata:gridLabelSize="8"
+        zeitdata:gridLabelTickLength="3"
+        zeitdata:xAxisColor="#000000"
+        zeitdata:xAxisLabel="Time"
+        zeitdata:xAxisLabelColor="#000000"
+        zeitdata:xAxisLabelSize="10"
+        zeitdata:xAxisVisible="true"
+        zeitdata:yAxisColor="#000000"
+        zeitdata:yAxisLabel="Attention"
+        zeitdata:yAxisLabelColor="#000000"
+        zeitdata:yAxisLabelSize="10"
+        zeitdata:yAxisVisible="true"
+        zeitdata:showSymbols="true"
+        zeitdata:symbolSize="5"
+        zeitdata:gridLineColor="#AAAAAA"
+        zeitdata:gridLinesVisible="true"
+        />
+
+
+
+</LinearLayout>
