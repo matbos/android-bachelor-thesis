@@ -17,4 +17,6 @@ public interface MainView {
     long getUserID();
     void setSynchronizing(boolean synchronizing);
     void goBackToLoginPage();
+    void setSyncRepresentation(boolean state);
+    void setSyncAllowance(boolean allowance);
 }

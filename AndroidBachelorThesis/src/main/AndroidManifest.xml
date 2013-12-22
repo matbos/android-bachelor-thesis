@@ -9,7 +9,8 @@
         android:targetSdkVersion="16" />
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.INTERNET" />\
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 
     <application
@@ -35,6 +36,11 @@
             android:theme="@style/MainAppTheme"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.ChartsActivity"
+            android:label="Wykres"
+            android:theme="@style/MainAppTheme"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".activity.ProfileActivity"
             android:label="@string/activity_profile_title"
             android:theme="@style/MainAppTheme"
@@ -44,9 +50,6 @@
             android:label="@string/activity_settings_title"
             android:theme="@style/MainAppTheme"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.MainActivity"
-            android:theme="@style/MainAppTheme" />
 
         <service
             android:name=".service.connection.EEGAcquisitionService"

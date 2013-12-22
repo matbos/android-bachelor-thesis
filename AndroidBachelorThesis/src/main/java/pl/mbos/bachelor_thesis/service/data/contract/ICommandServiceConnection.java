@@ -1,7 +1,5 @@
 package pl.mbos.bachelor_thesis.service.data.contract;
 
-import pl.mbos.bachelor_thesis.service.data.connector.command.ICommandAuthorizationConnectionListener;
-
 /**
  * Created by Mateusz on 25.10.13.
  */
@@ -23,6 +21,12 @@ public interface ICommandServiceConnection {
      * Response is given through {@link pl.mbos.bachelor_thesis.service.data.contract.ICommandServiceConnectionListener}
      */
     void isSynchronizationPermitted();
+
+    /**
+     * Asks whether synchronization is only allowed when in wifis range
+     * Response is given through {@link pl.mbos.bachelor_thesis.service.data.contract.ICommandServiceConnectionListener}
+     */
+    void isSynchronizationOnlyOnWifi();
 
     /**
      * Asks whether or not synchronization is in progress,
@@ -49,7 +53,7 @@ public interface ICommandServiceConnection {
      */
     void setNewEndpoint(String newAddress);
 
-    void registerListener(ICommandAuthorizationConnectionListener listener);
+    void registerListener(ICommandServiceConnectionListener listener);
 
-    boolean unregisterListener(ICommandAuthorizationConnectionListener listener);
+    boolean unregisterListener(ICommandServiceConnectionListener listener);
 }

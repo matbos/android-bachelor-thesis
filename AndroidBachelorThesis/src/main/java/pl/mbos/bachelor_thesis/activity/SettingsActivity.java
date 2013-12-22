@@ -5,8 +5,6 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,13 +27,11 @@ public class SettingsActivity extends SlidingMenuActivity implements MainView {
 
     @InjectView(R.id.tv_connectionState)
     TextView tv_state;
-    @InjectView(R.id.tv_streamState)
-    TextView tv_streamState;
     @InjectView(R.id.et_webAddress)
     EditText et_webAddress;
     @InjectView(R.id.tv_synchronize)
     TextView tv_synchronize;
-    @InjectView(R.id.tv_synchronizationAllowed)
+    @InjectView(R.id.tv_synchronizationState)
     TextView tv_synchronizationAllowed;
     @InjectView(R.id.btn_connect)
     TextView btn_connect;
@@ -90,9 +86,14 @@ public class SettingsActivity extends SlidingMenuActivity implements MainView {
         controller.startStreamClicked();
     }
 
-    @OnClick(R.id.btn_synchronize)
-    public void putAttentionClicked() {
-        controller.toggleSyncAllowance();
+    @OnClick(R.id.btn_synchronizeOn)
+    public void buttonSyncMediumClicked() {
+        controller.setSyncMediumClicked();
+    }
+
+    @OnClick(R.id.btn_synchronization)
+    public void buttonSetSynchronizationClicked() {
+        controller.toggleSyncAllowanceClicked();
     }
 
     @OnClick(R.id.btn_synchronizeNow)
@@ -103,7 +104,7 @@ public class SettingsActivity extends SlidingMenuActivity implements MainView {
 
     @Override
     public void setState(String state) {
-        if(state.equalsIgnoreCase(headsetDisconnected)){
+        if (state.equalsIgnoreCase(headsetDisconnected)) {
             btn_connect.setText(res.getString(R.string.connect));
         } else {
             btn_connect.setText(res.getString(R.string.disconnect));
@@ -156,6 +157,16 @@ public class SettingsActivity extends SlidingMenuActivity implements MainView {
     public void goBackToLoginPage() {
         startActivity(LoginActivity.getIntentToStartThisActivity(this));
         this.finish();
+    }
+
+    @Override
+    public void setSyncRepresentation(boolean state) {
+        tv_synchronizationAllowed.setText("Synchronization is " + ((state) ? "on" : "off"));
+    }
+
+    @Override
+    public void setSyncAllowance(boolean allowance) {
+        tv_synchronize.setText("Synchronize on "+((allowance)?"wifi":"both"));
     }
 
     @Override

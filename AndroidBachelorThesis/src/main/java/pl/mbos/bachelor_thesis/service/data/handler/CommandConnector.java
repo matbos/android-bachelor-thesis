@@ -20,13 +20,26 @@ public class CommandConnector extends OutboundCommunicationHandler {
         send(buildSyncRunningMessage(running));
     }
 
+    public void reportSyncAllowance(boolean wifiOnly) {
+        send(buildSyncAllowanceMessage(wifiOnly));
+    }
+
+    private Message buildSyncAllowanceMessage(boolean wifiOnly) {
+        Message msg = Message.obtain();
+        msg.arg1 = IPCConnector.TYPE_COMMAND;
+        msg.arg2 = IPCConnector.CMD_REPORT_ALLOWANCE;
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(IPCConnector.CMD_REPORT_ALLOWANCE_MSG,wifiOnly);
+        msg.setData(bundle);
+        return msg;
+    }
+
     private Message buildSyncStateMessage(boolean state){
         Message msg = Message.obtain();
         msg.arg1 = IPCConnector.TYPE_COMMAND;
         msg.arg2 = IPCConnector.CMD_REPORT_STATE;
         Bundle bundle = new Bundle();
-        //TODO fix magic string below
-        bundle.putBoolean("SYNC_RUNNING",state);
+        bundle.putBoolean(IPCConnector.CMD_REPORT_STATE_MSG,state);
         msg.setData(bundle);
         return msg;
     }
@@ -36,10 +49,8 @@ public class CommandConnector extends OutboundCommunicationHandler {
         msg.arg1 = IPCConnector.TYPE_COMMAND;
         msg.arg2 = IPCConnector.CMD_REPORT_RUNNING;
         Bundle bundle = new Bundle();
-        //TODO fix magic string below
-        bundle.putBoolean("SYNC_RUNNING",running);
+        bundle.putBoolean(IPCConnector.CMD_REPORT_RUNNING_MSG,running);
         msg.setData(bundle);
         return msg;
     }
-
 }

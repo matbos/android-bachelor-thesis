@@ -5,6 +5,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import butterknife.InjectView;
+import butterknife.Views;
 import pl.mbos.bachelor_thesis.BaseApplication;
 import pl.mbos.bachelor_thesis.R;
 import pl.mbos.bachelor_thesis.controller.ProfileController;
@@ -30,6 +31,7 @@ public class ProfileActivity extends SlidingMenuActivity implements ProfileView 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        Views.inject(this);
         BaseApplication.getBaseGraph().inject(this);
         user = UserHelper.retrieveUserFromSO();
         controller = new ProfileController(this);

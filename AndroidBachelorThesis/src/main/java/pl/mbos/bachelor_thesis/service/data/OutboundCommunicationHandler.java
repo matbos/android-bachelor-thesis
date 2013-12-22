@@ -45,4 +45,5 @@ public abstract class OutboundCommunicationHandler implements IOutboundCommunica
             Log.e(TAG, e.getMessage());
         }
     }
+
 }

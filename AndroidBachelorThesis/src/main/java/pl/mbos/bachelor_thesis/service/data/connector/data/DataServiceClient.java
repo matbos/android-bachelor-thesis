@@ -56,8 +56,8 @@ public class DataServiceClient extends BaseServiceClient implements IDataService
      *
      * @param client client to be unregistered
      */
-    public void unregisterListener(IDataServiceConnectionListener client) {
-        clients.remove(client);
+    public boolean unregisterListener(IDataServiceConnectionListener client) {
+        return clients.remove(client);
     }
 
     @Override

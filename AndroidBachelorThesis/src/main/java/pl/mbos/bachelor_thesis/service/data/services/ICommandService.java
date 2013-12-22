@@ -22,6 +22,13 @@ public interface ICommandService {
     boolean reportRunning();
 
     /**
+     * Asks service to provide information if it is allowed to synchronize only on wifi
+     *
+     * @return true if synchronization on wifi only is permitted, flase if service can synchronize always
+     */
+    boolean reportAllowance();
+
+    /**
      * Tell service to synchronize only when on given transmission medium
      *
      * @param wifiOnly if set to true, synchronization will occur only over WiFi, otherwise on both Wifi and cellular network

@@ -1,6 +1,9 @@
 package pl.mbos.bachelor_thesis.service.data.services;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 
 import org.json.JSONArray;
@@ -33,6 +36,9 @@ public class CommandService implements ICommandService {
     BaseService baseService;
     @Inject
     Resources resources;
+    @Inject
+    Context context;
+
     private boolean allowedSynchronization;
     private boolean synchronizing;
     private DataService dataService;
@@ -76,6 +82,11 @@ public class CommandService implements ICommandService {
     }
 
     @Override
+    public boolean reportAllowance() {
+        return wifiOnly;
+    }
+
+    @Override
     public void synchronizationMedium(boolean wifiOnly) {
         this.wifiOnly = wifiOnly;
     }
@@ -94,10 +105,12 @@ public class CommandService implements ICommandService {
     }
 
     private void beginSynchronization() {
-        HashMap<String, Object> params = new HashMap<String, Object>(1);
-        params.put("userID", "1");
-        DataGetTask dgt = new DataGetTask(lastDataAddress, params);
-        dgt.execute();
+        if (isConnectedToWiFi() || !wifiOnly) {
+            HashMap<String, Object> params = new HashMap<String, Object>(1);
+            params.put("userID", "1");
+            DataGetTask dgt = new DataGetTask(lastDataAddress, params);
+            dgt.execute();
+        }
     }
 
     private void isolateRequiredData(SyncTimes from) {
@@ -110,6 +123,15 @@ public class CommandService implements ICommandService {
     private boolean checkResponse(Response response) {
         return response.getCode() == java.net.HttpURLConnection.HTTP_OK;
     }
+
+    private boolean isConnectedToWiFi() {
+        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        return mWifi.isConnected();
+
+    }
+
     private class SyncTimerTask extends TimerTask {
         @Override
         public void run() {
@@ -199,6 +221,4 @@ public class CommandService implements ICommandService {
             super.onPostExecute(o);
         }
     }
-
-
 }

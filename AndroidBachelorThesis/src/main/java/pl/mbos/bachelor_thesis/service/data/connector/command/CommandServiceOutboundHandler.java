@@ -32,12 +32,20 @@ public class CommandServiceOutboundHandler {
         sendMessage(createGetStateMessage());
     }
 
+    public void requestSyncAllowance() {
+        sendMessage(createGetSyncAllowanceMessage());
+    }
+
     public void requestSyncProgress() {
         sendMessage(createIsSyncInProgressMessage());
     }
 
     public void setSyncState(boolean synchronize) {
         sendMessage(createSetSyncMessage(synchronize));
+    }
+
+    public void setSyncMedium(boolean wifiOnly) {
+        sendMessage(createSetSyncModeMessage(wifiOnly));
     }
 
     public void sendNewEndpointAddress(String address) {
@@ -67,6 +75,14 @@ public class CommandServiceOutboundHandler {
         return msg;
     }
 
+    private Message createGetSyncAllowanceMessage() {
+        Message msg = Message.obtain();
+        msg.arg1 = IPCConnector.TYPE_COMMAND;
+        msg.arg2 = IPCConnector.CMD_REPORT_ALLOWANCE;
+        return msg;
+    }
+
+
     private Message createIsSyncInProgressMessage() {
         Message msg = Message.obtain();
         msg.arg1 = IPCConnector.TYPE_COMMAND;
@@ -78,6 +94,13 @@ public class CommandServiceOutboundHandler {
         Message msg = Message.obtain();
         msg.arg1 = IPCConnector.TYPE_COMMAND;
         msg.arg2 = (synchronize) ? IPCConnector.CMD_ALLOW_SYNC : IPCConnector.CMD_DENY_SYNC;
+        return msg;
+    }
+
+    private Message createSetSyncModeMessage(boolean wifiOnly) {
+        Message msg = Message.obtain();
+        msg.arg1 = IPCConnector.TYPE_COMMAND;
+        msg.arg2 = (wifiOnly) ? IPCConnector.CMD_SYNC_WIFI_ONLY : IPCConnector.CMD_SYNC_ALWAYS;
         return msg;
     }
 

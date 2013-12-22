@@ -40,11 +40,15 @@ public class CommandServiceCommunicationHandler {
     }
 
     public void synchronize() {
-        outbound.synchronize();
+        if (outbound != null) {
+            outbound.synchronize();
+        }
     }
 
     public void setSynchronization(boolean synchronize) {
-        outbound.setSyncState(synchronize);
+        if (outbound != null) {
+            outbound.setSyncState(synchronize);
+        }
     }
 
     public void requestSyncState() {
@@ -53,15 +57,46 @@ public class CommandServiceCommunicationHandler {
         }
     }
 
+    public void requestSyncAllowance() {
+        if (outbound != null) {
+            outbound.requestSyncAllowance();
+        }
+    }
+
     public void requestSyncProgress() {
-        outbound.requestSyncProgress();
+        if (outbound != null) {
+            outbound.requestSyncProgress();
+        }
     }
 
     public void sayGoodbye() {
-        outbound.sayGoodbye(inboundMessenger);
+        if (outbound != null) {
+            outbound.sayGoodbye(inboundMessenger);
+        }
     }
 
     public void setNewEndpointAddress(String address) {
-        outbound.sendNewEndpointAddress(address);
+        if (outbound != null) {
+            outbound.sendNewEndpointAddress(address);
+        }
+    }
+
+    public void setSyncMedium(boolean wifiOnly) {
+        if (outbound != null) {
+            outbound.setSyncMedium(wifiOnly);
+        }
+    }
+
+
+    protected void reportState(boolean value) {
+        connector.reportState(value);
+    }
+
+    protected void reportAllowance(boolean value) {
+        connector.reportAllowance(value);
+    }
+
+    protected void reportRunning(boolean value) {
+        connector.reportRunning(value);
     }
 }

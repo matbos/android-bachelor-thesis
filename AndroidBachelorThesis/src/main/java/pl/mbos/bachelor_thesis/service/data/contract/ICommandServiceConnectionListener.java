@@ -15,4 +15,12 @@ public interface ICommandServiceConnectionListener {
      * @param wifi true if only when WiFi in range false otherwise
      */
     void onlyWiFi(boolean wifi);
+
+    /**
+     * Informs whether synchronization is permitted in general or not
+     * @param allowed true if allowed, false otherwise
+     */
+    void isSynchronizationAllowed(boolean allowed);
+
+
 }

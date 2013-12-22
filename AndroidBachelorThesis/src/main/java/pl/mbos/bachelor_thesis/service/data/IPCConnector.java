@@ -39,12 +39,18 @@ public class IPCConnector {
     public static final int UNIV_ADDRESS_CHANGED        = 32768;
     public static final String UNIV_ENDPOINT_ADDRESS    = "endpointAddress";
 
-    public static final int CMD_REPORT_STATE            = 1;
-    public static final int CMD_REPORT_RUNNING          = 2;
-    public static final int CMD_SYNCHRONIZE             = 4;
-    public static final int CMD_ALLOW_SYNC              = 8;
-    public static final int CMD_DENY_SYNC               = 16;
-    public static final int CMD_SYNCHRONIZATION_MEDIUM  = 32;
+    public static final int CMD_REPORT_STATE        = 1;
+    public static final int CMD_REPORT_ALLOWANCE    = 2;
+    public static final int CMD_REPORT_RUNNING      = 4;
+    public static final int CMD_SYNCHRONIZE         = 8;
+    public static final int CMD_ALLOW_SYNC          = 16;
+    public static final int CMD_DENY_SYNC           = 32;
+    public static final int CMD_SYNC_ALWAYS         = 64;
+    public static final int CMD_SYNC_WIFI_ONLY      = 128;
+
+    public static final String CMD_REPORT_STATE_MSG     = "SYNC_STATE";
+    public static final String CMD_REPORT_ALLOWANCE_MSG = "SYNC_ALLOWANCE";
+    public static final String CMD_REPORT_RUNNING_MSG   = "SYNC_RUNNING";
 
     public static final int DATA_REQ_ATTENTION      = 1;
     public static final int DATA_REQ_MEDITATION     = 2;
@@ -143,12 +149,16 @@ public class IPCConnector {
         authConnector.userUnauthorized(user, reason);
     }
 
-    protected void reportRunning(boolean running) {
-        cmdConnector.reportSyncRunning(running);
-    }
-
     protected void reportState(boolean state) {
         cmdConnector.reportSyncState(state);
+    }
+
+    protected void reportAllowance(boolean wifiOnly) {
+        cmdConnector.reportSyncAllowance(wifiOnly);
+    }
+
+    protected void reportRunning(boolean running) {
+        cmdConnector.reportSyncRunning(running);
     }
 
     private boolean isGoodbyeMessage(Message msg) {

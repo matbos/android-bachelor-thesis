@@ -10,6 +10,7 @@ import java.util.List;
 import pl.mbos.bachelor_thesis.service.data.IPCConnector;
 import pl.mbos.bachelor_thesis.service.data.connector.BaseServiceClient;
 import pl.mbos.bachelor_thesis.service.data.contract.ICommandServiceConnection;
+import pl.mbos.bachelor_thesis.service.data.contract.ICommandServiceConnectionListener;
 
 /**
  * Created by Mateusz on 26.10.13.
@@ -17,11 +18,11 @@ import pl.mbos.bachelor_thesis.service.data.contract.ICommandServiceConnection;
 public class CommandServiceClient extends BaseServiceClient implements ICommandServiceConnection {
 
     CommandServiceCommunicationHandler communicationHandler;
-    List<ICommandAuthorizationConnectionListener> listenerList;
+    List<ICommandServiceConnectionListener> listenerList;
 
     public CommandServiceClient() {
         super();
-        listenerList = new ArrayList<ICommandAuthorizationConnectionListener>(2);
+        listenerList = new ArrayList<ICommandServiceConnectionListener>(2);
         communicationHandler = new CommandServiceCommunicationHandler(this);
         connectToService();
     }
@@ -39,6 +40,11 @@ public class CommandServiceClient extends BaseServiceClient implements ICommandS
     @Override
     public void isSynchronizationPermitted() {
         communicationHandler.requestSyncState();
+    }
+
+    @Override
+    public void isSynchronizationOnlyOnWifi() {
+        communicationHandler.requestSyncAllowance();
     }
 
     @Override
@@ -65,7 +71,7 @@ public class CommandServiceClient extends BaseServiceClient implements ICommandS
 
     @Override
     public void setSynchronizationMedium(boolean wifiOnly) {
-        communicationHandler.setSynchronization(wifiOnly);
+        communicationHandler.setSyncMedium(wifiOnly);
     }
 
     @Override
@@ -80,14 +86,32 @@ public class CommandServiceClient extends BaseServiceClient implements ICommandS
     }
 
     @Override
-    public void registerListener(ICommandAuthorizationConnectionListener listener) {
+    public void registerListener(ICommandServiceConnectionListener listener) {
         listenerList.add(listener);
     }
 
     @Override
-    public boolean unregisterListener(ICommandAuthorizationConnectionListener listener) {
+    public boolean unregisterListener(ICommandServiceConnectionListener listener) {
         return listenerList.remove(listener);
     }
 
+
+    protected void reportState(boolean value){
+        for(ICommandServiceConnectionListener c : listenerList){
+            c.isSynchronizationAllowed(value);
+        }
+    }
+
+    protected void reportAllowance(boolean value){
+        for(ICommandServiceConnectionListener c : listenerList){
+            c.onlyWiFi(value);
+        }
+    }
+
+    protected void reportRunning(boolean value){
+        for(ICommandServiceConnectionListener c : listenerList){
+            c.isSynchronizing(value);
+        }
+    }
 
 }

@@ -5,10 +5,13 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import pl.mbos.bachelor_thesis.activity.ChartsActivity;
 import pl.mbos.bachelor_thesis.activity.LoginActivity;
 import pl.mbos.bachelor_thesis.activity.ProfileActivity;
 import pl.mbos.bachelor_thesis.activity.SettingsActivity;
 import pl.mbos.bachelor_thesis.activity.SlidingMenuActivity;
+import pl.mbos.bachelor_thesis.chart.DataSupplier;
+import pl.mbos.bachelor_thesis.chart.IDataSupplier;
 import pl.mbos.bachelor_thesis.controller.LogoutHandler;
 import pl.mbos.bachelor_thesis.controller.LoginController;
 import pl.mbos.bachelor_thesis.controller.ProfileController;
@@ -25,6 +28,7 @@ import pl.mbos.bachelor_thesis.service.data.connector.authentication.Authorizati
 import pl.mbos.bachelor_thesis.service.data.connector.command.CommandServiceClient;
 import pl.mbos.bachelor_thesis.service.data.connector.data.DataServiceClient;
 import pl.mbos.bachelor_thesis.service.data.contract.ICommandServiceConnection;
+import pl.mbos.bachelor_thesis.service.data.contract.IDataServiceConnection;
 import pl.mbos.bachelor_thesis.service.data.contract.IUserAuthorizationConnection;
 import pl.mbos.bachelor_thesis.service.data.remote.BaseService;
 import pl.mbos.bachelor_thesis.service.data.services.AuthorizationService;
@@ -65,7 +69,9 @@ import pl.mbos.bachelor_thesis.service.data.services.DataService;
                 LogoutHandler.class,
                 SlidingMenuBaseController.class,
                 SettingsController.class,
-                ProfileController.class
+                ProfileController.class,
+                DataSupplier.class,
+                ChartsActivity.class
         },
         includes = {
                 ApplicationModule.class,
@@ -86,6 +92,11 @@ public class IoCModule {
     }
 
     @Provides
+    IDataServiceConnection provideIDataServiceConnection(){
+        return new DataServiceClient();
+    }
+
+    @Provides
     ICommandServiceConnection provideICommandServiceConnection(){
         return new CommandServiceClient();
     }
@@ -94,4 +105,5 @@ public class IoCModule {
     BaseService provideBaseService(){
         return new BaseService();
     }
+
 }

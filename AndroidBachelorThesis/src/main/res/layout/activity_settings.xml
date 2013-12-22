@@ -22,24 +22,18 @@
         android:layout_gravity="center"
         android:text="@string/change" />
 
-    <TextView
-        android:id="@+id/tv_streamState"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/dataBeginning" />
-
     <Button
         android:id="@+id/btn_streamState"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_gravity="center"
-        android:text="@string/change" />
+        android:layout_columnSpan="2"
+        android:text="Start/Stop collecting data" />
 
     <TextView
-        android:id="@+id/tv_synchronizationAllowed"
+        android:id="@+id/tv_synchronizationState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -62,7 +56,7 @@
         android:text="@string/synchronizeOn" />
 
     <Button
-        android:id="@+id/btn_synchronize"
+        android:id="@+id/btn_synchronizeOn"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:layout_height="wrap_content"

@@ -89,17 +89,23 @@ public class MainService extends Service implements IAuthorizationServiceParent,
             case IPCConnector.CMD_DENY_SYNC:
                 commandService.setSynchronizationPermission(false);
                 break;
+            case IPCConnector.CMD_SYNC_WIFI_ONLY:
+                commandService.synchronizationMedium(true);
+                break;
+            case IPCConnector.CMD_SYNC_ALWAYS:
+                commandService.synchronizationMedium(false);
+                break;
             case IPCConnector.CMD_REPORT_RUNNING:
                 mainConnector.reportRunning(commandService.reportRunning());
                 break;
             case IPCConnector.CMD_REPORT_STATE:
                 mainConnector.reportState(commandService.reportState());
                 break;
+            case IPCConnector.CMD_REPORT_ALLOWANCE:
+                mainConnector.reportAllowance(commandService.reportAllowance());
+                break;
             case IPCConnector.CMD_SYNCHRONIZE:
                 commandService.synchronizeNow();
-                break;
-            case IPCConnector.CMD_SYNCHRONIZATION_MEDIUM:
-                commandService.setSynchronizationPermission(message.getData().getBoolean("syncMedium"));
                 break;
             case IPCConnector.UNIV_ADDRESS_CHANGED:
                 endpointAddress = message.getData().getString(IPCConnector.UNIV_ENDPOINT_ADDRESS);
