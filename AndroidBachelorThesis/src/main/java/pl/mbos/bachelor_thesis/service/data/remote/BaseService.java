@@ -66,7 +66,7 @@ public class BaseService {
             }
             HttpGet get = new HttpGet(builder.toString());
             HttpResponse response = client.execute(get);
-
+            
             parseResponse(finalResponse, response);
 
         } catch (MalformedURLException e) {
@@ -131,7 +131,7 @@ public class BaseService {
             body = "Server could not be found";
         } else {
             InputStream is = response.getContent();
-            body = is.toString();
+            body = readTillEnd(is);//is.toString();
         }
         finalResponse.setBody(body);
     }
