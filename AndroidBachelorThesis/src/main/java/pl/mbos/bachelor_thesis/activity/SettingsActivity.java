@@ -19,9 +19,9 @@ import pl.mbos.bachelor_thesis.controller.SettingsController;
 import pl.mbos.bachelor_thesis.controller.WebAddressTextWatcher;
 import pl.mbos.bachelor_thesis.dao.User;
 import pl.mbos.bachelor_thesis.dao.helper.UserHelper;
-import pl.mbos.bachelor_thesis.view.MainView;
+import pl.mbos.bachelor_thesis.view.SettingsView;
 
-public class SettingsActivity extends SlidingMenuActivity implements MainView {
+public class SettingsActivity extends SlidingMenuActivity implements SettingsView {
 
     private static final int REQUEST_ENABLE_BT = 3111990;
 

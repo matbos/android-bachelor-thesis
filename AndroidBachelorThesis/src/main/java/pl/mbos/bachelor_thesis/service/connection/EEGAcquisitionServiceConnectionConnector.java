@@ -122,7 +122,7 @@ public class EEGAcquisitionServiceConnectionConnector implements ServiceConnecti
             Intent intent = new Intent(context, EEGAcquisitionService.class);
             ComponentName serviceName = context.startService(intent);
             mServiceUp = true;
-            didStart = (serviceName != null) ? true : false;
+            didStart = serviceName != null;
         }
         return didStart;
     }

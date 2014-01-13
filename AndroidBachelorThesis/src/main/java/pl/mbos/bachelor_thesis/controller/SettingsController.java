@@ -10,14 +10,14 @@ import pl.mbos.bachelor_thesis.service.connection.contract.IEEGAcquisitionServic
 import pl.mbos.bachelor_thesis.service.connection.contract.IEEGAcquisitionServiceConnectionListener;
 import pl.mbos.bachelor_thesis.service.data.contract.ICommandServiceConnection;
 import pl.mbos.bachelor_thesis.service.data.contract.ICommandServiceConnectionListener;
-import pl.mbos.bachelor_thesis.view.MainView;
+import pl.mbos.bachelor_thesis.view.SettingsView;
 
 /**
  * Created by Mateusz on 08.12.13.
  */
 public class SettingsController extends SlidingMenuBaseController implements IEEGAcquisitionServiceConnectionListener, ICommandServiceConnectionListener, WebAddressListener {
 
-    private MainView view;
+    private SettingsView view;
     @Inject
     public IEEGAcquisitionServiceConnection acquisitionService;
     @Inject
@@ -29,7 +29,7 @@ public class SettingsController extends SlidingMenuBaseController implements IEE
     private boolean synchronizationPermitted;
     private boolean synchronizationInProgress;
 
-    public SettingsController(MainView view) {
+    public SettingsController(SettingsView view) {
         this.view = view;
         BaseApplication.getBaseGraph().inject(this);
         acquisitionService.connectToService(view.getUserID());

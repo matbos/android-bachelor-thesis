@@ -5,13 +5,10 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import pl.mbos.bachelor_thesis.activity.ChartsActivity;
 import pl.mbos.bachelor_thesis.activity.LoginActivity;
 import pl.mbos.bachelor_thesis.activity.ProfileActivity;
 import pl.mbos.bachelor_thesis.activity.SettingsActivity;
 import pl.mbos.bachelor_thesis.activity.SlidingMenuActivity;
-import pl.mbos.bachelor_thesis.chart.DataSupplier;
-import pl.mbos.bachelor_thesis.chart.IDataSupplier;
 import pl.mbos.bachelor_thesis.controller.LogoutHandler;
 import pl.mbos.bachelor_thesis.controller.LoginController;
 import pl.mbos.bachelor_thesis.controller.ProfileController;
@@ -69,9 +66,7 @@ import pl.mbos.bachelor_thesis.service.data.services.DataService;
                 LogoutHandler.class,
                 SlidingMenuBaseController.class,
                 SettingsController.class,
-                ProfileController.class,
-                DataSupplier.class,
-                ChartsActivity.class
+                ProfileController.class
         },
         includes = {
                 ApplicationModule.class,
@@ -91,11 +86,12 @@ public class IoCModule {
         return new AuthorizationServiceClient();
     }
 
+    /*
     @Provides
     IDataServiceConnection provideIDataServiceConnection(){
         return new DataServiceClient();
     }
-
+    */
     @Provides
     ICommandServiceConnection provideICommandServiceConnection(){
         return new CommandServiceClient();

@@ -42,10 +42,10 @@ public class LoginController implements IUserAuthorizationConnectionListener, We
     public void performLogin(Long id, String pass){
         view.showSpinner();
         user.setId(id);
+        user.setFirstName(pass);
+        userAuthenticator.authorizeUser(user);
         user.setFirstName("John");
         user.setLastName("Doe");
-        userAuthorized(user);
-//        userAuthenticator.authorizeUser(user);
     }
 
     private void completeLogin(User user){

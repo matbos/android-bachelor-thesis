@@ -52,7 +52,7 @@ public class MainServiceClient implements ServiceConnection {
 
     @Override
     public void onServiceDisconnected(ComponentName name) {
-
+        outboundMessenger = null;
     }
 
     public void sendAttention(Attention data) {
@@ -92,7 +92,9 @@ public class MainServiceClient implements ServiceConnection {
 
     private void send(Message msg) {
         try {
-            outboundMessenger.send(msg);
+            if(outboundMessenger != null){
+                outboundMessenger.send(msg);
+            }
         } catch (RemoteException e) {
             Log.e(TAG, "Error sending message to MainService.class "+e.getMessage());
         }

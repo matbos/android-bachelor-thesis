@@ -19,16 +19,14 @@ import pl.mbos.bachelor_thesis.dao.Blink;
 import pl.mbos.bachelor_thesis.dao.Meditation;
 import pl.mbos.bachelor_thesis.dao.PoorSignal;
 import pl.mbos.bachelor_thesis.dao.PowerEEG;
-import pl.mbos.bachelor_thesis.eeg.ITGDeviceHandlerListener;
-import pl.mbos.bachelor_thesis.eeg.TGDeviceHandler;
+import pl.mbos.bachelor_thesis.service.connection.eeg.ITGDeviceHandlerListener;
+import pl.mbos.bachelor_thesis.service.connection.eeg.TGDeviceHandler;
 import pl.mbos.bachelor_thesis.service.connection.handler.AcquisitionServiceInboundCommunicationHandler;
 import pl.mbos.bachelor_thesis.service.connection.handler.AcquisitionServiceOutboundCommunicationHandler;
 
 import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector.VALUE_ATTENTION;
 import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector.VALUE_MEDITATION;
-import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector.VALUE_MULTI;
 import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector.VALUE_POOR_SIGNAL;
-import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionServiceConnectionConnector.VALUE_POWER;
 
 /**
  * This service acquires data in the background until stopped from application.

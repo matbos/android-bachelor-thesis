@@ -83,9 +83,12 @@ public class LoginActivity extends SlidingMenuActivity implements LoginView {
     public void loginButtonClicked() {
         Long id = -100L;
         String pass = "";
+        hideError();
         try {
             id = Long.parseLong(et_login.getText().toString());
         } catch (NumberFormatException ex) {
+            showError("Invalid login!");
+            return;
         }
         pass = et_password.getText().toString();
         controller.performLogin(id, pass);
@@ -93,13 +96,11 @@ public class LoginActivity extends SlidingMenuActivity implements LoginView {
 
     @Override
     public void showSpinner() {
-        //TODO_UI implement when UI will be ready
         bar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideSpinner() {
-        //TODO_UI implement when UI will be ready
         bar.setVisibility(View.GONE);
     }
 
@@ -114,5 +115,9 @@ public class LoginActivity extends SlidingMenuActivity implements LoginView {
     public void showError(String reason) {
         at_reason.setVisibility(View.VISIBLE);
         at_reason.setText(Awesome.CROSS + " " + reason);
+    }
+
+    private void hideError(){
+        at_reason.setVisibility(View.GONE);
     }
 }

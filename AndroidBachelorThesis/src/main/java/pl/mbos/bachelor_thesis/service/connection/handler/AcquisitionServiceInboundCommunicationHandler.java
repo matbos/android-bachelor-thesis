@@ -6,27 +6,24 @@ import android.util.Log;
 
 import pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService;
 
-import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService.*;
+import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService.CONNECT_TO_DEVICE;
+import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService.DISCONNECT_FROM_DEVICE;
+import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService.LOGOUT;
+import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService.REQUEST_STATE;
+import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService.START_STREAM;
+import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService.STOP_SERVICE;
+import static pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService.STOP_STREAM;
 
-
-
-//TODO: Refactor it
-// ----------------------------------------------------------------------------------
-// Rethink that approach!
-// ----------------------------------------------------------------------------------
-// Refactor it so that it aggregates two classes, one to handle incoming messages and
-// other to handle sending messages to the application
-//
 
 /**
- *
+ * Handles incoming messages and invokes appropriate methods of {@link pl.mbos.bachelor_thesis.service.connection.EEGAcquisitionService} passed to it in a constructor
  */
 public class AcquisitionServiceInboundCommunicationHandler extends Handler {
 
     private static final String TAG = AcquisitionServiceInboundCommunicationHandler.class.getSimpleName();
     private EEGAcquisitionService parent;
 
-    public AcquisitionServiceInboundCommunicationHandler(EEGAcquisitionService parent){
+    public AcquisitionServiceInboundCommunicationHandler(EEGAcquisitionService parent) {
         this.parent = parent;
     }
 
@@ -48,8 +45,8 @@ public class AcquisitionServiceInboundCommunicationHandler extends Handler {
         } else if (action == LOGOUT) {
             parent.logout();
         } else {
-            Log.i(TAG, "Recieved unknown message " + msg.arg1);
-            throw new RuntimeException(TAG + " Recieved unknown message "+ msg.arg1);
+            Log.i(TAG, "Received unknown message " + msg.arg1);
+            throw new RuntimeException(TAG + " Received unknown message " + msg.arg1);
         }
     }
 }

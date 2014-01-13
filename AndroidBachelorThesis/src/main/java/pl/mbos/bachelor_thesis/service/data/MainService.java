@@ -62,13 +62,11 @@ public class MainService extends Service implements IAuthorizationServiceParent,
     private void initServices() {
         dataService = new DataService(this);
         authorizationService = new AuthorizationService(this, endpointAddress);
-        //TODO Wyprostować ten cast!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         commandService = new CommandService((DataService) dataService);
     }
 
     protected void authMessage(Message message) {
         if (message.arg2 != IPCConnector.AUTH_AUTHENTICATE) {
-            //TODO jakis exception?
             Log.d(TAG, "Bad argument for authService " + message.arg2);
         } else {
             try {
