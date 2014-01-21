@@ -1,0 +1,94 @@
+table.bordered {
+	border-width: 2px;
+	border-style: solid;
+	border-color: black;
+	text-align: center;
+}
+
+td {
+	border-width: 1px;
+	border-style: solid;
+	border-color: black;
+}
+
+thead {
+	font-weight: bold;
+}
+
+form.login {
+	width: 180px;
+	height: 200px;
+	margin: auto;
+}
+
+div.formLogin {
+	width: 180px;
+	height: 150px;
+	position: absolute;
+	left: 50%;
+	top: 40%;
+	margin: -75px 0 0 -90px;
+}
+
+
+div.preview {
+	width: 180px;
+	height: 50px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -25px 0 0 -90px;
+}
+
+div.addUserForm {
+	width: 180px;
+	height: 200px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -100px 0 0 -90px;
+}
+
+div.error {
+	width: 300px;
+	height: 100px;
+	position: absolute;
+	color: #D8000C;
+	background-color: #FFBABA;
+	left: 50%;
+	top: 50%;	
+	border: 1px solid;
+	padding: 15px 10px 15px 15px;
+	margin: -50px 0 0 -150px;
+	text-align: center;
+}
+
+div.centered {
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.info,.success,.warning,.validation {
+	border: 1px solid;
+	margin: 10px 0px;
+	padding: 15px 10px 15px 50px;
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.info {
+	color: #00529B;
+	background-color: #BDE5F8;
+}
+
+.success {
+	color: #4F8A10;
+	background-color: #DFF2BF;
+}
+
+.warning {
+	color: #9F6000;
+	background-color: #FEEFB3;
+}

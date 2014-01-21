@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Android Bachelor Thesis</string>
+    <string name="acquisition_service_name">EEG Acquisition Service</string>
+    <string name="activity_settings_title">Settings</string>
+    <string name="activity_login_title">Login</string>
+    <string name="activity_profile_title">Profile</string>
+    <string name="activity_main_title">EEG data collector</string>
+    <string name="synchronization_service_name">EEG Synchronization Service</string>
+    <string name="login_field">Login:</string>
+    <string name="password_field">Password:</string>
+    <string name="login_button">Login</string>
+    <string name="wifi">wifi only</string>
+    <string name="both">both</string>
+    <string name="change">Change</string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="allowed">allowed</string>
+    <string name="forbidden">forbidden</string>
+    <string name="synchronization">Synchronization is</string>
+    <string name="synchronizeOn">Synchronize on</string>
+    <string name="synchronizeNow">Synchronize now</string>
+    <string name="btn_logout">Logout</string>
+    <string name="start_stream">Start stream</string>
+    <string name="stop_stream">Stop stream</string>
+    <string name="title_activity_profil">User Profile</string>
+    <string name="action_settings">Settings</string>
+    <string name="headsetBeginning">Headset is</string>
+    <string name="connected">connected</string>
+    <string name="disconnected">disconnected</string>
+    <string name="dataBeginning">Data is</string>
+    <string name="dataEnding"> being acquired</string>
+    <string name="not">not</string>
+    <string name="headsetPlacementMessage">Correct headset\'s placement</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="stream_button">Start\\Stop collecting data</string>
+</resources>

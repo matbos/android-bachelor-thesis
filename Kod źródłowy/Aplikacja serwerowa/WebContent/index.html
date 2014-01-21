@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Logging service</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	/login for login
+	<br /> post to login
+	<br /> { "login":"","pass":""}
+	<br /> response 200 - OK
+	<br /> 403 - Forbidden
+	<br />
+	<br /> /data
+	<br /> put to save on server
+	<br /> response 201 - created 
+	<br />          204 - No content get to retrieve from
+	server
+	<br /> {
+	<br /> /data/last
+	<br /> get to get last synchronization timestamp
+	<br /> { "timestamp":"time_in_milis"}
+	<br /> reponse
+	<br /> 200 - OK, in header timestamp in form of milliseconds
+	<br />
+
+	<table>
+		<thead>
+			<tr>
+				<td colspan="3">Attention</td>
+			</tr>
+			<tr>
+				<td>User ID</td>
+				<td>Value</td>
+				<td>Collection Time stamp</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

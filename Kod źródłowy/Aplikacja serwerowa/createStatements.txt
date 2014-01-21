@@ -1,0 +1,80 @@
+CREATE TABLE `users` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `surname` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `application`.`attentions` (
+  `idatt` BIGINT NOT NULL AUTO_INCREMENT,
+  `userID` BIGINT UNSIGNED NOT NULL,
+  `acquisitionTime` BIGINT NOT NULL,
+  `value` INT NOT NULL,
+  PRIMARY KEY (`idatt`),
+  UNIQUE INDEX `idatt_UNIQUE` (`idatt` ASC),
+  CONSTRAINT `fk_attentions_user`
+    FOREIGN KEY (`userID`)
+    REFERENCES `application`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+
+CREATE TABLE `application`.`meditations` (
+  `idmed` BIGINT NOT NULL AUTO_INCREMENT,
+  `userID` BIGINT UNSIGNED NOT NULL,
+  `acquisitionTime` BIGINT NOT NULL,
+  `value` INT NOT NULL,
+  PRIMARY KEY (`idmed`),
+  UNIQUE INDEX `idatt_UNIQUE` (`idmed` ASC),
+  CONSTRAINT `fk_med_user`
+    FOREIGN KEY (`userID`)
+    REFERENCES `application`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `application`.`blinks` (
+  `idbli` BIGINT NOT NULL AUTO_INCREMENT,
+  `userID` BIGINT UNSIGNED NOT NULL,
+  `acquisitionTime` BIGINT NOT NULL,
+  `value` INT NOT NULL,
+  PRIMARY KEY (`idbli`),
+  UNIQUE INDEX `idatt_UNIQUE` (`idbli` ASC),
+  CONSTRAINT `fk_bli_user`
+    FOREIGN KEY (`userID`)
+    REFERENCES `application`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+	
+CREATE TABLE `application`.`signals` (
+  `idsig` BIGINT NOT NULL AUTO_INCREMENT,
+  `userID` BIGINT UNSIGNED NOT NULL,
+  `acquisitionTime` BIGINT NOT NULL,
+  `value` INT NOT NULL,
+  PRIMARY KEY (`idsig`),
+  UNIQUE INDEX `idatt_UNIQUE` (`idsig` ASC),
+  CONSTRAINT `fk_sig_user`
+    FOREIGN KEY (`userID`)
+    REFERENCES `application`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `application`.`powers` (
+  `idpow` BIGINT NOT NULL AUTO_INCREMENT,
+  `userID` BIGINT UNSIGNED NOT NULL,
+  `acquisitionTime` BIGINT NOT NULL,
+  `lowAlpha` int(11) NOT NULL,
+  `highAlpha` int(11) NOT NULL,
+  `lowBeta` int(11) NOT NULL,
+  `highBeta` int(11) NOT NULL,
+  `lowGamma` int(11) NOT NULL,
+  `midGamma` int(11) NOT NULL,
+  `theta` int(11) NOT NULL,
+  `delta` int(11) NOT NULL,
+  PRIMARY KEY (`idpow`),
+  UNIQUE INDEX `idatt_UNIQUE` (`idpow` ASC),
+  CONSTRAINT `fk_pow_user`
+    FOREIGN KEY (`userID`)
+    REFERENCES `application`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+	
